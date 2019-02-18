@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -82,6 +84,27 @@ public class VirtualResourcepack extends AbstractResourcePack {
     @Override
     public void close() throws IOException {
 
+    }
+
+    public void export(File dir) throws IOException {
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IOException();
+        }
+
+        for (Map.Entry<String, VirtualResource> entry : resources.entrySet()) {
+            File out = new File(dir, entry.getKey());
+            File parent = out.getParentFile();
+            if (!parent.exists() && !parent.mkdirs()) {
+                throw new IOException();
+            }
+
+            try (InputStream inputStream = entry.getValue().getInputStream()) {
+                if (inputStream == null) {
+                    throw new IOException();
+                }
+                Files.copy(inputStream, out.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
     }
 
     public static Builder builder(String name) {

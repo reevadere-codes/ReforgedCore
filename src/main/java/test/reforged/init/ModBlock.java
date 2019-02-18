@@ -16,17 +16,17 @@ public class ModBlock {
     private static void registerStone(TypeList types) {
         VanillaProps.stone()
                 .name("andesite")
-                .texture("*", "testmod:block/andesite")
+                .texture("*", "block/andesite")
                 .register(types);
 
         VanillaProps.stone()
                 .name("diorite")
-                .texture("*", "testmod:block/diorite")
+                .texture("*", "block/diorite")
                 .register(types);
 
         VanillaProps.stone()
                 .name("granite")
-                .texture("*", "testmod:block/granite")
+                .texture("*", "block/granite")
                 .register(types);
     }
 
@@ -43,10 +43,12 @@ public class ModBlock {
     private static void registerPlank(TypeList types) {
         VanillaProps.planks()
                 .name("oak_planks", "oak_plank")
+                .texture("*", "minecraft:oak_planks")
                 .register(types);
 
         VanillaProps.planks()
                 .name("birch_planks", "birch_plank")
+                .texture("*", "minecraft:birch_plank")
                 .register(types);
     }
 }

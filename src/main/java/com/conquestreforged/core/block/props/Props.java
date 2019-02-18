@@ -1,8 +1,8 @@
 package com.conquestreforged.core.block.props;
 
-import com.conquestreforged.core.util.Context;
 import com.conquestreforged.core.block.factory.Factory;
 import com.conquestreforged.core.block.factory.InitializationException;
+import com.conquestreforged.core.util.Context;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -77,11 +77,11 @@ public class Props implements Factory {
     }
 
     public Props name(String plural, String singular) {
-        return name(Context.modId(), plural, singular);
+        return name(Context.getInstance().getNamespace(), plural, singular);
     }
 
     public Props name(String name) {
-        return name(Context.modId(), name, name);
+        return name(Context.getInstance().getNamespace(), name, name);
     }
 
     public Props name(BlockName name) {
@@ -149,7 +149,7 @@ public class Props implements Factory {
         if (textures == null) {
             textures = Textures.builder();
         }
-        textures.add(name, texture);
+        textures.add(name, Context.withNamespace(texture));
         return this;
     }
 

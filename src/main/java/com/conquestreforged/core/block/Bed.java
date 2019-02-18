@@ -1,9 +1,9 @@
 package com.conquestreforged.core.block;
 
+import com.conquestreforged.core.block.annotation.ItemType;
 import com.conquestreforged.core.block.annotation.Name;
 import com.conquestreforged.core.block.annotation.State;
 import com.conquestreforged.core.block.props.Props;
-import com.conquestreforged.core.block.annotation.ItemType;
 import net.minecraft.block.BlockBed;
 import net.minecraft.item.ItemBed;
 

@@ -11,6 +11,7 @@ import com.conquestreforged.core.resource.template.JsonOverride;
 import com.conquestreforged.core.resource.template.JsonTemplate;
 import com.conquestreforged.core.resource.template.TemplateCache;
 import com.conquestreforged.core.resource.template.TemplateResource;
+import com.conquestreforged.core.util.Context;
 import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonWriter;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
@@ -54,13 +55,14 @@ public class Overrides {
     }
 
     public void addModels(VirtualResourcepack.Builder builder, BlockName blockName, Textures textures) {
-        if (models == null || !textures.isPresent()) {
+        if (models == null) {
             return;
         }
 
         for (Model model : models) {
             String namespace = blockName.getNamespace();
-            String path = blockName.format(model.name(), model.plural());
+            String modelName = Context.withNamespace(namespace, model.name());
+            String path = blockName.format(modelName, model.plural());
             String virtualPath = Locations.modelPath(new ModelResourceLocation(path));
             String templatePath = Locations.modelPath(new ModelResourceLocation(model.model()));
             JsonTemplate template = TemplateCache.getInstance().get(templatePath);
@@ -74,6 +76,7 @@ public class Overrides {
             Map<String, String> overrides = new HashMap<>();
             for (Model model : models) {
                 String name = blockName.format(model.name(), model.plural());
+                name = Context.withNamespace(blockName.getNamespace(), name);
                 overrides.put(model.model(), name);
             }
             return new ModelOverride(overrides);

@@ -1,10 +1,10 @@
 package com.conquestreforged.core.block.factory;
 
 import com.conquestreforged.core.block.data.BlockData;
-import com.conquestreforged.core.util.Context;
-import com.conquestreforged.core.registry.BlockDataRegistry;
 import com.conquestreforged.core.block.props.BlockName;
 import com.conquestreforged.core.block.props.Props;
+import com.conquestreforged.core.registry.BlockDataRegistry;
+import com.conquestreforged.core.util.Context;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
@@ -51,7 +51,7 @@ public interface Factory {
     }
 
     default <T extends Block> BlockData<T> register(String name, Type<T> type) throws InitializationException {
-        return register(new ResourceLocation(Context.modId(), name), type);
+        return register(new ResourceLocation(Context.getInstance().getNamespace(), name), type);
     }
 
     default <T extends Block> BlockData<T> register(ResourceLocation name, Type<T> type) throws InitializationException {

@@ -14,10 +14,7 @@ import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
 import test.reforged.block.ModBlocks;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Map;
@@ -39,6 +36,14 @@ public class Test {
         VirtualResourcepack pack = ModResource.pack;
         if (pack == null) {
             return;
+        }
+
+        try {
+            File dir = new File("export").getAbsoluteFile();
+            pack.export(dir);
+            Log.debug(dir.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         for (BlockData data : BlockDataRegistry.BLOCK_DATA) {
