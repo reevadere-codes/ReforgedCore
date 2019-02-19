@@ -32,6 +32,8 @@ public class Props implements Factory {
     private boolean blocksMovement = true;
     private Textures.Builder textures;
 
+    private boolean manual = false;
+
     @Override
     public Props getProps() {
         return this;
@@ -40,7 +42,7 @@ public class Props implements Factory {
     @Override
     public BlockName getName() {
         if (base == null) {
-            throw new InitializationException("Block name is null");
+            throw new InitializationException("Block value is null");
         }
         return name;
     }
@@ -70,6 +72,15 @@ public class Props implements Factory {
 
     public ItemGroup group() {
         return group;
+    }
+
+    public boolean isManual() {
+        return manual;
+    }
+
+    public Props manual() {
+        manual = true;
+        return this;
     }
 
     public Props name(String namespace, String plural, String singular) {
@@ -177,17 +188,29 @@ public class Props implements Factory {
     public Block.Properties toProperties() throws InitializationException {
         Block.Properties builder = createBuilder();
         set(sound, null, builder::sound);
-        set(light, Integer.MAX_VALUE, builder::lightValue);
-        set(slipperiness, Float.MAX_VALUE, builder::slipperiness);
+        setInt(light, builder::lightValue);
+        setFloat(slipperiness, builder::slipperiness);
         setBool(randomTick, false, builder::needsRandomTick);
         setBool(variableOpacity, false, builder::variableOpacity);
         setBool(blocksMovement, true, builder::doesNotBlockMovement);
-        setPair(resistance, Float.MAX_VALUE, hardness, Float.MAX_VALUE, builder::hardnessAndResistance);
+        setFloats(resistance, hardness, builder::hardnessAndResistance);
         return builder;
     }
 
     private static <V> void set(V value, V defValue, Consumer<V> consumer) {
         if (value != defValue) {
+            consumer.accept(value);
+        }
+    }
+
+    private static void setInt(int value, Consumer<Integer> consumer) {
+        if (value != Integer.MAX_VALUE) {
+            consumer.accept(value);
+        }
+    }
+
+    private static void setFloat(float value, Consumer<Float> consumer) {
+        if (value != Float.MAX_VALUE) {
             consumer.accept(value);
         }
     }
@@ -198,8 +221,8 @@ public class Props implements Factory {
         }
     }
 
-    private static <V1, V2> void setPair(V1 value1, V1 defValue1, V2 value2, V2 defValue2, BiConsumer<V1, V2> consumer) {
-        if (value1 != defValue1 && value2 != defValue2) {
+    private static void setFloats(float value1, float value2, BiConsumer<Float, Float> consumer) {
+        if (value1 != Float.MAX_VALUE && value2 != Float.MAX_VALUE) {
             consumer.accept(value1, value2);
         }
     }

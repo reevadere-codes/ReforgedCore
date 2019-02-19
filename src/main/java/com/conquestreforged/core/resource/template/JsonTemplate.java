@@ -51,7 +51,7 @@ public class JsonTemplate {
                     if (element.isJsonObject()) {
                         cached = element.getAsJsonObject();
                     } else {
-                        throw new IOException("resource is not a model object");
+                        throw new IOException("resource is not a template object");
                     }
                 }
             }

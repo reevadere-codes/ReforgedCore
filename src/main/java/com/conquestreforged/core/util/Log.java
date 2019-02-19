@@ -104,7 +104,7 @@ public class Log {
             System.out.print("[");
             System.out.print(time.format(new Date()));
             System.out.print("] ");
-            // name
+            // value
             System.out.print("[");
             System.out.print(name);
             System.out.print("/");

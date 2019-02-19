@@ -50,7 +50,11 @@ public class BlockData<T extends Block> {
     }
 
     public void addVirtualResources(VirtualResourcepack.Builder builder) {
+        if (props.isManual()) {
+            return;
+        }
         overrides.addState(builder, name, blockName);
         overrides.addModels(builder, blockName, props.textures());
+        overrides.addItemModel(builder, blockName);
     }
 }

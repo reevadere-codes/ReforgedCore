@@ -1,8 +1,6 @@
 package com.conquestreforged.core.block.data;
 
-import com.conquestreforged.core.block.annotation.Model;
-import com.conquestreforged.core.block.annotation.Name;
-import com.conquestreforged.core.block.annotation.State;
+import com.conquestreforged.core.block.annotation.*;
 import com.conquestreforged.core.block.props.BlockName;
 import com.conquestreforged.core.block.props.Textures;
 import com.conquestreforged.core.resource.Locations;
@@ -26,11 +24,13 @@ public class Overrides {
     private final Name name;
     private final State state;
     private final Model[] models;
+    private final ItemModel itemModel;
 
     public Overrides(Class<?> type) {
         name = BlockName.getNameFormat(type);
         state = type.getAnnotation(State.class);
         models = type.getAnnotationsByType(Model.class);
+        itemModel = type.getAnnotation(ItemModel.class);
     }
 
     public ResourceLocation createName(BlockName blockName) {
@@ -38,20 +38,21 @@ public class Overrides {
     }
 
     public void addState(VirtualResourcepack.Builder builder, ResourceLocation name, BlockName blockName) {
-        if (state != null) {
-            String namespace = blockName.getNamespace();
-            String virtualPath = Locations.statePath(name);
-            String templatePath;
-            if (state.value().endsWith(".json")) {
-                templatePath = state.value();
-            } else {
-                templatePath = Locations.statePath(new ResourceLocation(state.value()));
-            }
-            JsonOverride overrides = getBlockStateOverrides(blockName);
-            JsonTemplate template = TemplateCache.getInstance().get(templatePath);
-            TemplateResource resource = new TemplateResource(namespace, virtualPath, overrides, template);
-            builder.add(resource);
+        if (state == null) {
+            return;
         }
+        String namespace = blockName.getNamespace();
+        String virtualPath = Locations.statePath(name);
+        String templatePath;
+        if (state.value().endsWith(".json")) {
+            templatePath = state.value();
+        } else {
+            templatePath = Locations.statePath(new ResourceLocation(state.value()));
+        }
+        JsonOverride overrides = getBlockStateOverrides(blockName);
+        JsonTemplate template = TemplateCache.getInstance().get(templatePath);
+        TemplateResource resource = new TemplateResource(namespace, virtualPath, overrides, template);
+        builder.add(resource);
     }
 
     public void addModels(VirtualResourcepack.Builder builder, BlockName blockName, Textures textures) {
@@ -61,23 +62,43 @@ public class Overrides {
 
         for (Model model : models) {
             String namespace = blockName.getNamespace();
-            String modelName = Context.withNamespace(namespace, model.name());
+            String modelName = Context.withNamespace(namespace, model.value());
             String path = blockName.format(modelName, model.plural());
             String virtualPath = Locations.modelPath(new ModelResourceLocation(path));
-            String templatePath = Locations.modelPath(new ModelResourceLocation(model.model()));
+            String templatePath = Locations.modelPath(new ModelResourceLocation(model.template()));
             JsonTemplate template = TemplateCache.getInstance().get(templatePath);
             TemplateResource resource = new TemplateResource(namespace, virtualPath, textures, template);
             builder.add(resource);
         }
     }
 
+    public void addItemModel(VirtualResourcepack.Builder builder, BlockName blockName) {
+        if (itemModel == null) {
+            return;
+        }
+
+        String itemModelName = "item/" + blockName.format(name.value(), name.plural());
+        String itemModelPath = Context.withNamespace(blockName.getNamespace(), itemModelName);
+
+        String parentModelName = blockName.format(itemModel.value(), itemModel.plural());
+        String parentModelPath = Context.withNamespace(blockName.getNamespace(), parentModelName);
+
+        String virtualPath = Locations.modelPath(new ModelResourceLocation(itemModelPath));
+        String templatePath = Locations.modelPath(new ModelResourceLocation(itemModel.template()));
+
+        JsonTemplate template = TemplateCache.getInstance().get(templatePath);
+        SingleModelOverride override = new SingleModelOverride("parent", parentModelPath);
+        TemplateResource resource = new TemplateResource(blockName.getNamespace(), virtualPath, override, template);
+        builder.add(resource);
+    }
+
     private JsonOverride getBlockStateOverrides(BlockName blockName) {
         if (models != null) {
             Map<String, String> overrides = new HashMap<>();
             for (Model model : models) {
-                String name = blockName.format(model.name(), model.plural());
+                String name = blockName.format(model.value(), model.plural());
                 name = Context.withNamespace(blockName.getNamespace(), name);
-                overrides.put(model.model(), name);
+                overrides.put(model.template(), name);
             }
             return new ModelOverride(overrides);
         }
@@ -85,19 +106,21 @@ public class Overrides {
         if (name != null) {
             String model = blockName.format(name.value(), name.plural());
             String path = String.format("%s:block/%s", blockName.getNamespace(), model);
-            return new SingleModelOverride(path);
+            return new SingleModelOverride("model", path);
         }
 
         String model = blockName.format("%s", false);
         String path = String.format("%s:block/%s", blockName.getNamespace(), model);
-        return new SingleModelOverride(path);
+        return new SingleModelOverride("model", path);
     }
 
     private static class SingleModelOverride implements JsonOverride {
 
+        private final String key;
         private final String name;
 
-        private SingleModelOverride(String name) {
+        private SingleModelOverride(String key, String name) {
+            this.key = key;
             this.name = name;
         }
 
@@ -108,7 +131,7 @@ public class Overrides {
 
         @Override
         public boolean appliesTo(String key, JsonElement value) {
-            return key.equals("model") && value.isJsonPrimitive();
+            return key.equals(this.key) && value.isJsonPrimitive();
         }
     }
 

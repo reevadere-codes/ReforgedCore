@@ -8,6 +8,7 @@ import com.conquestreforged.core.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -42,6 +43,12 @@ public class InitEvents {
         ModResource.register();
     }
 
+    @SubscribeEvent
+    public static void registerModels(ModelRegistryEvent event) {
+        Log.info("registering models");
+        ModRenderers.register();
+    }
+
     // FMLClientSetupEvent - after FMLCommonSetupEvent
     @SubscribeEvent
     public static void registerPackFinder(FMLClientSetupEvent event) {
@@ -58,7 +65,7 @@ public class InitEvents {
         Log.debug("testing resources");
         Test.resources();
 
-        Log.info("clearing caches");
+        Log.debug("clearing caches");
         Cache.clearAll();
         BlockDataRegistry.clear();
     }

@@ -96,8 +96,8 @@ public class Test {
 
     private static void findModels(JsonElement json, Set<ResourceLocation> models) {
         if (json.isJsonObject()) {
-            if (json.getAsJsonObject().has("model")) {
-                JsonElement model = json.getAsJsonObject().get("model");
+            if (json.getAsJsonObject().has("template")) {
+                JsonElement model = json.getAsJsonObject().get("template");
                 models.add(new ResourceLocation(model.getAsString()));
             } else {
                 for (Map.Entry<String, JsonElement> entry : json.getAsJsonObject().entrySet()) {

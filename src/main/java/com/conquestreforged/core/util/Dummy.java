@@ -15,13 +15,11 @@ public class Dummy {
         return (T) empty.get();
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Block> T block() {
-        return (T) empty.get();
+        return dummy();
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Block> T item() {
-        return (T) empty.get();
+        return dummy();
     }
 }
