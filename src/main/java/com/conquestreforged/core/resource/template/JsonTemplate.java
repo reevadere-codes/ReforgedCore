@@ -73,11 +73,12 @@ public class JsonTemplate {
         if (element.isJsonObject()) {
             writer.beginObject();
             for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
-                writer.name(entry.getKey());
-                if (overrides.appliesTo(entry.getKey(), entry.getValue())) {
-                    overrides.apply(entry.getValue(), writer);
-                } else {
-                    write(writer, overrides, entry.getValue());
+                String key = entry.getKey();
+                JsonElement value = entry.getValue();
+                writer.name(key);
+                boolean overwritten = overrides.appliesTo(key, value) && overrides.apply(value, writer);
+                if (!overwritten) {
+                    write(writer, overrides, value);
                 }
             }
             writer.endObject();

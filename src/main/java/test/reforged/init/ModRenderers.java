@@ -2,8 +2,6 @@ package test.reforged.init;
 
 import com.conquestreforged.core.block.data.BlockData;
 import com.conquestreforged.core.registry.BlockDataRegistry;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -15,11 +13,11 @@ public class ModRenderers {
 
     private static void registerItemModels() {
         for (BlockData data : BlockDataRegistry.BLOCK_DATA) {
-            Item item = ForgeRegistries.ITEMS.getValue(data.getName());
+            Item item = data.getItem();
             if (item == null) {
                 throw new UnsupportedOperationException("null item");
             }
-//            ModelResourceLocation model = new ModelResourceLocation(data.getName(), "inventory");
+//            ModelResourceLocation model = new ModelResourceLocation(data.getRegistryName(), "inventory");
 //            Minecraft.getInstance().getItemRenderer().getItemModelMesher().register(item, model);
         }
     }

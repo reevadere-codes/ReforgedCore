@@ -1,13 +1,14 @@
 package com.conquestreforged.core.resource;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import net.minecraft.resources.AbstractResourcePack;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
@@ -103,6 +104,32 @@ public class VirtualResourcepack extends AbstractResourcePack {
                     throw new IOException();
                 }
                 Files.copy(inputStream, out.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+    }
+
+    public void exportPretty(File dir) throws IOException {
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IOException();
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+        JsonParser parser = new JsonParser();
+        for (Map.Entry<String, VirtualResource> entry : resources.entrySet()) {
+            File out = new File(dir, entry.getKey());
+            File parent = out.getParentFile();
+            if (!parent.exists() && !parent.mkdirs()) {
+                throw new IOException();
+            }
+
+            try (InputStream inputStream = entry.getValue().getInputStream()) {
+                if (inputStream == null) {
+                    throw new IOException();
+                }
+                JsonElement element = parser.parse(new InputStreamReader(inputStream));
+                try (FileWriter writer = new FileWriter(out)) {
+                    gson.toJson(element, writer);
+                }
             }
         }
     }

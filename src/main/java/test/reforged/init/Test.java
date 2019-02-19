@@ -59,7 +59,7 @@ public class Test {
     private static void dump(VirtualResourcepack pack, BlockData data) throws FileNotFoundException {
         JsonParser parser = new JsonParser();
         Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-        ResourceLocation state = Locations.state(data.getName());
+        ResourceLocation state = Locations.state(data.getRegistryName());
         if (pack.resourceExists(ResourcePackType.CLIENT_RESOURCES, state)) {
             Set<ResourceLocation> models = new HashSet<>();
             VirtualResource stateResource = pack.getResource(state);

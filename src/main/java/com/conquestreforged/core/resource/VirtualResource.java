@@ -2,7 +2,6 @@ package com.conquestreforged.core.resource;
 
 import net.minecraft.resources.ResourcePackType;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 

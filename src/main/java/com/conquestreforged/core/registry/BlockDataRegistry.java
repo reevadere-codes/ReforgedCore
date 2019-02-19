@@ -15,7 +15,7 @@ public class BlockDataRegistry {
     public static void registerBlock(BlockData block) {
         BLOCK_DATA.add(block);
         if (block.getBlock().getRegistryName() == null) {
-            block.getBlock().setRegistryName(block.getName());
+            block.getBlock().setRegistryName(block.getRegistryName());
         }
         ForgeRegistries.BLOCKS.register(block.getBlock());
     }

@@ -6,7 +6,6 @@ import com.conquestreforged.core.resource.VirtualResourcepack;
 import com.conquestreforged.core.resource.template.JsonTemplate;
 import com.conquestreforged.core.resource.template.TemplateCache;
 import com.conquestreforged.core.util.Context;
-import net.minecraft.world.gen.feature.template.Template;
 
 public class ModResource {
 

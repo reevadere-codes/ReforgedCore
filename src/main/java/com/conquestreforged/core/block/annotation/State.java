@@ -1,13 +1,23 @@
 package com.conquestreforged.core.block.annotation;
 
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface State {
 
-    String value();
+    /**
+     * @return the name format of the blockstate
+     */
+    String name();
+
+    /**
+     * @return the actual blockstate json location to use
+     */
+    String template();
+
+    /**
+     * @return flag to determine whether the name() format accepts the singular or plural form of the material name
+     */
+    boolean plural() default false;
 }

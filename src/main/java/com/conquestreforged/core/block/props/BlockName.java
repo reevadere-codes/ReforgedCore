@@ -1,10 +1,5 @@
 package com.conquestreforged.core.block.props;
 
-import com.conquestreforged.core.block.annotation.Name;
-import net.minecraft.util.ResourceLocation;
-
-import java.lang.annotation.Annotation;
-
 public class BlockName {
 
     private final String namespace;
@@ -21,38 +16,18 @@ public class BlockName {
         return namespace;
     }
 
-    public String format(String format, boolean plural) {
-        return String.format(format, plural ? this.plural : this.singular);
+    public String namespaceFormat(String format, boolean plural) {
+        if (format.indexOf(':') != -1) {
+            return format(format, plural);
+        }
+        return namespace + ':' + format(format, plural);
     }
 
-    public ResourceLocation format(Name name) {
-        return new ResourceLocation(namespace, format(name.value(), name.plural()));
+    public String format(String format, boolean plural) {
+        return String.format(format, plural ? this.plural : this.singular);
     }
 
     public static BlockName of(String namespace, String plural, String singular) {
         return new BlockName(namespace, plural, singular);
     }
-
-    public static Name getNameFormat(Class<?> type) {
-        Name name = type.getAnnotation(Name.class);
-        return name == null ? BlockName.DEFAULT : name;
-    }
-
-    private static Name DEFAULT = new Name() {
-
-        @Override
-        public Class<? extends Annotation> annotationType() {
-            return Name.class;
-        }
-
-        @Override
-        public String value() {
-            return "%s";
-        }
-
-        @Override
-        public boolean plural() {
-            return true;
-        }
-    };
 }

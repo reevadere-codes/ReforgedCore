@@ -42,7 +42,7 @@ public class Props implements Factory {
     @Override
     public BlockName getName() {
         if (base == null) {
-            throw new InitializationException("Block value is null");
+            throw new InitializationException("Block parent is null");
         }
         return name;
     }
