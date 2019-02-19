@@ -15,7 +15,6 @@ import net.minecraft.block.BlockSlab;
         }
 )
 public class Slab extends BlockSlab {
-
     public Slab(Properties properties) {
         super(properties);
     }

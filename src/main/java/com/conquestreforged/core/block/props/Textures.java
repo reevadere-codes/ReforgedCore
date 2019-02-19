@@ -1,6 +1,6 @@
 package com.conquestreforged.core.block.props;
 
-import com.conquestreforged.core.resource.template.JsonOverride;
+import com.conquestreforged.core.asset.template.JsonOverride;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

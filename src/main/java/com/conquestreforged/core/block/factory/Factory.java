@@ -27,7 +27,6 @@ public interface Factory {
             BlockData data = register(blockType);
             group.add(data);
         }
-        BlockDataRegistry.GROUPS.register(group);
     }
 
     default <T extends Block> BlockData<T> register(Type.Base<T> type) throws InitializationException {

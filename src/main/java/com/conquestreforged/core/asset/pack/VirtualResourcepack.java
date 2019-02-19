@@ -1,5 +1,6 @@
-package com.conquestreforged.core.resource;
+package com.conquestreforged.core.asset.pack;
 
+import com.conquestreforged.core.asset.VirtualResource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;

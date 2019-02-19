@@ -10,7 +10,7 @@ import com.conquestreforged.core.block.annotation.State;
         block = @Model(name = "block/%s", template = "block/acacia_planks")
 )
 public class Block extends net.minecraft.block.Block {
-    public Block(Block.Properties properties) {
+    public Block(Properties properties) {
         super(properties);
     }
 }

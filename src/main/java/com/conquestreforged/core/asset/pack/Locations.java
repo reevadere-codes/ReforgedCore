@@ -1,4 +1,4 @@
-package com.conquestreforged.core.resource;
+package com.conquestreforged.core.asset.pack;
 
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;

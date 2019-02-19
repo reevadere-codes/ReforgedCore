@@ -2,9 +2,9 @@ package test.reforged.init;
 
 import com.conquestreforged.core.block.data.BlockData;
 import com.conquestreforged.core.registry.BlockDataRegistry;
-import com.conquestreforged.core.resource.Locations;
-import com.conquestreforged.core.resource.VirtualResource;
-import com.conquestreforged.core.resource.VirtualResourcepack;
+import com.conquestreforged.core.asset.pack.Locations;
+import com.conquestreforged.core.asset.VirtualResource;
+import com.conquestreforged.core.asset.pack.VirtualResourcepack;
 import com.conquestreforged.core.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

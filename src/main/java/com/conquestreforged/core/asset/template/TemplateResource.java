@@ -1,6 +1,6 @@
-package com.conquestreforged.core.resource.template;
+package com.conquestreforged.core.asset.template;
 
-import com.conquestreforged.core.resource.VirtualResource;
+import com.conquestreforged.core.asset.VirtualResource;
 import net.minecraft.resources.ResourcePackType;
 
 import java.io.IOException;

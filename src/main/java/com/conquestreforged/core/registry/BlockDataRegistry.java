@@ -10,7 +10,6 @@ import java.util.List;
 public class BlockDataRegistry {
 
     public static final List<BlockData> BLOCK_DATA = new LinkedList<>();
-    public static final GroupRegistry<BlockData> GROUPS = new GroupRegistry<>();
 
     public static void registerBlock(BlockData block) {
         BLOCK_DATA.add(block);

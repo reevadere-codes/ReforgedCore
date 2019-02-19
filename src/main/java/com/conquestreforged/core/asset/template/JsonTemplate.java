@@ -1,5 +1,6 @@
-package com.conquestreforged.core.resource.template;
+package com.conquestreforged.core.asset.template;
 
+import com.conquestreforged.core.util.ByteStream;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -32,11 +33,11 @@ public class JsonTemplate {
     }
 
     public InputStream getInputStream(JsonOverride overrides) throws IOException {
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+        try (ByteStream.Output out = new ByteStream.Output()) {
             try (JsonWriter writer = new JsonWriter(new OutputStreamWriter(out))) {
                 apply(writer, overrides);
             }
-            return new ByteArrayInputStream(out.toByteArray());
+            return out.toInputStream();
         }
     }
 

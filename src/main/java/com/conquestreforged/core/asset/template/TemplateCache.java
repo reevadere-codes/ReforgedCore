@@ -1,4 +1,4 @@
-package com.conquestreforged.core.resource.template;
+package com.conquestreforged.core.asset.template;
 
 import com.conquestreforged.core.util.Cache;
 

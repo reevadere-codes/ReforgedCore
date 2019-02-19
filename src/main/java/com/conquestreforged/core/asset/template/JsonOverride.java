@@ -1,6 +1,6 @@
-package com.conquestreforged.core.resource.template;
+package com.conquestreforged.core.asset.template;
 
-import com.conquestreforged.core.resource.template.overrides.EmptyOverride;
+import com.conquestreforged.core.asset.override.EmptyOverride;
 import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonWriter;
 

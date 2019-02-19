@@ -1,4 +1,4 @@
-package com.conquestreforged.core.resource;
+package com.conquestreforged.core.asset;
 
 import net.minecraft.resources.ResourcePackType;
 

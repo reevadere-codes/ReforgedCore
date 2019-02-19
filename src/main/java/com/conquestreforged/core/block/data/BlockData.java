@@ -3,7 +3,7 @@ package com.conquestreforged.core.block.data;
 import com.conquestreforged.core.block.factory.InitializationException;
 import com.conquestreforged.core.block.props.BlockName;
 import com.conquestreforged.core.block.props.Props;
-import com.conquestreforged.core.resource.VirtualResourcepack;
+import com.conquestreforged.core.asset.pack.VirtualResourcepack;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;

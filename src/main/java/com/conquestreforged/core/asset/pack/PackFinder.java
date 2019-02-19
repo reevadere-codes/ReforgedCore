@@ -1,4 +1,4 @@
-package com.conquestreforged.core.resource;
+package com.conquestreforged.core.asset.pack;
 
 import com.conquestreforged.core.util.Log;
 import net.minecraft.resources.IPackFinder;

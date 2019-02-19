@@ -1,7 +1,7 @@
 package test.reforged.init;
 
 import com.conquestreforged.core.registry.BlockDataRegistry;
-import com.conquestreforged.core.resource.PackFinder;
+import com.conquestreforged.core.asset.pack.PackFinder;
 import com.conquestreforged.core.util.Cache;
 import com.conquestreforged.core.util.Context;
 import com.conquestreforged.core.util.Log;
