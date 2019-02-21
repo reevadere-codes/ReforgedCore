@@ -101,13 +101,13 @@ public class AssetTemplate {
         }
         if (replacements.length == 1) {
             String find = replacements[0].template();
-            String replace = name.format(replacements[0].name(), plural);
+            String replace = name.namespaceFormat(replacements[0].name(), plural);
             return new SingleOverride("model", new JsonPrimitive(find), new JsonPrimitive(replace));
         }
         Map<JsonElement, JsonElement> overrides = new HashMap<>(replacements.length);
         for (Model model : replacements) {
             String find = model.template();
-            String replace = name.format(model.name(), plural);
+            String replace = name.namespaceFormat(model.name(), plural);
             overrides.put(new JsonPrimitive(find), new JsonPrimitive(replace));
         }
         return new MapOverride("model", overrides);

@@ -1,5 +1,6 @@
 package com.conquestreforged.core.asset.pack;
 
+import com.conquestreforged.core.asset.meta.VirtualMeta;
 import com.conquestreforged.core.util.Log;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.IResourcePack;
@@ -29,22 +30,16 @@ public class PackFinder implements IPackFinder {
 
     @Override
     public <T extends ResourcePackInfo> void addPackInfosToMap(Map<String, T> map, ResourcePackInfo.IFactory<T> factory) {
-        Log.info("Adding redirect resourcepacks");
+        Log.info("Adding virtual resourcepacks");
         for (VirtualResourcepack pack : resourcePacks) {
             String name = pack.getName();
             boolean client = true;
             Supplier<IResourcePack> supplier = () -> pack;
-            PackMetadataSection metadata = createMetadata(name);
+            PackMetadataSection metadata = new VirtualMeta(name, "").toMetadata();
             ResourcePackInfo.Priority priority = ResourcePackInfo.Priority.BOTTOM;
             T info = factory.create(name, client, supplier, pack, metadata, priority);
             map.put(name, info);
         }
-    }
-
-    private static PackMetadataSection createMetadata(String name) {
-        ITextComponent title = new TextComponentString(name);
-        int version = 4;
-        return new PackMetadataSection(title, version);
     }
 
     public static PackFinder getInstance() {

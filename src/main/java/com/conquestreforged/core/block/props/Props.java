@@ -156,11 +156,29 @@ public class Props implements Factory {
         return this;
     }
 
+    public Props texture(String texture) {
+        return texture("*", texture);
+    }
+
     public Props texture(String name, String texture) {
+        String namespace = Context.getInstance().getNamespace();
+        String path = texture;
+
+        int i = texture.indexOf(':');
+        if (i != -1) {
+            namespace = texture.substring(0, i);
+            path = texture.substring(i + 1);
+        }
+
+        int j = path.indexOf('/');
+        if (j == -1) {
+            path = "block/" + path;
+        }
+
         if (textures == null) {
             textures = Textures.builder();
         }
-        textures.add(name, Context.withNamespace(texture));
+        textures.add(name, Context.withNamespace(namespace, path));
         return this;
     }
 

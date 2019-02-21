@@ -1,6 +1,7 @@
 package com.conquestreforged.core.asset.pack;
 
 import com.conquestreforged.core.asset.VirtualResource;
+import com.conquestreforged.core.asset.meta.VirtualMeta;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -145,7 +146,7 @@ public class VirtualResourcepack extends AbstractResourcePack {
         private final String name;
 
         private Builder(String name) {
-            this.name = name;
+            this.name = name + "_virtual";
         }
 
         public Builder add(VirtualResource resource) {
@@ -155,6 +156,9 @@ public class VirtualResourcepack extends AbstractResourcePack {
 
         public VirtualResourcepack build() {
             Map<String, VirtualResource> map = new HashMap<>();
+            // first so can be overridden
+            map.put("pack.mcmeta", new VirtualMeta(name, "conquest"));
+            // add resources second
             resources.forEach(r -> map.put(r.getPath(), r));
             return new VirtualResourcepack(name, map);
         }

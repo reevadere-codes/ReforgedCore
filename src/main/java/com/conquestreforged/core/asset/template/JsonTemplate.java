@@ -6,6 +6,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.IResource;
+import net.minecraft.util.ResourceLocation;
 
 import java.io.*;
 import java.util.Map;
@@ -14,12 +17,20 @@ public class JsonTemplate {
 
     private static final JsonParser parser = new JsonParser();
 
-    private final String location;
+    private final String path;
+    private final ResourceLocation location;
 
     private JsonObject cached;
 
     JsonTemplate(String location) {
-        this.location = location.charAt(0) != '/' ? '/' + location : location;
+        if (location.startsWith("assets/")) {
+            location = location.substring("assets/".length());
+        }
+        int i = location.indexOf('/');
+        String domain = location.substring(0, i);
+        String path = location.substring(i + 1);
+        this.location = new ResourceLocation(domain, path);
+        this.path = "assets/" + domain + "/" + path;
     }
 
     @Override
@@ -43,22 +54,19 @@ public class JsonTemplate {
 
     private JsonObject getJson() throws IOException {
         if (cached == null) {
-            try (InputStream in = JsonTemplate.class.getClassLoader().getResourceAsStream(location)) {
-                if (in == null) {
-                    throw new FileNotFoundException(location);
-                }
-
-                try (Reader reader = new InputStreamReader(in)) {
-                    JsonElement element = parser.parse(reader);
-                    if (element.isJsonObject()) {
-                        cached = element.getAsJsonObject();
-                    } else {
-                        throw new IOException("resource is not a template object");
+            try (IResource resource = Minecraft.getInstance().getResourceManager().getResource(location)) {
+                try (InputStream in = resource.getInputStream()) {
+                    try (Reader reader = new InputStreamReader(in)) {
+                        JsonElement element = parser.parse(reader);
+                        if (element.isJsonObject()) {
+                            cached = element.getAsJsonObject();
+                        } else {
+                            throw new IOException("resource is not a template object");
+                        }
                     }
                 }
             }
         }
-
         return cached;
     }
 
