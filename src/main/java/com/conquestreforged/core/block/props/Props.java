@@ -178,7 +178,8 @@ public class Props implements Factory {
         if (textures == null) {
             textures = Textures.builder();
         }
-        textures.add(name, Context.withNamespace(namespace, path));
+
+        textures.add(name, withNamespace(namespace, path));
         return this;
     }
 
@@ -243,6 +244,13 @@ public class Props implements Factory {
         if (value1 != Float.MAX_VALUE && value2 != Float.MAX_VALUE) {
             consumer.accept(value1, value2);
         }
+    }
+
+    private static String withNamespace(String namespace, String name) {
+        if (name.indexOf(':') != -1) {
+            return name;
+        }
+        return namespace + ':' + name;
     }
 
     public static Props create() {

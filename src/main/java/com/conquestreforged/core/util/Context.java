@@ -1,31 +1,32 @@
 package com.conquestreforged.core.util;
 
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModLoadingContext;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class Context {
 
-    private static ThreadLocal<Context> instance = ThreadLocal.withInitial(Context::new);
+    private static final Map<ModContainer, Context> contexts = new ConcurrentHashMap<>();
 
     private String namespace = "";
 
     public static Context getInstance() {
-        return instance.get();
+        return getCurrentContext();
     }
 
-    public String getNamespace() {
+    public synchronized String getNamespace() {
         return namespace;
     }
 
-    public void setNamespace(String namespace) {
+    public synchronized void setNamespace(String namespace) {
         this.namespace = namespace;
     }
 
-    public static String withNamespace(String name) {
-        return withNamespace(Context.getInstance().getNamespace(), name);
+    private static Context getCurrentContext() {
+        ModContainer current = ModLoadingContext.get().getActiveContainer();
+        return contexts.computeIfAbsent(current, k -> new Context());
     }
 
-    public static String withNamespace(String namespace, String name) {
-        if (name.indexOf(':') != -1) {
-            return name;
-        }
-        return namespace + ':' + name;
-    }
 }
