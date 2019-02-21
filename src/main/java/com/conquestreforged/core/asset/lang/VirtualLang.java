@@ -21,7 +21,7 @@ public class VirtualLang implements VirtualResource {
 
     public VirtualLang(String namespace) {
         this.namespace = namespace;
-        this.path = "/assets/" + namespace + "/lang/en_us.json";
+        this.path = "assets/" + namespace + "/lang/en_us.json";
     }
 
     @Override

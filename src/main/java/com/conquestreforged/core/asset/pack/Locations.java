@@ -18,11 +18,19 @@ public class Locations {
     }
 
     public static String statePath(ResourceLocation name) {
-        return path("blockstates", name);
+        return path("assets", "blockstates", name);
     }
 
     public static String modelPath(ModelResourceLocation name) {
-        return path("models", name);
+        return path("assets", "models", name);
+    }
+
+    public static String stateTemplatePath(ResourceLocation name) {
+        return path("templates", "blockstates", name);
+    }
+
+    public static String modelTemplatePath(ModelResourceLocation name) {
+        return path("templates", "models", name);
     }
 
     public static String path(ResourceLocation location) {
@@ -32,10 +40,10 @@ public class Locations {
         return "assets/" + location.getNamespace() + "/" + location.getPath() + ".json";
     }
 
-    public static String path(String prefix, ResourceLocation location) {
+    public static String path(String root, String prefix, ResourceLocation location) {
         if (location.getPath().endsWith(".json")) {
-            return "assets/" + location.getNamespace() + "/" + prefix + "/" + location.getPath();
+            return root + "/" + location.getNamespace() + "/" + prefix + "/" + location.getPath();
         }
-        return "assets/" + location.getNamespace() + "/" + prefix + "/" + location.getPath() + ".json";
+        return root + "/" + location.getNamespace() + "/" + prefix + "/" + location.getPath() + ".json";
     }
 }

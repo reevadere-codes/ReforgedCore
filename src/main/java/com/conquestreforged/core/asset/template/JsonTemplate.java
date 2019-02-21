@@ -19,7 +19,7 @@ public class JsonTemplate {
     private JsonObject cached;
 
     JsonTemplate(String location) {
-        this.location = location.charAt(0) == '/' ? location : '/' + location;
+        this.location = location.charAt(0) != '/' ? '/' + location : location;
     }
 
     @Override
@@ -43,10 +43,11 @@ public class JsonTemplate {
 
     private JsonObject getJson() throws IOException {
         if (cached == null) {
-            try (InputStream in = JsonTemplate.class.getResourceAsStream(location)) {
+            try (InputStream in = JsonTemplate.class.getClassLoader().getResourceAsStream(location)) {
                 if (in == null) {
                     throw new FileNotFoundException(location);
                 }
+
                 try (Reader reader = new InputStreamReader(in)) {
                     JsonElement element = parser.parse(reader);
                     if (element.isJsonObject()) {
