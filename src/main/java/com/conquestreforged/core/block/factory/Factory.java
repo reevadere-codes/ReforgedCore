@@ -3,14 +3,13 @@ package com.conquestreforged.core.block.factory;
 import com.conquestreforged.core.block.data.BlockData;
 import com.conquestreforged.core.block.props.BlockName;
 import com.conquestreforged.core.block.props.Props;
-import com.conquestreforged.core.registry.BlockDataRegistry;
+import com.conquestreforged.core.block.data.BlockDataRegistry;
+import com.conquestreforged.core.item.family.FamilyRegistry;
+import com.conquestreforged.core.item.family.block.BlockFamily;
 import com.conquestreforged.core.util.Context;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public interface Factory {
 
@@ -21,12 +20,13 @@ public interface Factory {
     IBlockState getParent();
 
     default void register(TypeList types) {
-        List<BlockData> group = new LinkedList<>();
+        BlockFamily family = new BlockFamily(getProps().group(), types);
         for (Class<? extends Block> type : types) {
             Type<?> blockType = TypeCache.getInstance().get(type);
             BlockData data = register(blockType);
-            group.add(data);
+            family.add(data.getBlock());
         }
+        FamilyRegistry.BLOCKS.register(family);
     }
 
     default <T extends Block> BlockData<T> register(Type.Base<T> type) throws InitializationException {

@@ -1,6 +1,5 @@
-package com.conquestreforged.core.registry;
+package com.conquestreforged.core.block.data;
 
-import com.conquestreforged.core.block.data.BlockData;
 import net.minecraft.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 

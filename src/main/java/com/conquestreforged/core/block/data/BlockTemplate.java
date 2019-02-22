@@ -22,14 +22,14 @@ import net.minecraft.util.ResourceLocation;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AssetTemplate {
+public class BlockTemplate {
 
     private final State state;
     private final Model itemModel;
     private final Model[] blockModels;
     private final boolean plural;
 
-    public AssetTemplate(Class<?> type) {
+    BlockTemplate(Class<?> type) {
         Assets assets = type.getAnnotation(Assets.class);
         this.state = assets != null ? assets.state() : null;
         this.itemModel = assets != null ? assets.item() : null;
@@ -44,7 +44,13 @@ public class AssetTemplate {
         return new ResourceLocation(name.getNamespace(), name.format(state.name(), plural));
     }
 
-    public void addState(VirtualResourcepack.Builder builder, BlockName name) {
+    public void apply(VirtualResourcepack.Builder builder, BlockName name, Textures textures) {
+        addState(builder, name);
+        addItem(builder, name);
+        addModel(builder, name, textures);
+    }
+
+    private void addState(VirtualResourcepack.Builder builder, BlockName name) {
         if (state == null) {
             return;
         }
@@ -61,10 +67,11 @@ public class AssetTemplate {
         builder.add(resource);
     }
 
-    public void addModel(VirtualResourcepack.Builder builder, BlockName name, Textures textures) {
+    private void addModel(VirtualResourcepack.Builder builder, BlockName name, Textures textures) {
         if (blockModels == null) {
             return;
         }
+
         for (Model model : blockModels) {
             String templateName = model.template();
             String virtualName = name.namespaceFormat(model.name(), model.plural());
@@ -78,10 +85,11 @@ public class AssetTemplate {
         }
     }
 
-    public void addItem(VirtualResourcepack.Builder builder, BlockName name) {
+    private void addItem(VirtualResourcepack.Builder builder, BlockName name) {
         if (itemModel == null) {
             return;
         }
+
         String templateName = itemModel.template();
         String itemModelName = name.namespaceFormat(itemModel.name(), plural);
         String parentModelName = name.namespaceFormat(itemModel.parent(), plural);
@@ -99,17 +107,20 @@ public class AssetTemplate {
         if (replacements.length == 0) {
             return EmptyOverride.EMPTY;
         }
+
         if (replacements.length == 1) {
             String find = replacements[0].template();
             String replace = name.namespaceFormat(replacements[0].name(), plural);
             return new SingleOverride("model", new JsonPrimitive(find), new JsonPrimitive(replace));
         }
+
         Map<JsonElement, JsonElement> overrides = new HashMap<>(replacements.length);
         for (Model model : replacements) {
             String find = model.template();
             String replace = name.namespaceFormat(model.name(), plural);
             overrides.put(new JsonPrimitive(find), new JsonPrimitive(replace));
         }
+
         return new MapOverride("model", overrides);
     }
 }

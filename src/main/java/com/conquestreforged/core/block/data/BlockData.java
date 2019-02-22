@@ -15,13 +15,13 @@ public class BlockData<T extends Block> {
     private final T block;
     private final Props props;
     private final BlockName blockName;
-    private final AssetTemplate template;
+    private final BlockTemplate template;
     private final ResourceLocation registryName;
 
     private Item item = null;
 
     public BlockData(T block, BlockName registryName, Props props) {
-        this.template = AssetTemplateCache.getInstance().get(block.getClass());
+        this.template = BlockTemplateCache.getInstance().get(block.getClass());
         this.registryName = template.getRegistryName(registryName);
         this.blockName = registryName;
         this.block = block;
@@ -50,16 +50,21 @@ public class BlockData<T extends Block> {
         return item;
     }
 
+    public Props getProps() {
+        return props;
+    }
+
+    public BlockName getBlockName() {
+        return blockName;
+    }
+
     public ResourceLocation getRegistryName() {
         return registryName;
     }
 
-    public void addVirtualResources(VirtualResourcepack.Builder builder) {
-        if (props.isManual()) {
-            return;
+    public void addResources(VirtualResourcepack.Builder builder) {
+        if (!props.isManual()) {
+            template.apply(builder, blockName, props.textures());
         }
-        template.addState(builder, blockName);
-        template.addItem(builder, blockName);
-        template.addModel(builder, blockName, props.textures());
     }
 }
