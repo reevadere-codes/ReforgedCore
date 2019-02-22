@@ -2,6 +2,7 @@ package com.conquestreforged.core.asset.pack;
 
 import com.conquestreforged.core.asset.meta.VirtualMeta;
 import com.conquestreforged.core.util.Log;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.ResourcePackInfo;
@@ -40,6 +41,10 @@ public class PackFinder implements IPackFinder {
             T info = factory.create(name, client, supplier, pack, metadata, priority);
             map.put(name, info);
         }
+    }
+
+    public void addPackFinder() {
+        Minecraft.getInstance().getResourcePackList().addPackFinder(this);
     }
 
     public static PackFinder getInstance() {

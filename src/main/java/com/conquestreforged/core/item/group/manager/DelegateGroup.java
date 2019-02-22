@@ -10,11 +10,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 
-public class ItemGroupWrapper extends ItemGroup {
+public class DelegateGroup extends ItemGroup {
 
     private final ItemGroup group;
 
-    ItemGroupWrapper(ItemGroup group) {
+    DelegateGroup(ItemGroup group) {
         super(-1, group.getTabLabel());
         this.group = group;
     }

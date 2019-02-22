@@ -48,14 +48,18 @@ public class ItemGroupManager {
         required.forEach(group -> addRequired(order, group));
 
         ItemGroup.GROUPS = new ItemGroup[0];
-        order.forEach(group -> {
-            if (required.contains(group)) {
-                addGroupSafe(group.getIndex(), group);
+        for (int i = 0; i < order.size(); i++) {
+            ItemGroup group = order.get(i);
+            if (group == null) {
+                new EmptyGroup();
+            }else if (required.contains(group)) {
+                addGroupSafe(i, group);
             } else {
-                new ItemGroupWrapper(group);
+                new DelegateGroup(group);
             }
-        });
+        }
     }
+
 
     private void storeVanillaGroups() {
         Set<ItemGroup> groups = this.groups.get(GroupType.VANILLA);
@@ -79,7 +83,7 @@ public class ItemGroupManager {
             if (vanilla.contains(group)) {
                 continue;
             }
-            if (group instanceof ConquestItemGroup || group instanceof ItemGroupWrapper) {
+            if (group instanceof ConquestItemGroup || group instanceof DelegateGroup) {
                 continue;
             }
             other.add(group);
@@ -92,12 +96,15 @@ public class ItemGroupManager {
             return;
         }
 
-        if (groups.size() <= required.getIndex()) {
-            return;
+        if (index != -1) {
+            groups.remove(index);
         }
 
-        groups.remove(index);
-        groups.add(required.getIndex(), required);
+        while (groups.size() <= required.getIndex()) {
+            groups.add(null);
+        }
+
+        groups.set(required.getIndex(), required);
     }
 
     public static ItemGroupManager getInstance() {
@@ -118,7 +125,7 @@ public class ItemGroupManager {
     }
 
     private static synchronized int addGroupSafe(int index, ItemGroup newGroup) {
-        if(index == -1) {
+        if (index == -1) {
             index = ItemGroup.GROUPS.length;
         }
         if (index >= ItemGroup.GROUPS.length) {

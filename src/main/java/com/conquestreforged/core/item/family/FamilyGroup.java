@@ -2,11 +2,10 @@ package com.conquestreforged.core.item.family;
 
 import com.conquestreforged.core.item.group.TaggedGroup;
 import com.conquestreforged.core.util.Stack;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
+import javax.annotation.Nonnull;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -40,21 +39,17 @@ public class FamilyGroup extends TaggedGroup<FamilyGroup> {
 
     @Override
     public void fill(NonNullList<ItemStack> items) {
-        for (Family<Block> family : FamilyRegistry.BLOCKS.values()) {
-            filler.fill(family, this, items);
-        }
+        FamilyRegistry.BLOCKS.values().forEach(family -> filler.fill(family, this, items));
         addTaggedBlocks(items);
-        for (Family<Item> family : FamilyRegistry.ITEMS.values()) {
-            filler.fill(family, this, items);
-        }
-        addTaggedItems(items);
+
+        FamilyRegistry.ITEMS.values().forEach(family -> filler.fill(family, this, items));
     }
 
-    public static void addAllItems() {
+    public static void setAddAllItems() {
         filler = Family::addAllItems;
     }
 
-    public static void addRootItems() {
+    public static void setAddRootItems() {
         filler = Family::addRootItem;
     }
 }

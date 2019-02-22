@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class FamilyRegistry<T extends IForgeRegistryEntry> {
 
@@ -42,7 +43,7 @@ public class FamilyRegistry<T extends IForgeRegistryEntry> {
         return families.getOrDefault(name, empty);
     }
 
-    public Collection<Family<T>> values() {
-        return new ArrayList<>(families.values());
+    public Stream<Family<T>> values() {
+        return families.values().stream().distinct();
     }
 }

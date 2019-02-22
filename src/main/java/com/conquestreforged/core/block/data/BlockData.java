@@ -20,12 +20,13 @@ public class BlockData<T extends Block> {
 
     private Item item = null;
 
-    public BlockData(T block, BlockName registryName, Props props) {
+    public BlockData(T block, BlockName blockName, Props props) {
         this.template = BlockTemplateCache.getInstance().get(block.getClass());
-        this.registryName = template.getRegistryName(registryName);
-        this.blockName = registryName;
+        this.registryName = template.getRegistryName(blockName);
+        this.blockName = blockName;
         this.block = block;
         this.props = props;
+        block.setRegistryName(registryName);
     }
 
     public Block getBlock() {
