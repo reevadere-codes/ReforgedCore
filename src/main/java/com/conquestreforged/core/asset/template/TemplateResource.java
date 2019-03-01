@@ -1,6 +1,8 @@
 package com.conquestreforged.core.asset.template;
 
+import com.conquestreforged.core.asset.Resources;
 import com.conquestreforged.core.asset.VirtualResource;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.ResourcePackType;
 
 import java.io.IOException;
@@ -12,12 +14,14 @@ public class TemplateResource implements VirtualResource {
     private final String namespace;
     private final JsonTemplate template;
     private final JsonOverride overrides;
+    private final ResourcePackType packType;
 
-    public TemplateResource(String namespace, String path, JsonOverride overrides, JsonTemplate template) {
+    public TemplateResource(ResourcePackType type, String namespace, String path, JsonOverride overrides, JsonTemplate template) {
         this.path = path;
         this.namespace = namespace;
         this.overrides = overrides;
         this.template = template;
+        this.packType = type;
     }
 
     @Override
@@ -32,12 +36,13 @@ public class TemplateResource implements VirtualResource {
 
     @Override
     public ResourcePackType getType() {
-        return ResourcePackType.CLIENT_RESOURCES;
+        return packType;
     }
 
     @Override
     public InputStream getInputStream() throws IOException {
-        return template.getInputStream(overrides);
+        IResourceManager manager = Resources.getResourceManager(getType());
+        return template.getInputStream(manager, overrides);
     }
 
     @Override

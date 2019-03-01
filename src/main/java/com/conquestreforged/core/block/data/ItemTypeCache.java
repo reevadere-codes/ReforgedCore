@@ -1,6 +1,6 @@
 package com.conquestreforged.core.block.data;
 
-import com.conquestreforged.core.block.annotation.Item;
+import com.conquestreforged.core.asset.annotation.Item;
 import com.conquestreforged.core.util.Cache;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;

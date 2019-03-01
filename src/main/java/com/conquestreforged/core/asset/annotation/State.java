@@ -1,23 +1,18 @@
-package com.conquestreforged.core.block.annotation;
+package com.conquestreforged.core.asset.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Model {
+public @interface State {
 
     /**
-     * @return the name format of the model
+     * @return the name format of the blockstate
      */
     String name();
 
     /**
-     * @return the model's parent (used to point an item model to a block model)
-     */
-    String parent() default "";
-
-    /**
-     * @return the actual model json location to use
+     * @return the actual blockstate json location to use
      */
     String template();
 

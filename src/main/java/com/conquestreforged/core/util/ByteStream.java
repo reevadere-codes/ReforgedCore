@@ -1,9 +1,6 @@
 package com.conquestreforged.core.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 public class ByteStream {
 
@@ -20,7 +17,8 @@ public class ByteStream {
 
     public static class Output extends ByteArrayOutputStream {
 
-        public InputStream toInputStream() {
+        public InputStream toInputStream() throws IOException {
+            flush();
             return new Input(super.buf, super.count);
         }
     }

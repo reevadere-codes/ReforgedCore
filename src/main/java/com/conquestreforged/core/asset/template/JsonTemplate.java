@@ -6,8 +6,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.IResource;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.*;
@@ -23,14 +23,19 @@ public class JsonTemplate {
     private JsonObject cached;
 
     JsonTemplate(String location) {
+        String root = "";
         if (location.startsWith("assets/")) {
+            root = "assets/";
             location = location.substring("assets/".length());
+        } else if (location.startsWith("data/")) {
+            root = "data/";
+            location = location.substring("data/".length());
         }
         int i = location.indexOf('/');
         String domain = location.substring(0, i);
         String path = location.substring(i + 1);
         this.location = new ResourceLocation(domain, path);
-        this.path = "assets/" + domain + "/" + path;
+        this.path = root + domain + "/" + path;
     }
 
     @Override
@@ -38,23 +43,23 @@ public class JsonTemplate {
         return "JsonTemplate{location=" + location + '}';
     }
 
-    public void apply(JsonWriter writer, JsonOverride overrides) throws IOException {
-        JsonObject object = getJson();
+    public void apply(IResourceManager resourceManager, JsonWriter writer, JsonOverride overrides) throws IOException {
+        JsonObject object = getJson(resourceManager);
         write(writer, overrides, object);
     }
 
-    public InputStream getInputStream(JsonOverride overrides) throws IOException {
+    public InputStream getInputStream(IResourceManager resourceManager, JsonOverride overrides) throws IOException {
         try (ByteStream.Output out = new ByteStream.Output()) {
             try (JsonWriter writer = new JsonWriter(new OutputStreamWriter(out))) {
-                apply(writer, overrides);
+                apply(resourceManager, writer, overrides);
             }
             return out.toInputStream();
         }
     }
 
-    private JsonObject getJson() throws IOException {
+    private JsonObject getJson(IResourceManager resourceManager) throws IOException {
         if (cached == null) {
-            try (IResource resource = Minecraft.getInstance().getResourceManager().getResource(location)) {
+            try (IResource resource = resourceManager.getResource(location)) {
                 try (InputStream in = resource.getInputStream()) {
                     try (Reader reader = new InputStreamReader(in)) {
                         JsonElement element = parser.parse(reader);
@@ -65,6 +70,8 @@ public class JsonTemplate {
                         }
                     }
                 }
+            } catch (Throwable t) {
+                throw new IOException(this.path, t);
             }
         }
         return cached;

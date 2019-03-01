@@ -1,6 +1,6 @@
 package com.conquestreforged.core.item.family;
 
-import com.conquestreforged.core.util.Optional;
+import com.conquestreforged.core.util.OptionalValue;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -8,8 +8,9 @@ import net.minecraft.util.NonNullList;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
-public abstract class Family<T> implements Optional {
+public abstract class Family<T> implements OptionalValue {
 
     private final List<T> members;
     private final ItemGroup group;
@@ -40,8 +41,27 @@ public abstract class Family<T> implements Optional {
         return members.get(0);
     }
 
+    public Optional<T> getMember(int index) {
+        if (index < members.size()) {
+            return Optional.ofNullable(members.get(index));
+        }
+        return Optional.empty();
+    }
+
+    public Optional<T> getMember(Class<? extends T> type) {
+        return members.stream().filter(t -> t.getClass() == type).findFirst();
+    }
+
     public List<T> getMembers() {
         return new ArrayList<>(members);
+    }
+
+    public int size() {
+        return members.size();
+    }
+
+    public int indexOf(T member) {
+        return members.indexOf(member);
     }
 
     public void add(T member) {
@@ -59,9 +79,15 @@ public abstract class Family<T> implements Optional {
     }
 
     public void addAllItems(ItemGroup group, NonNullList<ItemStack> list) {
+        addAllItems(group, list, TypeFilter.ANY);
+    }
+
+    public void addAllItems(ItemGroup group, NonNullList<ItemStack> list, TypeFilter filter) {
         if (group == ItemGroup.SEARCH || group == this.group) {
             for (T t : members) {
-                addItem(group, list, t);
+                if (filter.test(t)) {
+                    addItem(group, list, t);
+                }
             }
         }
     }

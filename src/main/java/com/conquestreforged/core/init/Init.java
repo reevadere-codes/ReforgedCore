@@ -1,10 +1,5 @@
 package com.conquestreforged.core.init;
 
-import com.conquestreforged.core.asset.lang.VirtualLang;
-import com.conquestreforged.core.asset.pack.PackFinder;
-import com.conquestreforged.core.asset.pack.VirtualResourcepack;
-import com.conquestreforged.core.block.data.BlockDataRegistry;
-import com.conquestreforged.core.item.group.manager.ItemGroupManager;
 import com.conquestreforged.core.util.Log;
 
 import java.util.ArrayList;
@@ -32,16 +27,5 @@ public class Init {
         for (Runnable runnable : instance.tasks.getOrDefault(stage, Collections.emptyList())) {
             runnable.run();
         }
-    }
-
-    static {
-        Init.register(Stage.CLIENT, ItemGroupManager.getInstance()::init);
-        Init.register(Stage.RESOURCE, PackFinder.getInstance()::addPackFinder);
-        Init.register(Stage.RESOURCE, () -> BlockDataRegistry.getNamespaces().forEach(namespace -> {
-            VirtualResourcepack.Builder builder = VirtualResourcepack.builder(namespace);
-            BlockDataRegistry.getData(namespace).forEach(data -> data.addResources(builder));
-            builder.add(new VirtualLang(namespace));
-            builder.build();
-        }));
     }
 }

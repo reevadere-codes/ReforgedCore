@@ -1,8 +1,6 @@
 package com.conquestreforged.core.block;
 
-import com.conquestreforged.core.block.annotation.Assets;
-import com.conquestreforged.core.block.annotation.Model;
-import com.conquestreforged.core.block.annotation.State;
+import com.conquestreforged.core.asset.annotation.*;
 import net.minecraft.block.BlockWall;
 
 @Assets(
@@ -12,7 +10,14 @@ import net.minecraft.block.BlockWall;
                 @Model(name = "block/%s_wall_post", template = "block/cobblestone_wall_post"),
                 @Model(name = "block/%s_wall_side", template = "block/cobblestone_wall_side"),
                 @Model(name = "block/%s_wall_inventory", template = "block/cobblestone_wall_inventory"),
-        }
+        },
+        recipe = @Recipe(
+                name = "%s_wall",
+                template = "cobblestone_wall",
+                ingredients = {
+                        @Ingredient(name = "%s", template = "cobblestone", plural = true)
+                }
+        )
 )
 public class Wall extends BlockWall {
     public Wall(Properties properties) {

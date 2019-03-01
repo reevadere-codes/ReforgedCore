@@ -1,8 +1,8 @@
 package com.conquestreforged.core.block;
 
-import com.conquestreforged.core.block.annotation.Assets;
-import com.conquestreforged.core.block.annotation.Model;
-import com.conquestreforged.core.block.annotation.State;
+import com.conquestreforged.core.asset.annotation.Assets;
+import com.conquestreforged.core.asset.annotation.Model;
+import com.conquestreforged.core.asset.annotation.State;
 import net.minecraft.block.BlockBush;
 
 @Assets(

@@ -1,4 +1,4 @@
-package com.conquestreforged.core.block.annotation;
+package com.conquestreforged.core.asset.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,5 +22,7 @@ public @interface Assets {
     /**
      * @return the block model template(s) for the annotated block
      */
-    Model[] block();
+    Model[] block() default {};
+
+    Recipe[] recipe() default {};
 }

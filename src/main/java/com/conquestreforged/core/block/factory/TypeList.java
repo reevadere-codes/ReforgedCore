@@ -3,49 +3,41 @@ package com.conquestreforged.core.block.factory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
 
 public class TypeList implements Iterable<Class<? extends Block>>, Comparator<Block> {
 
-    private final Class<? extends Block>[] types;
+    private final List<Class<? extends Block>> types;
 
-    private TypeList(Class<? extends Block>[] types) {
+    private TypeList(List<Class<? extends Block>> types) {
         this.types = types;
     }
 
     public boolean isEmpty() {
-        return types.length == 0;
+        return types.isEmpty();
     }
 
     public Class<? extends Block> first() {
-        if (types.length > 0) {
-            return types[0];
+        if (types.size() > 0) {
+            return types.get(0);
         }
         return BlockAir.class;
     }
 
+    public static TypeList of(Collection<Class<? extends Block>> types) {
+        return new TypeList(new ArrayList<>(types));
+    }
+
     @SafeVarargs
     public static TypeList of(Class<? extends Block>... types) {
-        return new TypeList(types);
+        List<Class<? extends Block>> list = new ArrayList<>();
+        Collections.addAll(list, types);
+        return new TypeList(list);
     }
 
     @Override
     public Iterator<Class<? extends Block>> iterator() {
-        return new Iterator<Class<? extends Block>>() {
-
-            private int pos = 0;
-
-            @Override
-            public boolean hasNext() {
-                return pos < types.length;
-            }
-
-            @Override
-            public Class<? extends Block> next() {
-                return types[pos++];
-            }
-        };
+        return types.iterator();
     }
 
     @Override
@@ -55,12 +47,12 @@ public class TypeList implements Iterable<Class<? extends Block>>, Comparator<Bl
 
     private int getIndex(Object o) {
         int max = -1;
-        for (int i = 0; i < types.length; i++) {
-            Class type = types[i];
+        for (int i = 0; i < types.size(); i++) {
+            Class type = types.get(i);
             if (type.isInstance(o)) {
                 max = Math.max(max, i);
             }
         }
-        return max == -1 ? types.length : max;
+        return max == -1 ? types.size() : max;
     }
 }

@@ -1,28 +1,33 @@
 package com.conquestreforged.core.asset.pack;
 
+import com.conquestreforged.core.asset.Resources;
 import com.conquestreforged.core.asset.meta.VirtualMeta;
 import com.conquestreforged.core.util.Log;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.ResourcePackInfo;
+import net.minecraft.resources.ResourcePackType;
 import net.minecraft.resources.data.PackMetadataSection;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class PackFinder implements IPackFinder {
 
-    private static final PackFinder instance = new PackFinder();
+    private static final Map<ResourcePackType, PackFinder> finders = new ConcurrentHashMap<>();
 
+    private final ResourcePackType type;
     private final List<VirtualResourcepack> resourcePacks = new LinkedList<>();
 
-    private PackFinder() {
-
+    public PackFinder(ResourcePackType type) {
+        this.type = type;
     }
 
     public void register(VirtualResourcepack pack) {
@@ -31,10 +36,10 @@ public class PackFinder implements IPackFinder {
 
     @Override
     public <T extends ResourcePackInfo> void addPackInfosToMap(Map<String, T> map, ResourcePackInfo.IFactory<T> factory) {
-        Log.info("Adding virtual resourcepacks");
+        Log.info("Adding virtual pack: {}", type);
         for (VirtualResourcepack pack : resourcePacks) {
             String name = pack.getName();
-            boolean client = true;
+            boolean client = type == ResourcePackType.CLIENT_RESOURCES;
             Supplier<IResourcePack> supplier = () -> pack;
             PackMetadataSection metadata = new VirtualMeta(name, "").toMetadata();
             ResourcePackInfo.Priority priority = ResourcePackInfo.Priority.BOTTOM;
@@ -43,11 +48,19 @@ public class PackFinder implements IPackFinder {
         }
     }
 
-    public void addPackFinder() {
-        Minecraft.getInstance().getResourcePackList().addPackFinder(this);
+    public void register() {
+        Resources.getResourcePackList(type).addPackFinder(this);
     }
 
-    public static PackFinder getInstance() {
-        return instance;
+    public static PackFinder getInstance(ResourcePackType type) {
+        return finders.computeIfAbsent(type, PackFinder::new);
+    }
+
+    public static void iterate(BiConsumer<ResourcePackType, VirtualResourcepack> consumer) {
+        for (PackFinder finder : finders.values()) {
+            for (VirtualResourcepack pack : finder.resourcePacks) {
+                consumer.accept(finder.type, pack);
+            }
+        }
     }
 }

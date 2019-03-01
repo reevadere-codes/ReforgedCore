@@ -5,7 +5,6 @@ import com.conquestreforged.core.util.Stack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-import javax.annotation.Nonnull;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;

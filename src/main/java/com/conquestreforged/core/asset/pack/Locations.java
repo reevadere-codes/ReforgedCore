@@ -17,6 +17,14 @@ public class Locations {
         return new ResourceLocation(name.getNamespace(), "models/" + name.getPath() + ".json");
     }
 
+    public static String recipePath(ResourceLocation name) {
+        return path("data", "recipes", name);
+    }
+
+    public static String modRecipePath(ResourceLocation name) {
+        return path("assets", "recipes", name);
+    }
+
     public static String statePath(ResourceLocation name) {
         return path("assets", "blockstates", name);
     }

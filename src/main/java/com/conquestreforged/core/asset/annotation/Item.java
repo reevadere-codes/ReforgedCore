@@ -1,4 +1,4 @@
-package com.conquestreforged.core.block.annotation;
+package com.conquestreforged.core.asset.annotation;
 
 import net.minecraft.item.ItemBlock;
 

@@ -10,9 +10,9 @@ import net.minecraft.util.ResourceLocation;
 
 import java.lang.reflect.Constructor;
 
-public class BlockData<T extends Block> {
+public class BlockData {
 
-    private final T block;
+    private final Block block;
     private final Props props;
     private final BlockName blockName;
     private final BlockTemplate template;
@@ -20,7 +20,7 @@ public class BlockData<T extends Block> {
 
     private Item item = null;
 
-    public BlockData(T block, BlockName blockName, Props props) {
+    public BlockData(Block block, BlockName blockName, Props props) {
         this.template = BlockTemplateCache.getInstance().get(block.getClass());
         this.registryName = template.getRegistryName(blockName);
         this.blockName = blockName;
@@ -63,9 +63,15 @@ public class BlockData<T extends Block> {
         return registryName;
     }
 
-    public void addResources(VirtualResourcepack.Builder builder) {
+    public void addClientResources(VirtualResourcepack.Builder builder) {
         if (!props.isManual()) {
-            template.apply(builder, blockName, props.textures());
+            template.addClientResources(builder, blockName, props.textures());
+        }
+    }
+
+    public void addServerResources(VirtualResourcepack.Builder builder) {
+        if (!props.isManual()) {
+            template.addServerResources(builder, blockName);
         }
     }
 }

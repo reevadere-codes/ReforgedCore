@@ -1,6 +1,6 @@
 package com.conquestreforged.core.block.props;
 
-import com.conquestreforged.core.block.factory.Factory;
+import com.conquestreforged.core.block.factory.BlockFactory;
 import com.conquestreforged.core.block.factory.InitializationException;
 import com.conquestreforged.core.util.Context;
 import net.minecraft.block.Block;
@@ -14,7 +14,7 @@ import net.minecraft.item.ItemGroup;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class Props implements Factory {
+public class Props implements BlockFactory {
 
     private BlockName name = null;
     private IBlockState base = null;
@@ -30,6 +30,7 @@ public class Props implements Factory {
     private boolean randomTick = false;
     private boolean variableOpacity = false;
     private boolean blocksMovement = true;
+    private boolean floats = true;
     private Textures.Builder textures;
 
     private boolean manual = false;
@@ -60,7 +61,11 @@ public class Props implements Factory {
     }
 
     public EnumDyeColor dye() {
-        return dyeColor;
+        return dyeColor == null ? EnumDyeColor.BLACK : dyeColor;
+    }
+
+    public MaterialColor color() {
+        return color == null ? MaterialColor.BLACK : color;
     }
 
     public Textures textures() {
@@ -76,6 +81,10 @@ public class Props implements Factory {
 
     public boolean isManual() {
         return manual;
+    }
+
+    public boolean floats() {
+        return floats;
     }
 
     public Props manual() {
@@ -153,6 +162,11 @@ public class Props implements Factory {
 
     public Props blocking(boolean blocksMovement) {
         this.blocksMovement = blocksMovement;
+        return this;
+    }
+
+    public Props floats(boolean floats) {
+        this.floats = floats;
         return this;
     }
 

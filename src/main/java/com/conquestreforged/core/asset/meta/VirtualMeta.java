@@ -57,7 +57,6 @@ public class VirtualMeta implements VirtualResource {
         ByteStream.Output out = new ByteStream.Output();
         try (JsonWriter writer = new JsonWriter(new OutputStreamWriter(out))) {
             Streams.write(toJson(), writer);
-            writer.flush();
         }
         return out.toInputStream();
     }

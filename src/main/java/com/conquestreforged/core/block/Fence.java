@@ -1,8 +1,6 @@
 package com.conquestreforged.core.block;
 
-import com.conquestreforged.core.block.annotation.Assets;
-import com.conquestreforged.core.block.annotation.Model;
-import com.conquestreforged.core.block.annotation.State;
+import com.conquestreforged.core.asset.annotation.*;
 import net.minecraft.block.BlockFence;
 
 @Assets(
@@ -12,7 +10,14 @@ import net.minecraft.block.BlockFence;
                 @Model(name = "block/%s_fence_post", template = "block/acacia_fence_post"),
                 @Model(name = "block/%s_fence_side", template = "block/acacia_fence_side"),
                 @Model(name = "block/%s_fence_inventory", template = "block/acacia_fence_inventory"),
-        }
+        },
+        recipe = @Recipe(
+                name = "%s_fence",
+                template = "acacia_fence",
+                ingredients = {
+                        @Ingredient(name = "%s", template = "acacia_planks", plural = true)
+                }
+        )
 )
 public class Fence extends BlockFence {
     public Fence(Properties properties) {

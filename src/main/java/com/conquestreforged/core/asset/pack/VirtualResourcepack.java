@@ -2,6 +2,7 @@ package com.conquestreforged.core.asset.pack;
 
 import com.conquestreforged.core.asset.VirtualResource;
 import com.conquestreforged.core.asset.meta.VirtualMeta;
+import com.conquestreforged.core.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -21,10 +22,14 @@ public class VirtualResourcepack extends AbstractResourcePack {
 
     private final Map<String, VirtualResource> resources;
 
-    private VirtualResourcepack(String name, Map<String, VirtualResource> resources) {
+    private VirtualResourcepack(ResourcePackType type, String name, Map<String, VirtualResource> resources) {
         super(new File(name));
         this.resources = resources;
-        PackFinder.getInstance().register(this);
+        PackFinder.getInstance(type).register(this);
+    }
+
+    public boolean isEmpty() {
+        return resources.isEmpty();
     }
 
     public VirtualResource getResource(ResourceLocation location) throws FileNotFoundException {
@@ -55,17 +60,18 @@ public class VirtualResourcepack extends AbstractResourcePack {
 
     @Override
     public Collection<ResourceLocation> getAllResourceLocations(ResourcePackType type, String pathIn, int maxDepth, Predicate<String> filter) {
+        String prefix = type.getDirectoryName() + "/";
         return resources.keySet().stream()
-                .filter(s -> s.startsWith(pathIn))
+                .filter(s -> s.startsWith(prefix))
                 .map(s -> {
-                    int i = s.indexOf('/');
+                    String s1 = s.substring(prefix.length());
+                    int i = s1.indexOf('/');
                     if (i >= 0) {
-                        String s2 = s.substring(i + 1);
+                        String s2 = s1.substring(i + 1);
                         if (s2.startsWith(pathIn + "/")) {
-                            String[] parts = s2.substring(pathIn.length() + 2).split("/");
-
-                            if (parts.length >= maxDepth + 1 && filter.test(s2)) {
-                                String s3 = s.substring(0, i);
+                            String[] astring = s2.substring(pathIn.length() + 2).split("/");
+                            if (astring.length >= maxDepth + 1 && filter.test(s2)) {
+                                String s3 = s1.substring(0, i);
                                 return new ResourceLocation(s3, s2);
                             }
                         }
@@ -132,6 +138,8 @@ public class VirtualResourcepack extends AbstractResourcePack {
                 try (FileWriter writer = new FileWriter(out)) {
                     gson.toJson(element, writer);
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -144,9 +152,15 @@ public class VirtualResourcepack extends AbstractResourcePack {
 
         private final List<VirtualResource> resources = new LinkedList<>();
         private final String name;
+        private ResourcePackType type = ResourcePackType.CLIENT_RESOURCES;
 
         private Builder(String name) {
-            this.name = name + "_virtual";
+            this.name = name;
+        }
+
+        public Builder type(ResourcePackType type) {
+            this.type = type;
+            return this;
         }
 
         public Builder add(VirtualResource resource) {
@@ -160,7 +174,9 @@ public class VirtualResourcepack extends AbstractResourcePack {
             map.put("pack.mcmeta", new VirtualMeta(name, "conquest"));
             // add resources second
             resources.forEach(r -> map.put(r.getPath(), r));
-            return new VirtualResourcepack(name, map);
+
+            String suffix = type == ResourcePackType.CLIENT_RESOURCES ? "_virtual_assets" : "_virtual_data";
+            return new VirtualResourcepack(type, name + suffix, map);
         }
     }
 }

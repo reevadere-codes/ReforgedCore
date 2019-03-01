@@ -6,7 +6,6 @@ public enum Stage {
     MODEL,
     RENDER,
     CLIENT,
-    RESOURCE,
     COMMON,
     COMPLETE,
 }
