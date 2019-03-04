@@ -25,4 +25,4 @@ A few notes:
 
 - RegistryNames & blockstate/model/item/recipe json can be generated automatically if the Block class is annotated correctly. You should provide the plural and singular form of the base name for situations such as 'bricks' being the normal cube, but 'brick_stairs' being the stair variant. Texture overrides can be provided, either replacing all faces with one texture `Props.texture(texture:String)`, or by specifying each face `Props.texture(face:String, texture:String)`.
 
-- No `public static Block` fields necessary. If reference to a specific Block is required this can be done via Forge's @ObjectHolder system.
+- No `public static Block` fields necessary. If reference to a specific Block is required this can be done via Forge's `@ObjectHolder` system.
