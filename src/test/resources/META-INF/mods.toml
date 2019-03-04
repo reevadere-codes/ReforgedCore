@@ -1,7 +1,0 @@
-modLoader="javafml" #mandatory
-loaderVersion="[25,)" #mandatory (24 is current forge version)
-[[mods]] #mandatory
-modId="testmod" #mandatory
-version="${file.jarVersion}" #mandatory
-displayName="ReforgedTestMod" #mandatory
-description="Test Mod"
