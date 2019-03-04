@@ -5,7 +5,7 @@ Testing a new block system for CR
 The initialization and registration steps are handled through the Init class. Register your runnable/method lambda with the appropriate 'Stage'. Core will make sure they run at the appropriate time. This needs to be done in the @Mod classes constructor.
 
 
-## Props
+## Block Props
 The 'Props' class mirrors the Vanilla Block.Properties builder with a few extra values to automate grouping/texturing/registering blocks.
 
 Every Block that is created using a Props instance will share the same properties in it and will be grouped into a family, meaning:
@@ -16,7 +16,7 @@ See the mod Block sources for the various constructor types that are supported. 
 https://github.com/Conquest-Reforged/ReforgedCore/tree/master/src/main/java/com/conquestreforged/core/block
 
 
-## Init
+## Block Registration (Stage.BLOCK)
 See how the Props class is used to register blocks here:
 https://github.com/Conquest-Reforged/ReforgedTestMod/blob/master/src/main/java/com/conquestreforged/test/init/ModBlock.java
 
