@@ -12,12 +12,12 @@ Every Block that is created using a Props instance will share the same propertie
  - they'll be shown together in the blockpalette gui
  - they can be represented by only one block from the family in the creative inventory
 
-See the mod Block sources for the various constructor types that are supported. More can be added, but generally the `Block(Props)` type should serve any case:
+See the mod Block sources for the various constructor types that are supported. More can be added, but generally the `Block(Props)` type should serve any case:  
 https://github.com/Conquest-Reforged/ReforgedCore/tree/master/src/main/java/com/conquestreforged/core/block
 
 
 ## Block Registration (Stage.BLOCK)
-See how the Props class is used to register blocks here:
+See how the Props class is used to register blocks here:  
 https://github.com/Conquest-Reforged/ReforgedTestMod/blob/master/src/main/java/com/conquestreforged/test/init/ModBlock.java
 
 A few notes:
