@@ -8,4 +8,5 @@ public enum Stage {
     CLIENT,
     COMMON,
     COMPLETE,
+    SERVER_STARTED,
 }

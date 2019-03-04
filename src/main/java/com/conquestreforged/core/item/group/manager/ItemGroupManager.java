@@ -52,7 +52,7 @@ public class ItemGroupManager {
             ItemGroup group = order.get(i);
             if (group == null) {
                 new EmptyGroup();
-            }else if (required.contains(group)) {
+            } else if (required.contains(group)) {
                 addGroupSafe(i, group);
             } else {
                 new DelegateGroup(group);

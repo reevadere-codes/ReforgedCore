@@ -1,7 +1,7 @@
 package com.conquestreforged.core.asset.pack;
 
-import com.conquestreforged.core.asset.Resources;
 import com.conquestreforged.core.asset.meta.VirtualMeta;
+import com.conquestreforged.core.proxy.Proxies;
 import com.conquestreforged.core.util.Log;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.IResourcePack;
@@ -9,14 +9,11 @@ import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.resources.data.PackMetadataSection;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class PackFinder implements IPackFinder {
@@ -49,7 +46,7 @@ public class PackFinder implements IPackFinder {
     }
 
     public void register() {
-        Resources.getResourcePackList(type).addPackFinder(this);
+        Proxies.get(type).getResourcePackList().addPackFinder(this);
     }
 
     public static PackFinder getInstance(ResourcePackType type) {

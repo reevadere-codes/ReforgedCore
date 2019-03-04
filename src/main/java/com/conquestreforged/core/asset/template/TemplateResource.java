@@ -1,7 +1,7 @@
 package com.conquestreforged.core.asset.template;
 
-import com.conquestreforged.core.asset.Resources;
 import com.conquestreforged.core.asset.VirtualResource;
+import com.conquestreforged.core.proxy.Proxies;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.ResourcePackType;
 
@@ -41,7 +41,7 @@ public class TemplateResource implements VirtualResource {
 
     @Override
     public InputStream getInputStream() throws IOException {
-        IResourceManager manager = Resources.getResourceManager(getType());
+        IResourceManager manager = Proxies.get(getType()).getResourceManager();
         return template.getInputStream(manager, overrides);
     }
 
