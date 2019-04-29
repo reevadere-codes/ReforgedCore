@@ -24,6 +24,17 @@ public class TypeList implements Iterable<Class<? extends Block>>, Comparator<Bl
         return BlockAir.class;
     }
 
+    public static TypeList of(Collection<Class<? extends Block>> types) {
+        return new TypeList(new ArrayList<>(types));
+    }
+
+    @SafeVarargs
+    public static TypeList of(Class<? extends Block>... types) {
+        List<Class<? extends Block>> list = new ArrayList<>();
+        Collections.addAll(list, types);
+        return new TypeList(list);
+    }
+
     @Override
     public Iterator<Class<? extends Block>> iterator() {
         return types.iterator();
@@ -43,16 +54,5 @@ public class TypeList implements Iterable<Class<? extends Block>>, Comparator<Bl
             }
         }
         return max == -1 ? types.size() : max;
-    }
-
-    public static TypeList of(Collection<Class<? extends Block>> types) {
-        return new TypeList(new ArrayList<>(types));
-    }
-
-    @SafeVarargs
-    public static TypeList of(Class<? extends Block>... types) {
-        List<Class<? extends Block>> list = new ArrayList<>();
-        Collections.addAll(list, types);
-        return new TypeList(list);
     }
 }
