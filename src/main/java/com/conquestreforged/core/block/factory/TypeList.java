@@ -49,10 +49,6 @@ public class TypeList implements Iterable<Class<? extends Block>>, Comparator<Bl
         int max = -1;
         for (int i = 0; i < types.size(); i++) {
             Class type = types.get(i);
-            if (o.getClass() == type) {
-                max = i;
-                break;
-            }
             if (type.isInstance(o)) {
                 max = Math.max(max, i);
             }

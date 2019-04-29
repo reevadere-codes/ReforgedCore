@@ -11,6 +11,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemGroup;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -32,6 +35,7 @@ public class Props implements BlockFactory {
     private boolean blocksMovement = true;
     private boolean floats = true;
     private Textures.Builder textures;
+    private Map<String, Object> extradata = Collections.emptyMap();
 
     private boolean manual = false;
 
@@ -85,6 +89,21 @@ public class Props implements BlockFactory {
 
     public boolean floats() {
         return floats;
+    }
+
+    public <T> T get(String key, Class<T> type) {
+        Object o = extradata.get(key);
+        if (o == null) {
+            throw new InitializationException(
+                    new NullPointerException(key + ": value is null")
+            );
+        }
+        if (!type.isInstance(o)) {
+            throw new InitializationException(
+                    new ClassCastException(key + ": expected " + type + " but found " + o.getClass())
+            );
+        }
+        return type.cast(o);
     }
 
     public Props manual() {
@@ -199,6 +218,14 @@ public class Props implements BlockFactory {
 
     public Props group(ItemGroup group) {
         this.group = group;
+        return this;
+    }
+
+    public Props with(String key, Object data) {
+        if (extradata.isEmpty()) {
+            extradata = new HashMap<>();
+        }
+        extradata.put(key, data);
         return this;
     }
 

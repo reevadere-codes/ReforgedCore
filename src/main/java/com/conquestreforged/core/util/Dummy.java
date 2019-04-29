@@ -19,7 +19,7 @@ public class Dummy {
         return dummy();
     }
 
-    public static <T extends Block> T item() {
+    public static <T extends Item> T item() {
         return dummy();
     }
 }
