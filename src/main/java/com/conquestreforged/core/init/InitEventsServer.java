@@ -28,13 +28,6 @@ public class InitEventsServer {
     @SubscribeEvent
     public static void started(FMLServerStartedEvent event) {
         Log.info("server started");
-        PackFinder.iterate((type, pack) -> {
-            try {
-                pack.exportPretty(new File("export"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
         Init.runStage(Stage.SERVER_STARTED);
     }
 
