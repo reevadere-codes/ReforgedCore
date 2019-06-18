@@ -1,6 +1,6 @@
 package com.conquestreforged.core.block.props;
 
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 
 public class VanillaProps {

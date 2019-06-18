@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.IBucketPickupHandler;
 import net.minecraft.block.ILiquidContainer;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.init.Fluids;
@@ -21,7 +21,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.Half;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
@@ -50,22 +50,22 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
     }
 
     @Override
-    public int getOpacity(IBlockState state, IBlockReader reader, BlockPos pos) {
+    public int getOpacity(BlockState state, IBlockReader reader, BlockPos pos) {
         return reader.getMaxLightLevel();
     }
 
     @Override
-    public boolean propagatesSkylightDown(IBlockState p_200123_1_, IBlockReader p_200123_2_, BlockPos p_200123_3_) {
+    public boolean propagatesSkylightDown(BlockState p_200123_1_, IBlockReader p_200123_2_, BlockPos p_200123_3_) {
         return false;
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> container) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(new IProperty[]{TYPE_UPDOWN, WATERLOGGED});
     }
 
     @Override
-    public VoxelShape getShape(IBlockState state, IBlockReader p_196244_2_, BlockPos p_196244_3_) {
+    public VoxelShape getShape(BlockState state, IBlockReader p_196244_2_, BlockPos p_196244_3_) {
         if (state.get(TYPE_UPDOWN) == Half.TOP) {
             return TOP_SHAPE;
         } else {
@@ -74,48 +74,48 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
     }
 
     @Override
-    public boolean isTopSolid(IBlockState state) {
+    public boolean isTopSolid(BlockState state) {
         return state.get(TYPE_UPDOWN) == Half.TOP;
     }
 
     @Override
-    public BlockFaceShape getBlockFaceShape(IBlockReader reader, IBlockState state, BlockPos pos, EnumFacing facing) {
-        if (facing == EnumFacing.UP && state.get(TYPE_UPDOWN) == Half.TOP) {
+    public BlockFaceShape getBlockFaceShape(IBlockReader reader, BlockState state, BlockPos pos, Direction facing) {
+        if (facing == Direction.UP && state.get(TYPE_UPDOWN) == Half.TOP) {
             return BlockFaceShape.SOLID;
         } else {
-            return facing == EnumFacing.DOWN && state.get(TYPE_UPDOWN) == Half.BOTTOM ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+            return facing == Direction.DOWN && state.get(TYPE_UPDOWN) == Half.BOTTOM ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
         }
     }
 
     @Override
-    public IBlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
         IFluidState fluid = context.getWorld().getFluidState(context.getPos());
-        IBlockState state2 = this.getDefaultState().with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, fluid.getFluid() == Fluids.WATER);
-        EnumFacing facing = context.getFace();
-        return facing != EnumFacing.DOWN && (facing == EnumFacing.UP || (double)context.getHitY() <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
+        BlockState state2 = this.getDefaultState().with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, fluid.getFluid() == Fluids.WATER);
+        Direction facing = context.getFace();
+        return facing != Direction.DOWN && (facing == Direction.UP || (double)context.getHitY() <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
     }
 
     @Override
-    public int quantityDropped(IBlockState state, Random rand) {
+    public int quantityDropped(BlockState state, Random rand) {
         return 1;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean isReplaceable(IBlockState state, BlockItemUseContext context) {
+    public boolean isReplaceable(BlockState state, BlockItemUseContext context) {
         ItemStack item = context.getItem();
         if (item.getItem() == this.asItem()) {
             if (context.replacingClickedOnBlock()) {
                 boolean posBool = (double)context.getHitY() > 0.5D;
-                EnumFacing facing = context.getFace();
+                Direction facing = context.getFace();
                 if (state.get(TYPE_UPDOWN) == Half.BOTTOM) {
-                    return facing == EnumFacing.UP || posBool && facing.getAxis().isHorizontal();
+                    return facing == Direction.UP || posBool && facing.getAxis().isHorizontal();
                 } else {
-                    return facing == EnumFacing.DOWN || !posBool && facing.getAxis().isHorizontal();
+                    return facing == Direction.DOWN || !posBool && facing.getAxis().isHorizontal();
                 }
             } else {
                 return true;
@@ -126,12 +126,12 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
     }
 
     @Override
-    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, IBlockState state, Fluid fluidIn) {
+    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
         return !state.get(WATERLOGGED) && fluidIn == Fluids.WATER;
     }
 
     @Override
-    public boolean receiveFluid(IWorld worldIn, BlockPos pos, IBlockState state, IFluidState fluidStateIn) {
+    public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, IFluidState fluidStateIn) {
         if (!state.get(WATERLOGGED) && fluidStateIn.getFluid() == Fluids.WATER) {
             if (!worldIn.isRemote()) {
                 worldIn.setBlockState(pos, state.with(WATERLOGGED,true), 3);
@@ -144,7 +144,7 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
     }
 
     @Override
-    public boolean allowsMovement(IBlockState state, IBlockReader reader, BlockPos pos, PathType pathType) {
+    public boolean allowsMovement(BlockState state, IBlockReader reader, BlockPos pos, PathType pathType) {
         switch(pathType.ordinal()) {
             case 1:
                 return state.get(TYPE_UPDOWN) == Half.BOTTOM;
@@ -158,7 +158,7 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
     }
 
     @Override
-    public Fluid pickupFluid(IWorld world, BlockPos pos, IBlockState state) {
+    public Fluid pickupFluid(IWorld world, BlockPos pos, BlockState state) {
         if (state.get(WATERLOGGED)) {
             world.setBlockState(pos, state.with(WATERLOGGED, false), 3);
             return Fluids.WATER;
@@ -168,7 +168,7 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
     }
 
     @Override
-    public IFluidState getFluidState(IBlockState state) {
+    public IFluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 }

@@ -1,7 +1,7 @@
 package com.conquestreforged.core.block.shape;
 
 import com.conquestreforged.core.util.State;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -17,9 +17,9 @@ public class VanillaShapes {
         return of(State.parse(state));
     }
 
-    public static VoxelShape of(IBlockState state) {
+    public static VoxelShape of(BlockState state) {
         try {
-            return state.getShape(dummyReader, BlockPos.ORIGIN);
+            return state.getShape(dummyReader, BlockPos.ZERO);
         } catch (AbstractMethodError e) {
             return VoxelShapes.empty();
         }
@@ -33,7 +33,7 @@ public class VanillaShapes {
         }
 
         @Override
-        public IBlockState getBlockState(BlockPos pos) {
+        public BlockState getBlockState(BlockPos pos) {
             throw new AbstractMethodError("unsupported");
         }
 

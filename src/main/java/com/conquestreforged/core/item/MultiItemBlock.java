@@ -3,14 +3,14 @@ package com.conquestreforged.core.item;
 import com.conquestreforged.core.item.family.Family;
 import com.conquestreforged.core.item.family.FamilyRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
 
-public class MultiItemBlock extends ItemBlock {
+public class MultiItemBlock extends BlockItem {
 
     public MultiItemBlock(Block block, Properties builder) {
         super(block, builder);
@@ -27,10 +27,10 @@ public class MultiItemBlock extends ItemBlock {
     }
 
     @Nullable
-    protected IBlockState getStateForPlacement(BlockItemUseContext context) {
+    protected BlockState getStateForPlacement(BlockItemUseContext context) {
         ItemStack stack = context.getItem();
         Block block = getBlockForId(stack.getDamage());
-        IBlockState state = block.getStateForPlacement(context);
+        BlockState state = block.getStateForPlacement(context);
         return state != null && canPlace(context, state) ? state : null;
     }
 

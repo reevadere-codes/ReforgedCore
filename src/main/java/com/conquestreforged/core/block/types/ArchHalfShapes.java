@@ -1,16 +1,18 @@
-package com.conquestreforged.core.block.enumtypes;
+package com.conquestreforged.core.block.types;
 
 import net.minecraft.util.IStringSerializable;
 
-public enum ArchShapes implements IStringSerializable {
+public enum ArchHalfShapes implements IStringSerializable {
     ONE("one"),
-    TWO("two"),
-    THREE("three"),
+    TWO_L("two_l"),
+    TWO_R("two_r"),
+    THREE_L("three_l"),
+    THREE_R("three_r"),
     THREE_MIDDLE("three_middle");
 
     private final String name;
 
-    ArchShapes(String name) {
+    ArchHalfShapes(String name) {
         this.name = name;
     }
 

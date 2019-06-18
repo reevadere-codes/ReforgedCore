@@ -2,7 +2,7 @@ package com.conquestreforged.core.block;
 
 import com.conquestreforged.core.block.props.Props;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -17,7 +17,7 @@ public class BeanPole extends Crops {
     }
 
     @Override
-    public void tick(IBlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
         super.tick(state, world, pos, rand);
 
         if (world.isAreaLoaded(pos, 1)) {

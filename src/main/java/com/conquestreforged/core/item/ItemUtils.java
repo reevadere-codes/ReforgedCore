@@ -4,10 +4,9 @@ import com.conquestreforged.core.item.family.Family;
 import com.conquestreforged.core.item.family.FamilyRegistry;
 import com.conquestreforged.core.item.family.TypeFilter;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -20,8 +19,8 @@ public class ItemUtils {
         return t.isInstance(item) ? Optional.of(t.cast(item)) : Optional.empty();
     }
 
-    public static Optional<ItemBlock> toItemBlock(Item item) {
-        return toItem(item, ItemBlock.class);
+    public static Optional<BlockItem> toItemBlock(Item item) {
+        return toItem(item, BlockItem.class);
     }
 
     public static Optional<MultiItemBlock> toMultiItem(Item item) {
@@ -44,8 +43,8 @@ public class ItemUtils {
     public static Family<Block> getFamily(ItemStack stack) {
         Item item = stack.getItem();
         Block block = Blocks.AIR;
-        if (item instanceof ItemBlock) {
-            block = ((ItemBlock) item).getBlock();
+        if (item instanceof BlockItem) {
+            block = ((BlockItem) item).getBlock();
         }
         return FamilyRegistry.BLOCKS.getFamily(block);
     }

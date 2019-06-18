@@ -2,7 +2,7 @@ package com.conquestreforged.core.block;
 
 import com.conquestreforged.core.block.props.Props;
 import net.minecraft.block.BlockSapling;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.trees.AbstractTree;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -14,7 +14,7 @@ public class Sapling extends BlockSapling {
     }
 
     @Override
-    protected boolean isValidGround(IBlockState state, IBlockReader reader, BlockPos pos) {
+    protected boolean isValidGround(BlockState state, IBlockReader reader, BlockPos pos) {
         return true;
     }
 }

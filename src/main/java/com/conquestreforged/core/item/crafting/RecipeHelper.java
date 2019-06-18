@@ -1,21 +1,15 @@
 package com.conquestreforged.core.item.crafting;
 
 import com.conquestreforged.core.proxy.Side;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.resource.IResourceType;
-import net.minecraftforge.resource.ISelectiveResourceReloadListener;
 
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class RecipeHelper implements IResourceManagerReloadListener {
 
@@ -34,8 +28,8 @@ public class RecipeHelper implements IResourceManagerReloadListener {
         }
     }
 
-    public Optional<IRecipe> getRecipe(ResourceLocation name) {
-        return Optional.ofNullable(side.getProxy().getRecipeManager().getRecipe(name));
+    public Optional<? extends IRecipe> getRecipe(ResourceLocation name) {
+        return side.getProxy().getRecipeManager().func_215367_a(name);
     }
 
     public Optional<IRecipe> getRecipe(ItemStack stack) {
@@ -48,7 +42,7 @@ public class RecipeHelper implements IResourceManagerReloadListener {
             return Result.EMPTY;
         }
 
-        IRecipe recipe = optionalRecipe.get();
+        IRecipe<?> recipe = optionalRecipe.get();
         int size = recipe.getRecipeOutput().getCount();
         if (stack.getCount() < size) {
             return new Result(Collections.singletonList(stack), Collections.emptyList());

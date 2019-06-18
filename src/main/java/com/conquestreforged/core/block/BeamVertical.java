@@ -5,13 +5,13 @@ import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
@@ -42,21 +42,21 @@ public class BeamVertical extends BlockHorizontal {
     }
 
     @Override
-    public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return getShape(state);
     }
 
     @Override
-    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return getShape(state);
     }
 
     @Override
-    public VoxelShape getRaytraceShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return getShape(state);
     }
 
-    private VoxelShape getShape(IBlockState state) {
+    private VoxelShape getShape(BlockState state) {
         if (state.get(ACTIVATED)) {
             switch (state.get(HORIZONTAL_FACING)) {
                 case NORTH:
@@ -85,14 +85,14 @@ public class BeamVertical extends BlockHorizontal {
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(HORIZONTAL_FACING, ACTIVATED);
     }
 
     @Override
-    public IBlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
         //IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
-        EnumFacing facing = context.getPlacementHorizontalFacing().getOpposite();
+        Direction facing = context.getPlacementHorizontalFacing().getOpposite();
 
         return super.getStateForPlacement(context)
                 .with(HORIZONTAL_FACING, facing)
@@ -100,7 +100,7 @@ public class BeamVertical extends BlockHorizontal {
     }
 
     @Override
-    public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
         if (state.get(ACTIVATED)) {
             state = state.with(ACTIVATED, Boolean.FALSE);
             worldIn.setBlockState(pos, state, 10);

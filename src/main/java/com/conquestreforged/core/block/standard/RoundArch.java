@@ -3,13 +3,14 @@ package com.conquestreforged.core.block.standard;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
-import com.conquestreforged.core.block.enumtypes.ArchShapes;
+import com.conquestreforged.core.block.types.ArchShapes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IBucketPickupHandler;
 import net.minecraft.block.ILiquidContainer;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.init.Fluids;
@@ -18,7 +19,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -35,7 +36,7 @@ import net.minecraft.world.IWorld;
                 @Model(name = "block/%s_round_arch_three_top", template = "block/parent_round_arch_three_top"),
         }
 )
-public class RoundArch extends BlockHorizontal implements IBucketPickupHandler, ILiquidContainer {
+public class RoundArch extends HorizontalBlock implements IBucketPickupHandler, ILiquidContainer {
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty FORM = EnumProperty.create("shape", ArchShapes.class);
@@ -49,26 +50,26 @@ public class RoundArch extends BlockHorizontal implements IBucketPickupHandler, 
 
     public RoundArch(Properties properties) {
         super(properties);
-        this.setDefaultState((this.stateContainer.getBaseState()).with(FORM, ArchShapes.ONE).with(HORIZONTAL_FACING, EnumFacing.NORTH).with(WATERLOGGED, false));
+        this.setDefaultState((this.stateContainer.getBaseState()).with(FORM, ArchShapes.ONE).with(HORIZONTAL_FACING, Direction.NORTH).with(WATERLOGGED, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(HORIZONTAL_FACING, FORM, WATERLOGGED);
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
     @Override
-    public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return VoxelShapes.empty();
     }
 
     @Override
-    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
 
         if (state.get(FORM) == ArchShapes.ONE) {
             return VoxelShapes.fullCube();
@@ -90,55 +91,55 @@ public class RoundArch extends BlockHorizontal implements IBucketPickupHandler, 
     }
 
     @Override
-    public VoxelShape getRaytraceShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return VoxelShapes.empty();
     }
 
 
     @Override
-    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, BlockState state, BlockPos pos, Direction face) {
         return BlockFaceShape.UNDEFINED;
     }
 
     @Override
-    public IBlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
         IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
 
         BlockPos pos = context.getPos();
         IBlockReader iblockreader = context.getWorld();
-        IBlockState north = iblockreader.getBlockState(pos.north());
-        IBlockState east = iblockreader.getBlockState(pos.east());
-        IBlockState south = iblockreader.getBlockState(pos.south());
-        IBlockState west = iblockreader.getBlockState(pos.west());
+        BlockState north = iblockreader.getBlockState(pos.north());
+        BlockState east = iblockreader.getBlockState(pos.east());
+        BlockState south = iblockreader.getBlockState(pos.south());
+        BlockState west = iblockreader.getBlockState(pos.west());
 
         int counter = 0;
         boolean isThirdShape = false;
-        EnumFacing facing = context.getPlacementHorizontalFacing().getOpposite();
+        Direction facing = context.getPlacementHorizontalFacing().getOpposite();
 
         if (attachesTo(north)) {
             counter += 1;
-            facing = EnumFacing.NORTH;
+            facing = Direction.NORTH;
             if (attachesTo(iblockreader.getBlockState(pos.north(2)))) {
                 isThirdShape = true;
             }
         }
         if (attachesTo(east)) {
             counter += 1;
-            facing = EnumFacing.EAST;
+            facing = Direction.EAST;
             if (attachesTo(iblockreader.getBlockState(pos.east(2)))) {
                 isThirdShape = true;
             }
         }
         if (attachesTo(south)) {
             counter += 1;
-            facing = EnumFacing.SOUTH;
+            facing = Direction.SOUTH;
             if (attachesTo(iblockreader.getBlockState(pos.south(2)))) {
                 isThirdShape = true;
             }
         }
         if (attachesTo(west)) {
             counter += 1;
-            facing = EnumFacing.WEST;
+            facing = Direction.WEST;
             if (attachesTo(iblockreader.getBlockState(pos.west(2)))) {
                 isThirdShape = true;
             }
@@ -168,50 +169,50 @@ public class RoundArch extends BlockHorizontal implements IBucketPickupHandler, 
 
     }
 
-    private boolean attachesTo(IBlockState state) {
+    private boolean attachesTo(BlockState state) {
         Block block = state.getBlock();
         return block instanceof RoundArch;
     }
 
     @Override
-    public IBlockState updatePostPlacement(IBlockState stateIn, EnumFacing facing, IBlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
         if (stateIn.get(WATERLOGGED)) {
             worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
         }
         if (attachesTo(worldIn.getWorld().getBlockState(facingPos))) {
             IBlockReader iblockreader = worldIn.getWorld();
-            IBlockState north = iblockreader.getBlockState(currentPos.north());
-            IBlockState east = iblockreader.getBlockState(currentPos.east());
-            IBlockState south = iblockreader.getBlockState(currentPos.south());
-            IBlockState west = iblockreader.getBlockState(currentPos.west());
+            BlockState north = iblockreader.getBlockState(currentPos.north());
+            BlockState east = iblockreader.getBlockState(currentPos.east());
+            BlockState south = iblockreader.getBlockState(currentPos.south());
+            BlockState west = iblockreader.getBlockState(currentPos.west());
 
             int counter = 0;
             boolean isThirdShape = false;
 
             if (attachesTo(north)) {
                 counter += 1;
-                facing = EnumFacing.NORTH;
+                facing = Direction.NORTH;
                 if (attachesTo(iblockreader.getBlockState(currentPos.north(2)))) {
                     isThirdShape = true;
                 }
             }
             if (attachesTo(east)) {
                 counter += 1;
-                facing = EnumFacing.EAST;
+                facing = Direction.EAST;
                 if (attachesTo(iblockreader.getBlockState(currentPos.east(2)))) {
                     isThirdShape = true;
                 }
             }
             if (attachesTo(south)) {
                 counter += 1;
-                facing = EnumFacing.SOUTH;
+                facing = Direction.SOUTH;
                 if (attachesTo(iblockreader.getBlockState(currentPos.south(2)))) {
                     isThirdShape = true;
                 }
             }
             if (attachesTo(west)) {
                 counter += 1;
-                facing = EnumFacing.WEST;
+                facing = Direction.WEST;
                 if (attachesTo(iblockreader.getBlockState(currentPos.west(2)))) {
                     isThirdShape = true;
                 }
@@ -241,7 +242,7 @@ public class RoundArch extends BlockHorizontal implements IBucketPickupHandler, 
     }
 
     @Override
-    public Fluid pickupFluid(IWorld worldIn, BlockPos pos, IBlockState state) {
+    public Fluid pickupFluid(IWorld worldIn, BlockPos pos, BlockState state) {
         if (state.get(WATERLOGGED)) {
             worldIn.setBlockState(pos, state.with(WATERLOGGED, false), 3);
             return Fluids.WATER;
@@ -251,17 +252,17 @@ public class RoundArch extends BlockHorizontal implements IBucketPickupHandler, 
     }
 
     @Override
-    public IFluidState getFluidState(IBlockState state) {
+    public IFluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
     @Override
-    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, IBlockState state, Fluid fluidIn) {
+    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
         return !state.get(WATERLOGGED) && fluidIn == Fluids.WATER;
     }
 
     @Override
-    public boolean receiveFluid(IWorld worldIn, BlockPos pos, IBlockState state, IFluidState fluidStateIn) {
+    public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, IFluidState fluidStateIn) {
         if (!state.get(WATERLOGGED) && fluidStateIn.getFluid() == Fluids.WATER) {
             if (!worldIn.isRemote()) {
                 worldIn.setBlockState(pos, state.with(WATERLOGGED,true), 3);

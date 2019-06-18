@@ -2,12 +2,11 @@ package com.conquestreforged.core.asset.pack;
 
 import com.conquestreforged.core.asset.VirtualResource;
 import com.conquestreforged.core.asset.meta.VirtualMeta;
-import com.conquestreforged.core.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import net.minecraft.resources.AbstractResourcePack;
+import net.minecraft.resources.ResourcePack;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
 
@@ -18,7 +17,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class VirtualResourcepack extends AbstractResourcePack {
+public class VirtualResourcepack extends ResourcePack {
 
     private final Map<String, VirtualResource> resources;
 

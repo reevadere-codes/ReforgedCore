@@ -1,17 +1,15 @@
-package com.conquestreforged.core.block.enumtypes;
+package com.conquestreforged.core.block.types;
 
 import net.minecraft.util.IStringSerializable;
 
-public enum CapitalDirection implements IStringSerializable {
-    FLAT("flat"),
-    NORTH("north"),
-    SOUTH("south"),
-    EAST("east"),
-    WEST("west");
+public enum SphereType implements IStringSerializable {
+    EGG("egg"),
+    SMALL("small"),
+    LARGE("large");
 
     private final String name;
 
-    CapitalDirection(String name) {
+    SphereType(String name) {
         this.name = name;
     }
 

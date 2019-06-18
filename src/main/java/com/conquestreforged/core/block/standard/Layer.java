@@ -5,13 +5,13 @@ import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
 import net.minecraft.block.BlockSnowLayer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -46,27 +46,27 @@ public class Layer extends BlockSnowLayer {
     }
 
     @Override
-    public IItemProvider getItemDropped(IBlockState state, World world, BlockPos pos, int number) {
+    public IItemProvider getItemDropped(BlockState state, World world, BlockPos pos, int number) {
         return this;
     }
 
     @Override
-    public VoxelShape getCollisionShape(IBlockState state, IBlockReader reader, BlockPos pos) {
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader reader, BlockPos pos) {
         return SHAPES[state.get(LAYERS)];
     }
 
     @Override
-    public boolean isValidPosition(IBlockState state, IWorldReaderBase reader, BlockPos pos) {
+    public boolean isValidPosition(BlockState state, IWorldReaderBase reader, BlockPos pos) {
         return true;
     }
 
     @Override
-    public IBlockState updatePostPlacement(IBlockState state, EnumFacing facing, IBlockState state1, IWorld world, BlockPos pos, BlockPos pos1) {
+    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState state1, IWorld world, BlockPos pos, BlockPos pos1) {
         return state;
     }
 
     @Override
-    public void tick(IBlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
     }
 
     @Override
@@ -75,7 +75,7 @@ public class Layer extends BlockSnowLayer {
     }
 
     @Override
-    public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack itemblock) {
+    public void harvestBlock(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack itemblock) {
         Integer integer = state.get(LAYERS);
         NonNullList<ItemStack> items = NonNullList.create();
         float chance = 1.0F;
@@ -98,11 +98,11 @@ public class Layer extends BlockSnowLayer {
     }
 
     @Override
-    public boolean isReplaceable(IBlockState state, BlockItemUseContext ctx) {
+    public boolean isReplaceable(BlockState state, BlockItemUseContext ctx) {
         int i = state.get(LAYERS);
         if (ctx.getItem().getItem() == this.asItem() && i < 8) {
             if (ctx.replacingClickedOnBlock()) {
-                return ctx.getFace() == EnumFacing.UP;
+                return ctx.getFace() == Direction.UP;
             } else {
                 return false;
             }

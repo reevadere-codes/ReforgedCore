@@ -4,11 +4,11 @@ import com.conquestreforged.core.block.factory.BlockFactory;
 import com.conquestreforged.core.block.factory.InitializationException;
 import com.conquestreforged.core.util.Context;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemGroup;
 
 import java.util.Collections;
@@ -20,10 +20,10 @@ import java.util.function.Consumer;
 public class Props implements BlockFactory {
 
     private BlockName name = null;
-    private IBlockState base = null;
+    private BlockState base = null;
     private Material material = null;
     private MaterialColor color = null;
-    private EnumDyeColor dyeColor = null;
+    private DyeColor dyeColor = null;
     private SoundType sound = null;
     private ItemGroup group = ItemGroup.SEARCH;
     private int light = Integer.MAX_VALUE;
@@ -53,19 +53,19 @@ public class Props implements BlockFactory {
     }
 
     @Override
-    public IBlockState getParent() throws InitializationException {
+    public BlockState getParent() throws InitializationException {
         if (base == null) {
             throw new InitializationException("Parent state is null");
         }
         return base;
     }
 
-    public IBlockState block() {
+    public BlockState block() {
         return base;
     }
 
-    public EnumDyeColor dye() {
-        return dyeColor == null ? EnumDyeColor.BLACK : dyeColor;
+    public DyeColor dye() {
+        return dyeColor == null ? DyeColor.BLACK : dyeColor;
     }
 
     public MaterialColor color() {
@@ -128,7 +128,7 @@ public class Props implements BlockFactory {
         return this;
     }
 
-    public Props block(IBlockState base) {
+    public Props block(BlockState base) {
         this.base = base;
         return this;
     }
@@ -143,7 +143,7 @@ public class Props implements BlockFactory {
         return this;
     }
 
-    public Props dye(EnumDyeColor color) {
+    public Props dye(DyeColor color) {
         this.dyeColor = color;
         return this;
     }
@@ -229,6 +229,18 @@ public class Props implements BlockFactory {
         return this;
     }
 
+    public Block.Properties toProperties() throws InitializationException {
+        Block.Properties builder = createBuilder();
+        set(sound, null, builder::sound);
+        setInt(light, builder::lightValue);
+        setFloat(slipperiness, builder::slipperiness);
+        setBool(randomTick, false, builder::tickRandomly);
+        setBool(variableOpacity, false, builder::variableOpacity);
+        setBool(blocksMovement, true, builder::doesNotBlockMovement);
+        setFloats(resistance, hardness, builder::hardnessAndResistance);
+        return builder;
+    }
+
     private Block.Properties createBuilder() throws InitializationException {
         Block.Properties props;
 
@@ -245,16 +257,16 @@ public class Props implements BlockFactory {
         return props;
     }
 
-    public Block.Properties toProperties() throws InitializationException {
-        Block.Properties builder = createBuilder();
-        set(sound, null, builder::sound);
-        setInt(light, builder::lightValue);
-        setFloat(slipperiness, builder::slipperiness);
-        setBool(randomTick, false, builder::needsRandomTick);
-        setBool(variableOpacity, false, builder::variableOpacity);
-        setBool(blocksMovement, true, builder::doesNotBlockMovement);
-        setFloats(resistance, hardness, builder::hardnessAndResistance);
-        return builder;
+    public static Props create() {
+        return new Props();
+    }
+
+    public static Props create(BlockState state) {
+        return create().block(state);
+    }
+
+    public static Props create(Block block) {
+        return create(block.getDefaultState());
     }
 
     private static <V> void set(V value, V defValue, Consumer<V> consumer) {
@@ -292,17 +304,5 @@ public class Props implements BlockFactory {
             return name;
         }
         return namespace + ':' + name;
-    }
-
-    public static Props create() {
-        return new Props();
-    }
-
-    public static Props create(IBlockState state) {
-        return create().block(state);
-    }
-
-    public static Props create(Block block) {
-        return create(block.getDefaultState());
     }
 }

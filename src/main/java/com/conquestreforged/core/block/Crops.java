@@ -2,7 +2,7 @@ package com.conquestreforged.core.block;
 
 import com.conquestreforged.core.block.props.Props;
 import net.minecraft.block.BlockCrops;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
@@ -23,17 +23,17 @@ public class Crops extends BlockCrops {
     }
 
     @Override
-    public VoxelShape getRenderShape(IBlockState state, IBlockReader reader, BlockPos pos) {
+    public VoxelShape getRenderShape(BlockState state, IBlockReader reader, BlockPos pos) {
         return VoxelShapes.fullCube();
     }
 
     @Override
-    public boolean isValidPosition(IBlockState state, IWorldReaderBase reader, BlockPos pos) {
+    public boolean isValidPosition(BlockState state, IWorldReaderBase reader, BlockPos pos) {
         return true;
     }
 
     @Override
-    protected boolean isValidGround(IBlockState p_200014_1_, IBlockReader p_200014_2_, BlockPos p_200014_3_) {
+    protected boolean isValidGround(BlockState p_200014_1_, IBlockReader p_200014_2_, BlockPos p_200014_3_) {
         return true;
     }
 

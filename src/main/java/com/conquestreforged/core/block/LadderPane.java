@@ -1,7 +1,7 @@
 package com.conquestreforged.core.block;
 
 import net.minecraft.block.BlockPane;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -16,12 +16,12 @@ public class LadderPane extends BlockPane {
     }
 
     @Override
-    public boolean isLadder(IBlockState state, IWorldReader reader, BlockPos pos, EntityLivingBase entity) {
+    public boolean isLadder(BlockState state, IWorldReader reader, BlockPos pos, EntityLivingBase entity) {
         return true;
     }
 
     @Override
-    public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return VoxelShapes.empty();
     }
 }

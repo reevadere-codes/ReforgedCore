@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.IBucketPickupHandler;
 import net.minecraft.block.ILiquidContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.init.Fluids;
@@ -16,7 +16,7 @@ import net.minecraft.state.IProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.Half;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
@@ -47,30 +47,30 @@ public class QuarterSlab extends BlockHorizontal implements IBucketPickupHandler
 
     public QuarterSlab(Properties properties) {
         super(properties);
-        this.setDefaultState(this.getDefaultState().with(HORIZONTAL_FACING, EnumFacing.NORTH).with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(HORIZONTAL_FACING, Direction.NORTH).with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> container) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(new IProperty[]{HORIZONTAL_FACING, TYPE_UPDOWN, WATERLOGGED});
     }
 
     @Override
-    public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return getShape(state);
     }
 
     @Override
-    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return getShape(state);
     }
 
     @Override
-    public VoxelShape getRaytraceShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return getShape(state);
     }
 
-    private VoxelShape getShape(IBlockState state) {
+    private VoxelShape getShape(BlockState state) {
         if (state.get(TYPE_UPDOWN) == Half.BOTTOM) {
             switch (state.get(HORIZONTAL_FACING)) {
                 case NORTH:
@@ -99,26 +99,26 @@ public class QuarterSlab extends BlockHorizontal implements IBucketPickupHandler
     }
 
     @Override
-    public IBlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
         IFluidState fluid = context.getWorld().getFluidState(context.getPos());
-        EnumFacing facingHorizontal = context.getPlacementHorizontalFacing().getOpposite();
-        IBlockState state2 = this.getDefaultState().with(HORIZONTAL_FACING, facingHorizontal).with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, fluid.getFluid() == Fluids.WATER);
-        EnumFacing facing = context.getFace();
-        return facing != EnumFacing.DOWN && (facing == EnumFacing.UP || (double)context.getHitY() <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
+        Direction facingHorizontal = context.getPlacementHorizontalFacing().getOpposite();
+        BlockState state2 = this.getDefaultState().with(HORIZONTAL_FACING, facingHorizontal).with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, fluid.getFluid() == Fluids.WATER);
+        Direction facing = context.getFace();
+        return facing != Direction.DOWN && (facing == Direction.UP || (double)context.getHitY() <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, IBlockState state, Fluid fluidIn) {
+    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
         return !state.get(WATERLOGGED) && fluidIn == Fluids.WATER;
     }
 
     @Override
-    public boolean receiveFluid(IWorld worldIn, BlockPos pos, IBlockState state, IFluidState fluidStateIn) {
+    public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, IFluidState fluidStateIn) {
         if (!state.get(WATERLOGGED) && fluidStateIn.getFluid() == Fluids.WATER) {
             if (!worldIn.isRemote()) {
                 worldIn.setBlockState(pos, state.with(WATERLOGGED,true), 3);
@@ -131,7 +131,7 @@ public class QuarterSlab extends BlockHorizontal implements IBucketPickupHandler
     }
 
     @Override
-    public Fluid pickupFluid(IWorld world, BlockPos pos, IBlockState state) {
+    public Fluid pickupFluid(IWorld world, BlockPos pos, BlockState state) {
         if (state.get(WATERLOGGED)) {
             world.setBlockState(pos, state.with(WATERLOGGED, false), 3);
             return Fluids.WATER;
@@ -141,7 +141,7 @@ public class QuarterSlab extends BlockHorizontal implements IBucketPickupHandler
     }
 
     @Override
-    public IFluidState getFluidState(IBlockState state) {
+    public IFluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 }

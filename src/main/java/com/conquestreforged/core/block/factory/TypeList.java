@@ -1,7 +1,7 @@
 package com.conquestreforged.core.block.factory;
 
+import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public class TypeList implements Iterable<Class<? extends Block>>, Comparator<Bl
         if (types.size() > 0) {
             return types.get(0);
         }
-        return BlockAir.class;
+        return AirBlock.class;
     }
 
     public static TypeList of(Collection<Class<? extends Block>> types) {

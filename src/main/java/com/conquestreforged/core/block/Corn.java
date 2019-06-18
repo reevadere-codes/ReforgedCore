@@ -3,7 +3,7 @@ package com.conquestreforged.core.block;
 import com.conquestreforged.core.block.props.Props;
 import com.sun.scenario.effect.Crop;
 import net.minecraft.block.BlockCrops;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
@@ -23,7 +23,7 @@ public class Corn extends Crops {
     }
 
     @Override
-    public void tick(IBlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
         super.tick(state, world, pos, rand);
 
         if (world.isAreaLoaded(pos, 1)) {

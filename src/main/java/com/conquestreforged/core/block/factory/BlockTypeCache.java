@@ -7,8 +7,8 @@ import com.conquestreforged.core.block.factory.constructor.StateConstructor;
 import com.conquestreforged.core.block.props.Props;
 import com.conquestreforged.core.util.Cache;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.DyeColor;
 
 import java.lang.reflect.Constructor;
 import java.util.LinkedList;
@@ -23,8 +23,8 @@ public class BlockTypeCache extends Cache<Class<? extends Block>, BlockType> {
     private BlockTypeCache() {
         register(PropsConstructor::new, Props.class);
         register(BaseConstructor::new, Block.Properties.class);
-        register(DyeConstructor::new, EnumDyeColor.class, Block.Properties.class);
-        register(StateConstructor::new, IBlockState.class, Block.Properties.class);
+        register(DyeConstructor::new, DyeColor.class, Block.Properties.class);
+        register(StateConstructor::new, BlockState.class, Block.Properties.class);
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.conquestreforged.core.item.family.FamilyRegistry;
 import com.conquestreforged.core.item.family.block.BlockFamily;
 import com.conquestreforged.core.util.Context;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 
 public interface BlockFactory {
@@ -17,7 +17,7 @@ public interface BlockFactory {
 
     BlockName getName();
 
-    IBlockState getParent();
+    BlockState getParent();
 
     default void register(TypeList types) {
         BlockFamily family = new BlockFamily(getProps().group(), types);

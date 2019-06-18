@@ -48,7 +48,7 @@ public class UniqueIngredient {
         return Objects.hash(stacks);
     }
 
-    public static List<UniqueIngredient> getIngredients(IRecipe recipe) {
+    public static List<UniqueIngredient> getIngredients(IRecipe<?> recipe) {
         Map<Object, UniqueIngredient> map = new HashMap<>();
         for (Ingredient ingredient : recipe.getIngredients()) {
             UniqueIngredient i = new UniqueIngredient(ingredient.getMatchingStacks());

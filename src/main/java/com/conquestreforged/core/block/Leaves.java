@@ -3,7 +3,7 @@ package com.conquestreforged.core.block;
 import com.conquestreforged.core.block.props.Props;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.IItemProvider;
@@ -24,11 +24,11 @@ public class Leaves extends BlockLeaves {
     }
 
     @Override
-    protected void dropApple(World world, BlockPos pos, IBlockState state, int num) {
+    protected void dropApple(World world, BlockPos pos, BlockState state, int num) {
     }
 
     @Override
-    public IItemProvider getItemDropped(IBlockState p_199769_1_, World p_199769_2_, BlockPos p_199769_3_, int p_199769_4_) {
+    public IItemProvider getItemDropped(BlockState p_199769_1_, World p_199769_2_, BlockPos p_199769_3_, int p_199769_4_) {
         return sapling;
     }
 
@@ -38,12 +38,12 @@ public class Leaves extends BlockLeaves {
     }
 
     @Override
-    public boolean isLadder(IBlockState state, IWorldReader world, BlockPos pos, EntityLivingBase entity) {
+    public boolean isLadder(BlockState state, IWorldReader world, BlockPos pos, EntityLivingBase entity) {
         return true;
     }
 
     @Override
-    public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return VoxelShapes.empty();
     }
 }

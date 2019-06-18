@@ -3,21 +3,19 @@ package com.conquestreforged.core.item.crafting;
 import com.conquestreforged.core.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.play.ClientPlayNetHandler;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.crafting.CraftingHelper;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CraftingUtils {
 
-    public static Optional<IRecipe> getRecipe(Block block) {
-        NetHandlerPlayClient client = Minecraft.getInstance().getConnection();
+    public static Optional<? extends IRecipe> getRecipe(Block block) {
+        ClientPlayNetHandler client = Minecraft.getInstance().getConnection();
         if (client == null) {
             return Optional.empty();
         }
@@ -25,8 +23,7 @@ public class CraftingUtils {
         if (name == null) {
             return Optional.empty();
         }
-        IRecipe recipe = client.getRecipeManager().getRecipe(name);
-        return Optional.ofNullable(recipe);
+        return client.getRecipeManager().func_215367_a(name);
     }
 
     public static ItemStack getRecipeOutput(IInventory inventory, IRecipe recipe) {

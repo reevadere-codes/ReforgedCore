@@ -1,6 +1,6 @@
 package com.conquestreforged.core.item.group.manager;
 
-import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -21,6 +21,35 @@ public class DelegateGroup extends ItemGroup {
 
     @Override
     @OnlyIn(Dist.CLIENT)
+    public int getIndex() {
+        return group.getIndex();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public String getTabLabel() {
+        return group.getTabLabel();
+    }
+
+    @Override
+    public String getPath() {
+        return group.getPath();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public String getTranslationKey() {
+        return group.getTranslationKey();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public ItemStack getIcon() {
+        return group.getIcon();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
     public ItemStack createIcon() {
         return group.createIcon();
     }
@@ -37,8 +66,8 @@ public class DelegateGroup extends ItemGroup {
     }
 
     @Override
-    public ItemGroup func_199783_b(String p_199783_1_) {
-        return group.func_199783_b(p_199783_1_);
+    public ItemGroup func_199783_b(String pathIn) {
+        return group.func_199783_b(pathIn);
     }
 
     @Override
@@ -64,17 +93,35 @@ public class DelegateGroup extends ItemGroup {
     }
 
     @Override
-    public EnumEnchantmentType[] getRelevantEnchantmentTypes() {
+    @OnlyIn(Dist.CLIENT)
+    public int getColumn() {
+        return group.getColumn();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public boolean isOnTopRow() {
+        return group.isOnTopRow();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public boolean isAlignedRight() {
+        return group.isAlignedRight();
+    }
+
+    @Override
+    public EnchantmentType[] getRelevantEnchantmentTypes() {
         return group.getRelevantEnchantmentTypes();
     }
 
     @Override
-    public ItemGroup setRelevantEnchantmentTypes(EnumEnchantmentType... types) {
+    public ItemGroup setRelevantEnchantmentTypes(EnchantmentType... types) {
         return group.setRelevantEnchantmentTypes(types);
     }
 
     @Override
-    public boolean hasRelevantEnchantmentType(@Nullable EnumEnchantmentType enchantmentType) {
+    public boolean hasRelevantEnchantmentType(@Nullable EnchantmentType enchantmentType) {
         return group.hasRelevantEnchantmentType(enchantmentType);
     }
 
@@ -85,6 +132,11 @@ public class DelegateGroup extends ItemGroup {
             return;
         }
         group.fill(items);
+    }
+
+    @Override
+    public int getTabPage() {
+        return group.getTabPage();
     }
 
     @Override
@@ -117,28 +169,5 @@ public class DelegateGroup extends ItemGroup {
     @Override
     public int getSlotColor() {
         return group.getSlotColor();
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public String getTabLabel() {
-        return group.getTabLabel();
-    }
-
-    @Override
-    public String func_200300_c() {
-        return group.func_200300_c();
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public String getTranslationKey() {
-        return group.getTranslationKey();
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public ItemStack getIcon() {
-        return group.getIcon();
     }
 }

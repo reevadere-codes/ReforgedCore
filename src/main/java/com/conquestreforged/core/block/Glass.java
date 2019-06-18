@@ -1,7 +1,7 @@
 package com.conquestreforged.core.block;
 
 import net.minecraft.block.BlockGlass;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 
 import java.util.Random;
 
@@ -12,7 +12,7 @@ public class Glass extends BlockGlass {
     }
 
     @Override
-    public int quantityDropped(IBlockState state, Random rand) {
+    public int quantityDropped(BlockState state, Random rand) {
         return 1;
     }
 }

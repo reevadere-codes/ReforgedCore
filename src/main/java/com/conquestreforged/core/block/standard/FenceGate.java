@@ -1,29 +1,26 @@
 package com.conquestreforged.core.block.standard;
 
 import com.conquestreforged.core.asset.annotation.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.IBucketPickupHandler;
-import net.minecraft.block.ILiquidContainer;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.*;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 @Assets(
@@ -43,7 +40,7 @@ import net.minecraft.world.World;
                 }
         )
 )
-public class FenceGate extends BlockHorizontal implements IBucketPickupHandler, ILiquidContainer {
+public class FenceGate extends HorizontalBlock implements IBucketPickupHandler, ILiquidContainer {
 
     private static final BooleanProperty OPEN = BlockStateProperties.OPEN;
     private static final BooleanProperty IN_WALL = BlockStateProperties.IN_WALL;
@@ -62,27 +59,18 @@ public class FenceGate extends BlockHorizontal implements IBucketPickupHandler, 
     //different from vanilla fencegate as it has waterlogged blockstate and no powered blockstate
     public FenceGate(Properties properties) {
         super(properties);
-        this.setDefaultState((this.stateContainer.getBaseState()).with(OPEN,false).with(IN_WALL,false).with(WATERLOGGED, false));
+        this.setDefaultState((this.stateContainer.getBaseState()).with(OPEN, false).with(IN_WALL, false).with(WATERLOGGED, false));
 
     }
 
     @Override
-    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
-        if (state.get(IN_WALL)) {
-            return state.get(HORIZONTAL_FACING).getAxis() == EnumFacing.Axis.X ? AABB_HITBOX_XAXIS_INWALL : AABB_HITBOX_ZAXIS_INWALL;
-        } else {
-            return state.get(HORIZONTAL_FACING).getAxis() == EnumFacing.Axis.X ? AABB_HITBOX_XAXIS : AABB_HITBOX_ZAXIS;
-        }
-    }
-
-    @Override
-    public IBlockState updatePostPlacement(IBlockState stateIn, EnumFacing facing, IBlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        EnumFacing.Axis enumfacing$axis = facing.getAxis();
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        Direction.Axis Direction$axis = facing.getAxis();
 
         if (stateIn.get(WATERLOGGED)) {
             worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
         }
-        if (stateIn.get(HORIZONTAL_FACING).rotateY().getAxis() != enumfacing$axis) {
+        if (stateIn.get(HORIZONTAL_FACING).rotateY().getAxis() != Direction$axis) {
             return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
         } else {
             boolean flag = this.isWall(facingState) || this.isWall(worldIn.getBlockState(currentPos.offset(facing.getOpposite())));
@@ -91,34 +79,7 @@ public class FenceGate extends BlockHorizontal implements IBucketPickupHandler, 
     }
 
     @Override
-    public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
-        if (state.get(OPEN)) {
-            return VoxelShapes.empty();
-        } else {
-            return state.get(HORIZONTAL_FACING).getAxis() == EnumFacing.Axis.Z ? field_208068_x : AABB_COLLISION_BOX_XAXIS;
-        }
-    }
-
-    @Override
-    public VoxelShape getRenderShape(IBlockState state, IBlockReader worldIn, BlockPos pos)
-    {
-        if (state.get(IN_WALL))
-        {
-            return state.get(HORIZONTAL_FACING).getAxis() == EnumFacing.Axis.X ? field_208067_C : field_208066_B;
-        }
-        else
-        {
-            return state.get(HORIZONTAL_FACING).getAxis() == EnumFacing.Axis.X ? AABB_COLLISION_BOX_ZAXIS : field_208069_z;
-        }
-    }
-
-    @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean allowsMovement(IBlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
         switch (type) {
             case LAND:
                 return state.get(OPEN);
@@ -132,30 +93,42 @@ public class FenceGate extends BlockHorizontal implements IBucketPickupHandler, 
     }
 
     @Override
-    public IBlockState getStateForPlacement(BlockItemUseContext context) {
-        World world = context.getWorld();
-        BlockPos blockpos = context.getPos();
-        EnumFacing enumfacing = context.getPlacementHorizontalFacing();
-        EnumFacing.Axis enumfacing$axis = enumfacing.getAxis();
-        IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
-        boolean flag1 = enumfacing$axis == EnumFacing.Axis.Z && (this.isWall(world.getBlockState(blockpos.west())) || this.isWall(world.getBlockState(blockpos.east()))) || enumfacing$axis == EnumFacing.Axis.X && (this.isWall(world.getBlockState(blockpos.north())) || this.isWall(world.getBlockState(blockpos.south())));
-        return this.getDefaultState().with(HORIZONTAL_FACING, enumfacing).with(IN_WALL, flag1).with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
-    }
-
-    private boolean isWall(IBlockState blockstate) {
-        return blockstate.getBlock() == Blocks.COBBLESTONE_WALL || blockstate.getBlock() == Blocks.MOSSY_COBBLESTONE_WALL;
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        if (state.get(IN_WALL)) {
+            return state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X ? AABB_HITBOX_XAXIS_INWALL : AABB_HITBOX_ZAXIS_INWALL;
+        } else {
+            return state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X ? AABB_HITBOX_XAXIS : AABB_HITBOX_ZAXIS;
+        }
     }
 
     @Override
-    public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        if (state.get(OPEN)) {
+            return VoxelShapes.empty();
+        } else {
+            return state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.Z ? field_208068_x : AABB_COLLISION_BOX_XAXIS;
+        }
+    }
+
+    @Override
+    public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+        if (state.get(IN_WALL)) {
+            return state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X ? field_208067_C : field_208066_B;
+        } else {
+            return state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X ? AABB_COLLISION_BOX_ZAXIS : field_208069_z;
+        }
+    }
+
+    @Override
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (state.get(OPEN)) {
             state = state.with(OPEN, false);
             worldIn.setBlockState(pos, state, 10);
         } else {
-            EnumFacing enumfacing = player.getHorizontalFacing();
+            Direction Direction = player.getHorizontalFacing();
 
-            if (state.get(HORIZONTAL_FACING) == enumfacing.getOpposite()) {
-                state = state.with(HORIZONTAL_FACING, enumfacing);
+            if (state.get(HORIZONTAL_FACING) == Direction.getOpposite()) {
+                state = state.with(HORIZONTAL_FACING, Direction);
             }
 
             state = state.with(OPEN, true);
@@ -167,25 +140,47 @@ public class FenceGate extends BlockHorizontal implements IBucketPickupHandler, 
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        World world = context.getWorld();
+        BlockPos blockpos = context.getPos();
+        Direction direction = context.getPlacementHorizontalFacing();
+        Direction.Axis axis = direction.getAxis();
+        IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+        boolean flag1 = axis == Direction.Axis.Z && (this.isWall(world.getBlockState(blockpos.west())) || this.isWall(world.getBlockState(blockpos.east()))) || axis == Direction.Axis.X && (this.isWall(world.getBlockState(blockpos.north())) || this.isWall(world.getBlockState(blockpos.south())));
+        return this.getDefaultState().with(HORIZONTAL_FACING, direction).with(IN_WALL, flag1).with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+    public IFluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+    }
+
+//    @Override
+//    public boolean isFullCube(BlockState state) {
+//        return false;
+//    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(HORIZONTAL_FACING, OPEN, IN_WALL, WATERLOGGED);
     }
 
     @Override
-    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-        if (face != EnumFacing.UP && face != EnumFacing.DOWN) {
-            return state.get(HORIZONTAL_FACING).getAxis() == face.rotateY().getAxis() ? BlockFaceShape.MIDDLE_POLE : BlockFaceShape.UNDEFINED;
-        } else {
-            return BlockFaceShape.UNDEFINED;
-        }
+    public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbourPos) {
+
     }
 
+//    @Override
+//    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, BlockState state, BlockPos pos, Direction face) {
+//        if (face != Direction.UP && face != Direction.DOWN) {
+//            return state.get(HORIZONTAL_FACING).getAxis() == face.rotateY().getAxis() ? BlockFaceShape.MIDDLE_POLE : BlockFaceShape.UNDEFINED;
+//        } else {
+//            return BlockFaceShape.UNDEFINED;
+//        }
+//    }
+
     @Override
-    public Fluid pickupFluid(IWorld worldIn, BlockPos pos, IBlockState state) {
+    public Fluid pickupFluid(IWorld worldIn, BlockPos pos, BlockState state) {
         if (state.get(WATERLOGGED)) {
             worldIn.setBlockState(pos, state.with(WATERLOGGED, false), 3);
             return Fluids.WATER;
@@ -195,17 +190,12 @@ public class FenceGate extends BlockHorizontal implements IBucketPickupHandler, 
     }
 
     @Override
-    public IFluidState getFluidState(IBlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
-    }
-
-    @Override
-    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, IBlockState state, Fluid fluidIn) {
+    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
         return !state.get(WATERLOGGED) && fluidIn == Fluids.WATER;
     }
 
     @Override
-    public boolean receiveFluid(IWorld worldIn, BlockPos pos, IBlockState state, IFluidState fluidStateIn) {
+    public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, IFluidState fluidStateIn) {
         if (!state.get(WATERLOGGED) && fluidStateIn.getFluid() == Fluids.WATER) {
             if (!worldIn.isRemote()) {
                 worldIn.setBlockState(pos, state.with(WATERLOGGED, true), 3);
@@ -216,5 +206,9 @@ public class FenceGate extends BlockHorizontal implements IBucketPickupHandler, 
         } else {
             return false;
         }
+    }
+
+    private boolean isWall(BlockState blockstate) {
+        return blockstate.getBlock() == Blocks.COBBLESTONE_WALL || blockstate.getBlock() == Blocks.MOSSY_COBBLESTONE_WALL;
     }
 }

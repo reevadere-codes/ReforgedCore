@@ -2,7 +2,7 @@ package com.conquestreforged.core.proxy.impl;
 
 import com.conquestreforged.core.proxy.Side;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.play.ClientPlayNetHandler;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.ResourcePackList;
@@ -25,7 +25,7 @@ public class ClientProxy extends AbstractProxy {
 
     @Override
     public RecipeManager getRecipeManager() {
-        NetHandlerPlayClient client = Minecraft.getInstance().getConnection();
+        ClientPlayNetHandler client = Minecraft.getInstance().getConnection();
         if (client == null) {
             return new RecipeManager();
         }

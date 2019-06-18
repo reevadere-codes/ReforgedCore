@@ -15,7 +15,8 @@ public abstract class AbstractProxy implements Proxy {
 
     @Override
     public void register(IReloadableResourceManager manager) {
-        manager.addReloadListener(recipeHelper);
+        //addReloadListener
+        manager.func_219534_a(recipeHelper);
     }
 
     @Override

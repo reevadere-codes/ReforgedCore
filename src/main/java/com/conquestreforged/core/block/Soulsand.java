@@ -1,7 +1,7 @@
 package com.conquestreforged.core.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -17,12 +17,12 @@ public class Soulsand extends Block {
     }
 
     @Override
-    public VoxelShape getCollisionShape(IBlockState state, IBlockReader reader, BlockPos pos) {
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader reader, BlockPos pos) {
         return SHAPE;
     }
 
     @Override
-    public void onEntityCollision(IBlockState state, World p_196262_2_, BlockPos pos, Entity player) {
+    public void onEntityCollision(BlockState state, World p_196262_2_, BlockPos pos, Entity player) {
         player.motionX *= 0.4D;
         player.motionZ *= 0.4D;
     }

@@ -5,10 +5,9 @@ import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
@@ -26,17 +25,17 @@ public class Cover extends Block {
     }
 
     @Override
-    public VoxelShape getShape(IBlockState state, IBlockReader reader, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
         return SHAPE;
     }
 
-    @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
+//    @Override
+//    public boolean isFullCube(BlockState state) {
+//        return false;
+//    }
 
-    @Override
-    public BlockFaceShape getBlockFaceShape(IBlockReader reader, IBlockState state, BlockPos pos, EnumFacing facing) {
-        return facing == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
-    }
+//    @Override
+//    public BlockFaceShape getBlockFaceShape(IBlockReader reader, BlockState state, BlockPos pos, Direction facing) {
+//        return facing == Direction.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+//    }
 }
