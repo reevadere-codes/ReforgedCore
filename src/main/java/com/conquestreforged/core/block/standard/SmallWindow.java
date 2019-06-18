@@ -1,21 +1,21 @@
 package com.conquestreforged.core.block.standard;
 
-import com.conquestreforged.core.asset.annotation.*;
+import com.conquestreforged.core.asset.annotation.Assets;
+import com.conquestreforged.core.asset.annotation.Model;
+import com.conquestreforged.core.asset.annotation.State;
+import com.conquestreforged.core.block.extensions.Waterloggable;
 import net.minecraft.block.Block;
-import net.minecraft.block.IBucketPickupHandler;
-import net.minecraft.block.ILiquidContainer;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.fluid.Fluid;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
@@ -31,11 +31,10 @@ import net.minecraft.world.IWorld;
                 @Model(name = "block/%s_smallwindow_updown", template = "block/parent_smallwindow_updown"),
         }
 )
-public class SmallWindow extends Block implements IBucketPickupHandler, ILiquidContainer {
+public class SmallWindow extends Block implements Waterloggable {
 
     public static final BooleanProperty UP = BlockStateProperties.UP;
     public static final BooleanProperty DOWN = BlockStateProperties.DOWN;
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape TOPLEFT = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 4.0D, 16.0D, 4.0D);
     private static final VoxelShape TOPRIGHT = Block.makeCuboidShape(12.0D, 0.0D, 0.0D, 16.0D, 16.0D, 4.0D);
@@ -70,17 +69,12 @@ public class SmallWindow extends Block implements IBucketPickupHandler, ILiquidC
     }
 
     @Override
-    public boolean isFullCube(BlockState state) {
-        return false;
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return getShape(state);
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return getShape(state);
     }
 
@@ -104,11 +98,6 @@ public class SmallWindow extends Block implements IBucketPickupHandler, ILiquidC
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(UP, DOWN, WATERLOGGED);
-    }
-
-    @Override
-    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, BlockState state, BlockPos pos, Direction face) {
-        return BlockFaceShape.UNDEFINED;
     }
 
     public BlockState getStateForPlacement(BlockItemUseContext context) {
@@ -148,36 +137,7 @@ public class SmallWindow extends Block implements IBucketPickupHandler, ILiquidC
     }
 
     @Override
-    public Fluid pickupFluid(IWorld worldIn, BlockPos pos, BlockState state) {
-        if (state.get(WATERLOGGED)) {
-            worldIn.setBlockState(pos, state.with(WATERLOGGED, false), 3);
-            return Fluids.WATER;
-        } else {
-            return Fluids.EMPTY;
-        }
-    }
-
-    @Override
     public IFluidState getFluidState(BlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return Waterloggable.getFluidState(state);
     }
-
-    @Override
-    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
-        return !state.get(WATERLOGGED) && fluidIn == Fluids.WATER;
-    }
-
-    @Override
-    public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, IFluidState fluidStateIn) {
-        if (!state.get(WATERLOGGED) && fluidStateIn.getFluid() == Fluids.WATER) {
-            if (!worldIn.isRemote()) {
-                worldIn.setBlockState(pos, state.with(WATERLOGGED,true), 3);
-                worldIn.getPendingFluidTicks().scheduleTick(pos, fluidStateIn.getFluid(), fluidStateIn.getFluid().getTickRate(worldIn));
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }

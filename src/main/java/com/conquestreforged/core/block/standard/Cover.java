@@ -28,14 +28,4 @@ public class Cover extends Block {
     public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
         return SHAPE;
     }
-
-//    @Override
-//    public boolean isFullCube(BlockState state) {
-//        return false;
-//    }
-
-//    @Override
-//    public BlockFaceShape getBlockFaceShape(IBlockReader reader, BlockState state, BlockPos pos, Direction facing) {
-//        return facing == Direction.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
-//    }
 }

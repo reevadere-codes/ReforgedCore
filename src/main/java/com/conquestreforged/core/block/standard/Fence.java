@@ -1,8 +1,10 @@
 package com.conquestreforged.core.block.standard;
 
 import com.conquestreforged.core.asset.annotation.*;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FenceBlock;
+import net.minecraft.block.FenceGateBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
@@ -10,6 +12,8 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.LeadItem;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -40,33 +44,27 @@ public class Fence extends FenceBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (player.getHeldItem(hand).getItem() == Items.LEAD) {
-            if (!worldIn.isRemote) {
-                return LeadItem.attachToFence(player, worldIn, pos);
-            } else {
-                ItemStack itemstack = player.getHeldItem(hand);
-                return itemstack.getItem() == Items.LEAD || itemstack.isEmpty();
-            }
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        if (player.getHeldItem(hand).getItem() != Items.LEAD && !world.isRemote) {
+            return true;
         }
-
-        if (worldIn.isRemote) {
+        if (world.isRemote) {
             return true;
         } else {
             if ((state.get(NORTH)) || state.get(EAST) || state.get(SOUTH) || state.get(WEST)) {
-                worldIn.setBlockState(pos, state.with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false));
+                world.setBlockState(pos, state.with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false));
             } else {
-                BlockState north = worldIn.getBlockState(pos.north());
-                BlockState east = worldIn.getBlockState(pos.east());
-                BlockState south = worldIn.getBlockState(pos.south());
-                BlockState west = worldIn.getBlockState(pos.west());
+                BlockState north = world.getBlockState(pos.north());
+                BlockState east = world.getBlockState(pos.east());
+                BlockState south = world.getBlockState(pos.south());
+                BlockState west = world.getBlockState(pos.west());
 
-//                boolean northFlag = func_220111_a(north, true, north.getBlockFaceShape(worldIn, pos.north(), Direction.SOUTH));
-//                boolean eastFlag = func_220111_a(east, true, east.getBlockFaceShape(worldIn, pos.east(), Direction.WEST));
-//                boolean southFlag = func_220111_a(south, true, south.getBlockFaceShape(worldIn, pos.south(), Direction.NORTH));
-//                boolean westFlag = func_220111_a(west, true, west.getBlockFaceShape(worldIn, pos.west(), Direction.EAST));
+                boolean northFlag = func_220111_a(north, true, Direction.SOUTH);
+                boolean eastFlag = func_220111_a(east, true, Direction.WEST);
+                boolean southFlag = func_220111_a(south, true, Direction.NORTH);
+                boolean westFlag = func_220111_a(west, true, Direction.EAST);
 //
-//                worldIn.setBlockState(pos, state.with(NORTH, northFlag).with(EAST, eastFlag).with(SOUTH, southFlag).with(WEST, westFlag));
+                world.setBlockState(pos, state.with(NORTH, northFlag).with(EAST, eastFlag).with(SOUTH, southFlag).with(WEST, westFlag));
             }
 
             return true;
@@ -94,13 +92,6 @@ public class Fence extends FenceBlock {
         return this.getDefaultState().with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
     }
 
-    /*
-    private boolean canFenceConnectTo(IBlockReader p_canFenceConnectTo_1_, BlockPos p_canFenceConnectTo_2_, Direction p_canFenceConnectTo_3_) {
-        BlockPos offset = p_canFenceConnectTo_2_.offset(p_canFenceConnectTo_3_);
-        BlockState other = p_canFenceConnectTo_1_.getBlockState(offset);
-        return other.canBeConnectedTo(p_canFenceConnectTo_1_, offset, p_canFenceConnectTo_3_.getOpposite()) || this.getDefaultState().canBeConnectedTo(p_canFenceConnectTo_1_, p_canFenceConnectTo_2_, p_canFenceConnectTo_3_);
-    }*/
-
     @Override
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
         if (stateIn.get(WATERLOGGED)) {
@@ -108,5 +99,23 @@ public class Fence extends FenceBlock {
         }
 
         return stateIn;
+    }
+
+    /**
+     * func_220111_a -> canFenceConnect
+     *
+     * @param state the neighbour blockstate to check
+     * @param checkExclusionList check if the provided blockstate is in the hardcoded exclusion list (barrier blocks, for example)
+     * @param direction the direction from the provided blockstate to the fence block we're checking for
+     * @return true if can connect, false if not
+     */
+    @Override
+    public boolean func_220111_a(BlockState state, boolean checkExclusionList, Direction direction) {
+        Block block = state.getBlock();
+        // fence tag
+        Tag<Block> fence = BlockTags.field_219748_G;
+        boolean fenceAndMaterial = block.isIn(fence) && state.getMaterial() == this.material;
+        boolean gateAndDirection = block instanceof FenceGateBlock && FenceGateBlock.isParallel(state, direction);
+        return !cannotAttach(block) && checkExclusionList || fenceAndMaterial || gateAndDirection;
     }
 }

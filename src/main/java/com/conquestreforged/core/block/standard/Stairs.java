@@ -1,8 +1,8 @@
 package com.conquestreforged.core.block.standard;
 
 import com.conquestreforged.core.asset.annotation.*;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.StairsBlock;
 
 @Assets(
         state = @State(name = "%s_stairs", template = "acacia_stairs"),
@@ -20,7 +20,7 @@ import net.minecraft.block.state.BlockState;
                 }
         )
 )
-public class Stairs extends BlockStairs {
+public class Stairs extends StairsBlock {
     public Stairs(BlockState parent, Properties properties) {
         super(parent, properties);
     }

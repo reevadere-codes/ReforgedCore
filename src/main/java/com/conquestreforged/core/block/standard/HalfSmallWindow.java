@@ -3,6 +3,7 @@ package com.conquestreforged.core.block.standard;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
+import com.conquestreforged.core.block.extensions.Waterloggable;
 import net.minecraft.block.*;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
@@ -29,11 +30,10 @@ import net.minecraft.world.IWorld;
                 @Model(name = "block/%s_halfsmallwindow_updown", template = "block/parent_halfsmallwindow_updown"),
         }
 )
-public class HalfSmallWindow extends HorizontalBlock implements IBucketPickupHandler, ILiquidContainer {
+public class HalfSmallWindow extends HorizontalBlock implements Waterloggable {
 
     public static final BooleanProperty UP = BlockStateProperties.UP;
     public static final BooleanProperty DOWN = BlockStateProperties.DOWN;
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape TOPLEFT = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 4.0D, 16.0D, 4.0D);
     private static final VoxelShape TOPRIGHT = Block.makeCuboidShape(12.0D, 0.0D, 0.0D, 16.0D, 16.0D, 4.0D);
@@ -74,11 +74,6 @@ public class HalfSmallWindow extends HorizontalBlock implements IBucketPickupHan
         super(properties);
         this.setDefaultState((this.stateContainer.getBaseState()).with(HORIZONTAL_FACING, Direction.NORTH).with(UP,false).with(DOWN,false).with(WATERLOGGED, false));
     }
-
-//    @Override
-//    public boolean isFullCube(BlockState state) {
-//        return false;
-//    }
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -153,11 +148,6 @@ public class HalfSmallWindow extends HorizontalBlock implements IBucketPickupHan
         builder.add(HORIZONTAL_FACING, UP, DOWN, WATERLOGGED);
     }
 
-//    @Override
-//    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, BlockState state, BlockPos pos, Direction face) {
-//        return BlockFaceShape.UNDEFINED;
-//    }
-
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         IBlockReader iblockreader = context.getWorld();
@@ -199,36 +189,7 @@ public class HalfSmallWindow extends HorizontalBlock implements IBucketPickupHan
     }
 
     @Override
-    public Fluid pickupFluid(IWorld worldIn, BlockPos pos, BlockState state) {
-        if (state.get(WATERLOGGED)) {
-            worldIn.setBlockState(pos, state.with(WATERLOGGED, false), 3);
-            return Fluids.WATER;
-        } else {
-            return Fluids.EMPTY;
-        }
-    }
-
-    @Override
     public IFluidState getFluidState(BlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return Waterloggable.getFluidState(state);
     }
-
-    @Override
-    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
-        return !state.get(WATERLOGGED) && fluidIn == Fluids.WATER;
-    }
-
-    @Override
-    public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, IFluidState fluidStateIn) {
-        if (!state.get(WATERLOGGED) && fluidStateIn.getFluid() == Fluids.WATER) {
-            if (!worldIn.isRemote()) {
-                worldIn.setBlockState(pos, state.with(WATERLOGGED,true), 3);
-                worldIn.getPendingFluidTicks().scheduleTick(pos, fluidStateIn.getFluid(), fluidStateIn.getFluid().getTickRate(worldIn));
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }

@@ -3,12 +3,15 @@ package com.conquestreforged.core.block.standard;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
+import com.conquestreforged.core.block.extensions.Waterloggable;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.IBucketPickupHandler;
 import net.minecraft.block.ILiquidContainer;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.init.Fluids;
 import net.minecraft.item.BlockItemUseContext;
@@ -23,6 +26,7 @@ import net.minecraft.state.properties.Half;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
@@ -36,13 +40,12 @@ import java.util.Random;
                 @Model(name = "block/%s_thinslab", template = "block/parent_thinslab"),
         }
 )
-public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidContainer {
+public class ThinSlab extends Block implements Waterloggable {
 
     private static final VoxelShape BOTTOM_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D);
     private static final VoxelShape TOP_SHAPE = Block.makeCuboidShape(0.0D, 13.0D, 0.0D, 16.0D, 16.0D, 16.0D);
 
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public static final EnumProperty TYPE_UPDOWN = EnumProperty.create("type", Half.class);
+    public static final EnumProperty<Half> TYPE_UPDOWN = EnumProperty.create("type", Half.class);
 
     public ThinSlab(Properties properties) {
         super(properties);
@@ -61,11 +64,11 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
-        container.add(new IProperty[]{TYPE_UPDOWN, WATERLOGGED});
+        container.add(TYPE_UPDOWN, WATERLOGGED);
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader p_196244_2_, BlockPos p_196244_3_) {
+    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
         if (state.get(TYPE_UPDOWN) == Half.TOP) {
             return TOP_SHAPE;
         } else {
@@ -79,30 +82,11 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
     }
 
     @Override
-    public BlockFaceShape getBlockFaceShape(IBlockReader reader, BlockState state, BlockPos pos, Direction facing) {
-        if (facing == Direction.UP && state.get(TYPE_UPDOWN) == Half.TOP) {
-            return BlockFaceShape.SOLID;
-        } else {
-            return facing == Direction.DOWN && state.get(TYPE_UPDOWN) == Half.BOTTOM ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
-        }
-    }
-
-    @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         IFluidState fluid = context.getWorld().getFluidState(context.getPos());
         BlockState state2 = this.getDefaultState().with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, fluid.getFluid() == Fluids.WATER);
         Direction facing = context.getFace();
-        return facing != Direction.DOWN && (facing == Direction.UP || (double)context.getHitY() <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
-    }
-
-    @Override
-    public int quantityDropped(BlockState state, Random rand) {
-        return 1;
-    }
-
-    @Override
-    public boolean isFullCube(BlockState state) {
-        return false;
+        return facing != Direction.DOWN && (facing == Direction.UP || context.func_221532_j().y <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
     }
 
     @Override
@@ -110,7 +94,7 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
         ItemStack item = context.getItem();
         if (item.getItem() == this.asItem()) {
             if (context.replacingClickedOnBlock()) {
-                boolean posBool = (double)context.getHitY() > 0.5D;
+                boolean posBool = context.func_221532_j().y > 0.5D;
                 Direction facing = context.getFace();
                 if (state.get(TYPE_UPDOWN) == Half.BOTTOM) {
                     return facing == Direction.UP || posBool && facing.getAxis().isHorizontal();
@@ -120,24 +104,6 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
             } else {
                 return true;
             }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
-        return !state.get(WATERLOGGED) && fluidIn == Fluids.WATER;
-    }
-
-    @Override
-    public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, IFluidState fluidStateIn) {
-        if (!state.get(WATERLOGGED) && fluidStateIn.getFluid() == Fluids.WATER) {
-            if (!worldIn.isRemote()) {
-                worldIn.setBlockState(pos, state.with(WATERLOGGED,true), 3);
-                worldIn.getPendingFluidTicks().scheduleTick(pos, fluidStateIn.getFluid(), fluidStateIn.getFluid().getTickRate(worldIn));
-            }
-            return true;
         } else {
             return false;
         }
@@ -158,17 +124,7 @@ public class ThinSlab extends Block implements IBucketPickupHandler, ILiquidCont
     }
 
     @Override
-    public Fluid pickupFluid(IWorld world, BlockPos pos, BlockState state) {
-        if (state.get(WATERLOGGED)) {
-            world.setBlockState(pos, state.with(WATERLOGGED, false), 3);
-            return Fluids.WATER;
-        } else {
-            return Fluids.EMPTY;
-        }
-    }
-
-    @Override
     public IFluidState getFluidState(BlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return Waterloggable.getFluidState(state);
     }
 }

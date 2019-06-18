@@ -1,6 +1,7 @@
 package com.conquestreforged.core.block.standard;
 
 import com.conquestreforged.core.asset.annotation.*;
+import com.conquestreforged.core.block.extensions.Waterloggable;
 import net.minecraft.block.*;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
@@ -32,7 +33,7 @@ import net.minecraft.world.IWorld;
                 }
         )
 )
-public class EighthSlab extends HorizontalBlock implements IBucketPickupHandler, ILiquidContainer {
+public class EighthSlab extends HorizontalBlock implements Waterloggable {
 
     private static final VoxelShape BOTTOM_QTR_EAST_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 8.0D, 16.0D);
     private static final VoxelShape BOTTOM_QTR_WEST_SHAPE = Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 8.0D, 8.0D);
@@ -45,8 +46,7 @@ public class EighthSlab extends HorizontalBlock implements IBucketPickupHandler,
     private static final VoxelShape TOP_QTR_NORTH_SHAPE = Block.makeCuboidShape(8.0D, 8.0D, 8.0D, 16.0D, 16.0D, 16.0D);
 
 
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public static final EnumProperty TYPE_UPDOWN = EnumProperty.create("type", Half.class);
+    public static final EnumProperty<Half> TYPE_UPDOWN = EnumProperty.create("type", Half.class);
 
     public EighthSlab(Properties properties) {
         super(properties);
@@ -110,41 +110,8 @@ public class EighthSlab extends HorizontalBlock implements IBucketPickupHandler,
         return facing != Direction.DOWN && (facing == Direction.UP || context.func_221532_j().y <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
     }
 
-//    @Override
-//    public boolean isFullCube(BlockState state) {
-//        return false;
-//    }
-
-    @Override
-    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
-        return !state.get(WATERLOGGED) && fluidIn == Fluids.WATER;
-    }
-
-    @Override
-    public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, IFluidState fluidStateIn) {
-        if (!state.get(WATERLOGGED) && fluidStateIn.getFluid() == Fluids.WATER) {
-            if (!worldIn.isRemote()) {
-                worldIn.setBlockState(pos, state.with(WATERLOGGED,true), 3);
-                worldIn.getPendingFluidTicks().scheduleTick(pos, fluidStateIn.getFluid(), fluidStateIn.getFluid().getTickRate(worldIn));
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public Fluid pickupFluid(IWorld world, BlockPos pos, BlockState state) {
-        if (state.get(WATERLOGGED)) {
-            world.setBlockState(pos, state.with(WATERLOGGED, false), 3);
-            return Fluids.WATER;
-        } else {
-            return Fluids.EMPTY;
-        }
-    }
-
     @Override
     public IFluidState getFluidState(BlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return Waterloggable.getFluidState(state);
     }
 }
