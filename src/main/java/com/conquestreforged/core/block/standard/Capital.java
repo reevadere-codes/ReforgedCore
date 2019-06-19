@@ -4,6 +4,7 @@ import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
 import com.conquestreforged.core.block.extensions.Waterloggable;
+import com.conquestreforged.core.block.shape.AbstractShape;
 import com.conquestreforged.core.block.types.CapitalDirection;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -14,11 +15,8 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.Half;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
 
 @Assets(
         state = @State(name = "%s_capital", template = "parent_capital"),
@@ -30,7 +28,7 @@ import net.minecraft.world.IBlockReader;
                 @Model(name = "block/%s_capital_up_side", template = "block/parent_capital_up_side"),
         }
 )
-public class Capital extends Block implements Waterloggable {
+public class Capital extends AbstractShape implements Waterloggable {
 
     public static final EnumProperty<CapitalDirection> FACING = EnumProperty.create("facing", CapitalDirection.class);
     public static final EnumProperty<Half> TYPE = EnumProperty.create("type", Half.class);
@@ -67,75 +65,12 @@ public class Capital extends Block implements Waterloggable {
 
     public Capital(Properties properties) {
         super(properties);
-        this.setDefaultState((this.stateContainer.getBaseState()).with(TYPE, Half.TOP).with(FACING, CapitalDirection.NORTH).with(WATERLOGGED, false));
+        setDefaultState((stateContainer.getBaseState()).with(TYPE, Half.TOP).with(FACING, CapitalDirection.NORTH).with(WATERLOGGED, false));
 
     }
 
-//    @Override
-//    public boolean isFullCube(BlockState state) {
-//        return false;
-//    }
-
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        if (state.get(TYPE) == Half.TOP) {
-            if (state.get(FACING) == CapitalDirection.NORTH) {
-                return TOP_SIDE_N;
-            } else if (state.get(FACING) == CapitalDirection.SOUTH) {
-                return TOP_SIDE_S;
-            } else if (state.get(FACING) == CapitalDirection.EAST) {
-                return TOP_SIDE_E;
-            } else if (state.get(FACING) == CapitalDirection.WEST) {
-                return TOP_SIDE_W;
-            } else {
-                return TOP_FLAT;
-            }
-        } else {
-            if (state.get(FACING) == CapitalDirection.NORTH) {
-                return BOTTOM_SIDE_N;
-            } else if (state.get(FACING) == CapitalDirection.SOUTH) {
-                return BOTTOM_SIDE_S;
-            } else if (state.get(FACING) == CapitalDirection.EAST) {
-                return BOTTOM_SIDE_E;
-            } else if (state.get(FACING) == CapitalDirection.WEST) {
-                return BOTTOM_SIDE_W;
-            } else {
-                return BOTTOM_FLAT;
-            }
-        }
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        if (state.get(TYPE) == Half.TOP) {
-            if (state.get(FACING) == CapitalDirection.NORTH) {
-                return TOP_SIDE_N;
-            } else if (state.get(FACING) == CapitalDirection.SOUTH) {
-                return TOP_SIDE_S;
-            } else if (state.get(FACING) == CapitalDirection.EAST) {
-                return TOP_SIDE_E;
-            } else if (state.get(FACING) == CapitalDirection.WEST) {
-                return TOP_SIDE_W;
-            } else {
-                return TOP_FLAT;
-            }
-        } else {
-            if (state.get(FACING) == CapitalDirection.NORTH) {
-                return BOTTOM_SIDE_N;
-            } else if (state.get(FACING) == CapitalDirection.SOUTH) {
-                return BOTTOM_SIDE_S;
-            } else if (state.get(FACING) == CapitalDirection.EAST) {
-                return BOTTOM_SIDE_E;
-            } else if (state.get(FACING) == CapitalDirection.WEST) {
-                return BOTTOM_SIDE_W;
-            } else {
-                return BOTTOM_FLAT;
-            }
-        }
-    }
-
-    @Override
-    public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getShape(BlockState state) {
         if (state.get(TYPE) == Half.TOP) {
             if (state.get(FACING) == CapitalDirection.NORTH) {
                 return TOP_SIDE_N;
@@ -198,11 +133,6 @@ public class Capital extends Block implements Waterloggable {
                 .with(TYPE, verticalFacing)
                 .with(FACING, horizontalFacing)
                 .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
-    }
-
-    @Override
-    public IFluidState getFluidState(BlockState state) {
-        return Waterloggable.getFluidState(state);
     }
 
     @Override

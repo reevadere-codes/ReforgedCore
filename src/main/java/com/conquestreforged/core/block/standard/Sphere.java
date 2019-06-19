@@ -31,7 +31,7 @@ public class Sphere extends Block implements Waterloggable {
 
     public Sphere(Properties properties) {
         super(properties);
-        this.setDefaultState((this.stateContainer.getBaseState()).with(TYPE, Half.TOP).with(FACING, CapitalDirection.NORTH).with(WATERLOGGED, false));
+        setDefaultState((stateContainer.getBaseState()).with(TYPE, Half.TOP).with(FACING, CapitalDirection.NORTH).with(WATERLOGGED, false));
 
     }
 

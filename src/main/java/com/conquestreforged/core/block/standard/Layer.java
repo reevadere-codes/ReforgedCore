@@ -33,6 +33,6 @@ public class Layer extends SnowBlock {
 
     @Override
     public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
-
+        // ignore tick so shit doesn't melt
     }
 }

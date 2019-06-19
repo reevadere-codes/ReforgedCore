@@ -1,8 +1,8 @@
 package com.conquestreforged.core.block.standard;
 
 import com.conquestreforged.core.asset.annotation.*;
-import com.conquestreforged.core.block.extensions.Waterloggable;
 import com.conquestreforged.core.block.props.Props;
+import com.conquestreforged.core.block.shape.AbstractShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluids;
@@ -16,7 +16,6 @@ import net.minecraft.state.properties.Half;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
@@ -34,7 +33,7 @@ import net.minecraft.world.IBlockReader;
                 }
         )
 )
-public class Slab extends Block implements Waterloggable {
+public class Slab extends AbstractShape {
 
     public static final EnumProperty<Half> TYPE_UPDOWN = EnumProperty.create("type", Half.class);
     private static final VoxelShape BOTTOM_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
@@ -81,15 +80,6 @@ public class Slab extends Block implements Waterloggable {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
-        if (state.get(TYPE_UPDOWN) == Half.TOP) {
-            return TOP_SHAPE;
-        } else {
-            return BOTTOM_SHAPE;
-        }
-    }
-
-    @Override
     public boolean propagatesSkylightDown(BlockState p_200123_1_, IBlockReader p_200123_2_, BlockPos p_200123_3_) {
         return false;
     }
@@ -97,6 +87,15 @@ public class Slab extends Block implements Waterloggable {
     @Override
     public int getOpacity(BlockState state, IBlockReader reader, BlockPos pos) {
         return reader.getMaxLightLevel();
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state) {
+        if (state.get(TYPE_UPDOWN) == Half.TOP) {
+            return TOP_SHAPE;
+        } else {
+            return BOTTOM_SHAPE;
+        }
     }
 
     @Override
@@ -110,11 +109,6 @@ public class Slab extends Block implements Waterloggable {
             Direction facing = context.getFace();
             return facing != Direction.DOWN && (facing == Direction.UP || context.func_221532_j().y <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
         }
-    }
-
-    @Override
-    public IFluidState getFluidState(BlockState state) {
-        return Waterloggable.getFluidState(state);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
 import com.conquestreforged.core.block.extensions.Waterloggable;
+import com.conquestreforged.core.block.shape.HorizontalShape;
 import net.minecraft.block.*;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
@@ -30,7 +31,7 @@ import net.minecraft.world.IWorld;
                 @Model(name = "block/%s_halfsmallwindow_updown", template = "block/parent_halfsmallwindow_updown"),
         }
 )
-public class HalfSmallWindow extends HorizontalBlock implements Waterloggable {
+public class HalfSmallWindow extends HorizontalShape {
 
     public static final BooleanProperty UP = BlockStateProperties.UP;
     public static final BooleanProperty DOWN = BlockStateProperties.DOWN;
@@ -72,27 +73,12 @@ public class HalfSmallWindow extends HorizontalBlock implements Waterloggable {
 
     public HalfSmallWindow(Properties properties) {
         super(properties);
-        this.setDefaultState((this.stateContainer.getBaseState()).with(HORIZONTAL_FACING, Direction.NORTH).with(UP,false).with(DOWN,false).with(WATERLOGGED, false));
+        setDefaultState((stateContainer.getBaseState()).with(DIRECTION, Direction.NORTH).with(UP,false).with(DOWN,false).with(WATERLOGGED, false));
     }
 
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return getShape(state);
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return getShape(state);
-    }
-
-    @Override
-    public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return getShape(state);
-    }
-
-    private VoxelShape getShape(BlockState state) {
+    public VoxelShape getShape(BlockState state) {
         if (state.get(DOWN) && state.get(UP)) {
-            switch (state.get(HORIZONTAL_FACING)) {
+            switch (state.get(DIRECTION)) {
                 case NORTH:
                 default:
                     return NORTH_SHAPE;
@@ -104,7 +90,7 @@ public class HalfSmallWindow extends HorizontalBlock implements Waterloggable {
                     return EAST_SHAPE;
             }
         } else if (!state.get(DOWN) && state.get(UP)) {
-            switch (state.get(HORIZONTAL_FACING)) {
+            switch (state.get(DIRECTION)) {
                 case NORTH:
                 default:
                     return DOWN_NORTH_SHAPE;
@@ -116,7 +102,7 @@ public class HalfSmallWindow extends HorizontalBlock implements Waterloggable {
                     return DOWN_EAST_SHAPE;
             }
         } else if (state.get(DOWN) && !state.get(UP)) {
-            switch (state.get(HORIZONTAL_FACING)) {
+            switch (state.get(DIRECTION)) {
                 case NORTH:
                 default:
                     return UP_NORTH_SHAPE;
@@ -128,7 +114,7 @@ public class HalfSmallWindow extends HorizontalBlock implements Waterloggable {
                     return UP_EAST_SHAPE;
             }
         } else {
-            switch (state.get(HORIZONTAL_FACING)) {
+            switch (state.get(DIRECTION)) {
                 case NORTH:
                 default:
                     return UPDOWN_NORTH_SHAPE;
@@ -145,7 +131,7 @@ public class HalfSmallWindow extends HorizontalBlock implements Waterloggable {
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(HORIZONTAL_FACING, UP, DOWN, WATERLOGGED);
+        builder.add(DIRECTION, UP, DOWN, WATERLOGGED);
     }
 
     @Override
@@ -161,7 +147,7 @@ public class HalfSmallWindow extends HorizontalBlock implements Waterloggable {
 
         Direction facing = context.getPlacementHorizontalFacing().getOpposite();
         return super.getStateForPlacement(context)
-                .with(HORIZONTAL_FACING, facing)
+                .with(DIRECTION, facing)
                 .with(UP, this.attachesTo(BlockStateUp))
                 .with(DOWN, this.attachesTo(BlockStateDown))
                 .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
@@ -186,10 +172,5 @@ public class HalfSmallWindow extends HorizontalBlock implements Waterloggable {
         BlockState BlockState = worldIn.getBlockState(pos);
         Block block = BlockState.getBlock();
         return block != Blocks.BARRIER && (!(block != this && !(block instanceof HalfSmallWindow)));
-    }
-
-    @Override
-    public IFluidState getFluidState(BlockState state) {
-        return Waterloggable.getFluidState(state);
     }
 }
