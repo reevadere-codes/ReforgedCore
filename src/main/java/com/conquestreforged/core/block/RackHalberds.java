@@ -2,10 +2,9 @@ package com.conquestreforged.core.block;
 
 import com.conquestreforged.core.block.standard.VerticalSlab;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -64,12 +63,12 @@ public class RackHalberds extends VerticalSlab {
 
     private boolean attachesTo(BlockState blockstate) {
         Block block = blockstate.getBlock();
-        return block != Blocks.BARRIER && (!(block != this && !(block instanceof RackHalberds)));
+        return !Block.cannotAttach(block) && (!(block != this && !(block instanceof RackHalberds)));
     }
 
     private boolean canConnectTo(IWorld worldIn, BlockPos pos) {
         BlockState BlockState = worldIn.getBlockState(pos);
         Block block = BlockState.getBlock();
-        return block != Blocks.BARRIER && (!(block != this && !(block instanceof RackHalberds)));
+        return !Block.cannotAttach(block) && (!(block != this && !(block instanceof RackHalberds)));
     }
 }

@@ -1,15 +1,9 @@
 package com.conquestreforged.core.block;
 
-import com.conquestreforged.core.block.props.Props;
-import com.sun.scenario.effect.Crop;
+import com.conquestreforged.core.block.builder.Props;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.BlockState;
-import net.minecraft.item.Item;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;

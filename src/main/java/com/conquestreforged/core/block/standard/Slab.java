@@ -1,8 +1,8 @@
 package com.conquestreforged.core.block.standard;
 
 import com.conquestreforged.core.asset.annotation.*;
-import com.conquestreforged.core.block.props.Props;
-import com.conquestreforged.core.block.shape.AbstractShape;
+import com.conquestreforged.core.block.builder.Props;
+import com.conquestreforged.core.block.base.WaterloggedShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluids;
@@ -33,7 +33,7 @@ import net.minecraft.world.IBlockReader;
                 }
         )
 )
-public class Slab extends AbstractShape {
+public class Slab extends WaterloggedShape {
 
     public static final EnumProperty<Half> TYPE_UPDOWN = EnumProperty.create("type", Half.class);
     private static final VoxelShape BOTTOM_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);

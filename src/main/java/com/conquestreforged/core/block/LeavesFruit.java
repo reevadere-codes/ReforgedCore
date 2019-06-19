@@ -1,18 +1,15 @@
 package com.conquestreforged.core.block;
 
-import com.conquestreforged.core.block.props.Props;
+import com.conquestreforged.core.block.builder.Props;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.CropsBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IntegerProperty;
@@ -23,7 +20,10 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.*;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 
 import javax.annotation.Nonnull;
@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class LeavesFruit extends BlockCrops implements IShearable {
+public class LeavesFruit extends CropsBlock implements IShearable {
 
     public static final IntegerProperty DISTANCE = BlockStateProperties.DISTANCE_1_7;
     public static final BooleanProperty PERSISTENT = BlockStateProperties.PERSISTENT;
@@ -44,7 +44,7 @@ public class LeavesFruit extends BlockCrops implements IShearable {
     }
 
     @Override
-    public boolean getTickRandomly(BlockState state) {
+    public boolean ticksRandomly(BlockState state) {
         return state.get(DISTANCE) == 7 && !state.get(PERSISTENT);
     }
 
@@ -52,7 +52,7 @@ public class LeavesFruit extends BlockCrops implements IShearable {
     public void randomTick(BlockState state, World world, BlockPos pos, Random rand) {
         if (!state.get(PERSISTENT) && state.get(DISTANCE) == 7) {
             state.dropBlockAsItem(world, pos, 0);
-            world.removeBlock(pos);
+            world.removeBlock(pos, true);
         }
     }
 
@@ -111,13 +111,8 @@ public class LeavesFruit extends BlockCrops implements IShearable {
         if (BlockTags.LOGS.contains(state.getBlock())) {
             return 0;
         } else {
-            return state.getBlock() instanceof BlockLeaves ? state.get(DISTANCE) : 7;
+            return BlockTags.LEAVES.contains(state.getBlock()) ? state.get(DISTANCE) : 7;
         }
-    }
-
-    @Override
-    public void dropBlockAsItemWithChance(BlockState state, World world, BlockPos pos, float f, int n) {
-        super.dropBlockAsItemWithChance(state, world, pos, f, n);
     }
 
     @Override
@@ -142,14 +137,13 @@ public class LeavesFruit extends BlockCrops implements IShearable {
     }
 
     @Override
-    public boolean isLadder(BlockState state, IWorldReader reader, BlockPos pos, EntityLivingBase entity) {
+    public boolean isLadder(BlockState state, IWorldReader reader, BlockPos pos, LivingEntity entity) {
         return true;
     }
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        entity.motionX *= 0.4D;
-        entity.motionZ *= 0.4D;
+        entity.setMotion(entity.getMotion().mul(0.4D, 1.0D, 0.4D));
     }
 
     @Override
@@ -158,7 +152,7 @@ public class LeavesFruit extends BlockCrops implements IShearable {
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReaderBase reader, BlockPos pos) {
+    public boolean isValidPosition(BlockState state, IWorldReader reader, BlockPos pos) {
         return true;
     }
 
@@ -207,14 +201,14 @@ public class LeavesFruit extends BlockCrops implements IShearable {
             double d1 = (double) (worldIn.rand.nextFloat() * 0.7F) + 0.06000000238418579D + 0.6D;
             double d2 = (double) (worldIn.rand.nextFloat() * 0.7F) + 0.15000000596046448D;
             ItemStack itemstack1 = new ItemStack(fruit, 1);
-            EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
+            ItemEntity entityitem = new ItemEntity(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
             entityitem.setDefaultPickupDelay();
             worldIn.spawnEntity(entityitem);
         }
     }
 
     @Override
-    public EnumOffsetType getOffsetType() {
-        return EnumOffsetType.XYZ;
+    public OffsetType getOffsetType() {
+        return OffsetType.XYZ;
     }
 }

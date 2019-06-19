@@ -3,7 +3,7 @@ package com.conquestreforged.core.block.standard;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
-import com.conquestreforged.core.block.shape.HorizontalShape;
+import com.conquestreforged.core.block.base.WaterloggedDirectionalShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluids;
@@ -22,7 +22,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
                 @Model(name = "block/%s_quarterslab", template = "block/parent_quarterslab"),
         }
 )
-public class QuarterSlab extends HorizontalShape {
+public class QuarterSlab extends WaterloggedDirectionalShape {
 
     public static final EnumProperty<Half> TYPE_UPDOWN = EnumProperty.create("type", Half.class);
     private static final VoxelShape BOTTOM_SOUTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 8.0D);

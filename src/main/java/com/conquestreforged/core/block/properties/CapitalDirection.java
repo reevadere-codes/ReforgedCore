@@ -1,4 +1,4 @@
-package com.conquestreforged.core.block.types;
+package com.conquestreforged.core.block.properties;
 
 import net.minecraft.util.IStringSerializable;
 

@@ -3,7 +3,7 @@ package com.conquestreforged.core.block.standard;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
-import com.conquestreforged.core.block.shape.HorizontalShape;
+import com.conquestreforged.core.block.base.WaterloggedDirectionalShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
@@ -17,7 +17,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
                 @Model(name = "block/%s_thinverticalcorner", template = "block/parent_thinverticalcorner"),
         }
 )
-public class ThinVerticalCorner extends HorizontalShape {
+public class ThinVerticalCorner extends WaterloggedDirectionalShape {
 
     private static final VoxelShape EAST = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
     private static final VoxelShape QTR_EAST = Block.makeCuboidShape(3.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);

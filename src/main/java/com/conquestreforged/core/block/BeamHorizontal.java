@@ -3,9 +3,9 @@ package com.conquestreforged.core.block;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
+import com.conquestreforged.core.block.base.DirectionalShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.IntegerProperty;
@@ -14,9 +14,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 @Assets(
@@ -26,7 +24,7 @@ import net.minecraft.world.World;
                 @Model(name = "block/%s_horizontalbeam", template = "block/parent_horizontalbeam")
         }
 )
-public class BeamHorizontal extends HorizontalBlock {
+public class BeamHorizontal extends DirectionalShape {
 
     public static final IntegerProperty ACTIVATED = IntegerProperty.create("activated", 1, 4);
 
@@ -38,13 +36,13 @@ public class BeamHorizontal extends HorizontalBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state) {
         return SHAPE;
     }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(HORIZONTAL_FACING, ACTIVATED);
+        builder.add(DIRECTION, ACTIVATED);
     }
 
     @Override
@@ -53,7 +51,7 @@ public class BeamHorizontal extends HorizontalBlock {
         Direction facing = context.getPlacementHorizontalFacing().getOpposite();
 
         return super.getStateForPlacement(context)
-                .with(HORIZONTAL_FACING, facing)
+                .with(DIRECTION, facing)
                 .with(ACTIVATED, 0);
     }
 

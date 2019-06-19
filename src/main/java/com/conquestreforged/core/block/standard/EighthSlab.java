@@ -1,24 +1,16 @@
 package com.conquestreforged.core.block.standard;
 
 import com.conquestreforged.core.asset.annotation.*;
-import com.conquestreforged.core.block.extensions.Waterloggable;
-import com.conquestreforged.core.block.shape.HorizontalShape;
+import com.conquestreforged.core.block.base.WaterloggedDirectionalShape;
 import net.minecraft.block.*;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.Half;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
 
 @Assets(
         state = @State(name = "%s_eighthslab", template = "parent_eighthslab"),
@@ -34,7 +26,7 @@ import net.minecraft.world.IWorld;
                 }
         )
 )
-public class EighthSlab extends HorizontalShape {
+public class EighthSlab extends WaterloggedDirectionalShape {
 
     private static final VoxelShape BOTTOM_QTR_EAST_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 8.0D, 16.0D);
     private static final VoxelShape BOTTOM_QTR_WEST_SHAPE = Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 8.0D, 8.0D);

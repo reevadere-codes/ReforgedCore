@@ -1,15 +1,15 @@
-package com.conquestreforged.core.block.types;
+package com.conquestreforged.core.block.properties;
 
 import net.minecraft.util.IStringSerializable;
 
-public enum SphereType implements IStringSerializable {
+public enum SphereShape implements IStringSerializable {
     EGG("egg"),
     SMALL("small"),
     LARGE("large");
 
     private final String name;
 
-    SphereType(String name) {
+    SphereShape(String name) {
         this.name = name;
     }
 

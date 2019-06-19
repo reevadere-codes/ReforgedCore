@@ -1,20 +1,18 @@
 package com.conquestreforged.core.block;
 
-import net.minecraft.block.BlockVine;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.VineBlock;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.IWorldReader;
 
-public class Vine extends BlockVine {
+public class Vine extends VineBlock {
 
     public Vine(Properties properties) {
         super(properties);
     }
 
     @Override
-    public boolean isValidPosition(BlockState p_196260_1_, IWorldReaderBase p_196260_2_, BlockPos p_196260_3_) {
+    public boolean isValidPosition(BlockState state, IWorldReader reader, BlockPos pos) {
         return true;
     }
-
-    //gamerule to disable growth?
 }

@@ -1,7 +1,7 @@
 package com.conquestreforged.core.block.standard;
 
 import com.conquestreforged.core.asset.annotation.*;
-import com.conquestreforged.core.block.extensions.Waterloggable;
+import com.conquestreforged.core.block.properties.Waterloggable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FenceGateBlock;

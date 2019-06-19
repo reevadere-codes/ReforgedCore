@@ -3,9 +3,9 @@ package com.conquestreforged.core.block;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
+import com.conquestreforged.core.block.base.DirectionalShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
@@ -14,9 +14,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 @Assets(
@@ -26,7 +24,7 @@ import net.minecraft.world.World;
                 @Model(name = "block/%s_beam", template = "block/parent_beam")
         }
 )
-public class BeamVertical extends HorizontalBlock {
+public class BeamVertical extends DirectionalShape {
 
     public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
@@ -44,23 +42,9 @@ public class BeamVertical extends HorizontalBlock {
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return getShape(state);
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return getShape(state);
-    }
-
-    @Override
-    public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return getShape(state);
-    }
-
-    private VoxelShape getShape(BlockState state) {
+    public VoxelShape getShape(BlockState state) {
         if (state.get(ACTIVATED)) {
-            switch (state.get(HORIZONTAL_FACING)) {
+            switch (state.get(DIRECTION)) {
                 case NORTH:
                 default:
                     return SHAPE_NORTH_OFF;
@@ -72,7 +56,7 @@ public class BeamVertical extends HorizontalBlock {
                     return SHAPE_WEST_OFF;
             }
         } else {
-            switch (state.get(HORIZONTAL_FACING)) {
+            switch (state.get(DIRECTION)) {
                 case NORTH:
                 default:
                     return SHAPE_NORTH_ON;
@@ -87,18 +71,18 @@ public class BeamVertical extends HorizontalBlock {
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(HORIZONTAL_FACING, ACTIVATED);
-    }
-
-    @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         //IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         Direction facing = context.getPlacementHorizontalFacing().getOpposite();
 
         return super.getStateForPlacement(context)
-                .with(HORIZONTAL_FACING, facing)
+                .with(DIRECTION, facing)
                 .with(ACTIVATED, false);
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(DIRECTION, ACTIVATED);
     }
 
     @Override

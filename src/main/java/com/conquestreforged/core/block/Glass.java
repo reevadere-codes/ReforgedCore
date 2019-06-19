@@ -1,18 +1,10 @@
 package com.conquestreforged.core.block;
 
-import net.minecraft.block.BlockGlass;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.GlassBlock;
 
-import java.util.Random;
-
-public class Glass extends BlockGlass {
+public class Glass extends GlassBlock {
 
     public Glass(Properties properties) {
         super(properties);
-    }
-
-    @Override
-    public int quantityDropped(BlockState state, Random rand) {
-        return 1;
     }
 }

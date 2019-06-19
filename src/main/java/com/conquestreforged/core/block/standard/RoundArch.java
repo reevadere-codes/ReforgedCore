@@ -3,10 +3,9 @@ package com.conquestreforged.core.block.standard;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
-import com.conquestreforged.core.block.extensions.Waterloggable;
-import com.conquestreforged.core.block.types.ArchShapes;
+import com.conquestreforged.core.block.properties.Waterloggable;
+import com.conquestreforged.core.block.properties.ArchShape;
 import net.minecraft.block.*;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -32,7 +31,7 @@ import net.minecraft.world.IWorld;
 )
 public class RoundArch extends HorizontalBlock implements Waterloggable {
 
-    public static final EnumProperty<ArchShapes> FORM = EnumProperty.create("shape", ArchShapes.class);
+    public static final EnumProperty<ArchShape> FORM = EnumProperty.create("shape", ArchShape.class);
 
     private static final VoxelShape ARCH_NORTH_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 16.0D, 16.0D, 8.0D));
     private static final VoxelShape ARCH_WEST_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D), Block.makeCuboidShape(8.0D, 8.0D, 0.0D, 16.0D, 16.0D, 16.0D));
@@ -43,7 +42,7 @@ public class RoundArch extends HorizontalBlock implements Waterloggable {
 
     public RoundArch(Properties properties) {
         super(properties);
-        this.setDefaultState((this.stateContainer.getBaseState()).with(FORM, ArchShapes.ONE).with(HORIZONTAL_FACING, Direction.NORTH).with(WATERLOGGED, false));
+        this.setDefaultState((this.stateContainer.getBaseState()).with(FORM, ArchShape.ONE).with(HORIZONTAL_FACING, Direction.NORTH).with(WATERLOGGED, false));
     }
 
     @Override
@@ -93,19 +92,19 @@ public class RoundArch extends HorizontalBlock implements Waterloggable {
             if (counter == 0) {
                 return this.getDefaultState()
                         .with(HORIZONTAL_FACING, facing)
-                        .with(FORM, ArchShapes.ONE);
+                        .with(FORM, ArchShape.ONE);
             } else if (counter == 1 && isThirdShape) {
                 return this.getDefaultState()
                         .with(HORIZONTAL_FACING, facing)
-                        .with(FORM, ArchShapes.THREE);
+                        .with(FORM, ArchShape.THREE);
             } else if (counter == 1) {
                 return this.getDefaultState()
                         .with(HORIZONTAL_FACING, facing)
-                        .with(FORM, ArchShapes.TWO);
+                        .with(FORM, ArchShape.TWO);
             } else if (counter >= 2) {
                 return this.getDefaultState()
                         .with(HORIZONTAL_FACING, facing)
-                        .with(FORM, ArchShapes.THREE_MIDDLE);
+                        .with(FORM, ArchShape.THREE_MIDDLE);
             } else {
                 return stateIn;
             }
@@ -115,9 +114,9 @@ public class RoundArch extends HorizontalBlock implements Waterloggable {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        if (state.get(FORM) == ArchShapes.ONE) {
+        if (state.get(FORM) == ArchShape.ONE) {
             return VoxelShapes.fullCube();
-        } else if ((state.get(FORM) == ArchShapes.TWO) || (state.get(FORM) == ArchShapes.THREE)) {
+        } else if ((state.get(FORM) == ArchShape.TWO) || (state.get(FORM) == ArchShape.THREE)) {
             switch (state.get(HORIZONTAL_FACING)) {
                 case NORTH:
                 default:
@@ -191,22 +190,22 @@ public class RoundArch extends HorizontalBlock implements Waterloggable {
         if (counter == 0) {
             return this.getDefaultState()
                     .with(HORIZONTAL_FACING, facing)
-                    .with(FORM, ArchShapes.ONE)
+                    .with(FORM, ArchShape.ONE)
                     .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
         } else if (counter == 1 && isThirdShape) {
             return this.getDefaultState()
                     .with(HORIZONTAL_FACING, facing)
-                    .with(FORM, ArchShapes.THREE)
+                    .with(FORM, ArchShape.THREE)
                     .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
         } else if (counter == 1) {
             return this.getDefaultState()
                     .with(HORIZONTAL_FACING, facing)
-                    .with(FORM, ArchShapes.TWO)
+                    .with(FORM, ArchShape.TWO)
                     .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
         } else {
             return this.getDefaultState()
                     .with(HORIZONTAL_FACING, facing)
-                    .with(FORM, ArchShapes.THREE_MIDDLE)
+                    .with(FORM, ArchShape.THREE_MIDDLE)
                     .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
         }
 

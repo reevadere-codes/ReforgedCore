@@ -1,4 +1,4 @@
-package com.conquestreforged.core.block.props;
+package com.conquestreforged.core.block.builder;
 
 import com.conquestreforged.core.asset.template.JsonOverride;
 import com.google.common.collect.ImmutableMap;

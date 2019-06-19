@@ -1,12 +1,11 @@
 package com.conquestreforged.core.block;
 
-import com.conquestreforged.core.block.props.Props;
+import com.conquestreforged.core.block.builder.Props;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;

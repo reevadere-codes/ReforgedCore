@@ -1,17 +1,16 @@
 package com.conquestreforged.core.block;
 
-import com.conquestreforged.core.block.props.Props;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.item.Item;
+import com.conquestreforged.core.block.builder.Props;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.CropsBlock;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.IWorldReader;
 
-public class Crops extends BlockCrops {
+public class Crops extends CropsBlock {
 
     private final IItemProvider seeds;
     private final IItemProvider crop;
@@ -28,12 +27,12 @@ public class Crops extends BlockCrops {
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReaderBase reader, BlockPos pos) {
+    public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
         return true;
     }
 
     @Override
-    protected boolean isValidGround(BlockState p_200014_1_, IBlockReader p_200014_2_, BlockPos p_200014_3_) {
+    protected boolean isValidGround(BlockState state, IBlockReader world, BlockPos pos) {
         return true;
     }
 
@@ -42,7 +41,6 @@ public class Crops extends BlockCrops {
         return seeds;
     }
 
-    @Override
     protected IItemProvider getCropsItem() {
         return crop;
     }

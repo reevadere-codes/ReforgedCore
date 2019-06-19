@@ -1,19 +1,20 @@
 package com.conquestreforged.core.block;
 
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 
-public class Door extends BlockDoor {
+public class Door extends DoorBlock {
 
     public Door(Properties properties) {
         super(properties);
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReaderBase reader, BlockPos pos) {
+    public boolean isValidPosition(BlockState state, IWorldReader reader, BlockPos pos) {
         BlockState stateDown = reader.getBlockState(pos.down());
         if (state.get(HALF) == DoubleBlockHalf.LOWER) {
             return true;

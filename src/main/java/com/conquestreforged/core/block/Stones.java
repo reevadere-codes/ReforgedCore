@@ -1,49 +1,38 @@
 package com.conquestreforged.core.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFourWay;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FourWayBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Fluids;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 
-public class Stones extends BlockFourWay {
+public class Stones extends FourWayBlock {
 
     public Stones(Properties properties) {
         super(0.0F, 0.0F, 16.0F, 16.0F, 16.0F, properties);
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return VoxelShapes.empty();
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return VoxelShapes.fullCube();
     }
 
     @Override
     public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return VoxelShapes.empty();
-    }
-
-    @Override
-    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, BlockState state, BlockPos pos, Direction face) {
-        return BlockFaceShape.UNDEFINED;
-    }
-
-    @Override
-    public boolean isFullCube(BlockState state) {
-        return false;
     }
 
     @Override
@@ -74,6 +63,6 @@ public class Stones extends BlockFourWay {
 
     private boolean attachesTo(BlockState state) {
         Block block = state.getBlock();
-        return block != Blocks.BARRIER || ((block.getMaterial(null).isOpaque() && state.isFullCube()) && block.getMaterial(null) != Material.GOURD);
+        return !Block.cannotAttach(block) || ((state.getMaterial().isOpaque()) && state.getMaterial() != Material.GOURD);
     }
 }

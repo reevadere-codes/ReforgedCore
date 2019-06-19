@@ -1,8 +1,8 @@
 package com.conquestreforged.core.block.standard;
 
 import com.conquestreforged.core.asset.annotation.*;
-import com.conquestreforged.core.block.extensions.Waterloggable;
-import com.conquestreforged.core.block.shape.HorizontalShape;
+import com.conquestreforged.core.block.properties.Waterloggable;
+import com.conquestreforged.core.block.base.WaterloggedDirectionalShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluids;
@@ -29,7 +29,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
                 }
         )
 )
-public class CornerSlab extends HorizontalShape implements Waterloggable {
+public class CornerSlab extends WaterloggedDirectionalShape implements Waterloggable {
 
     public static final EnumProperty<Half> TYPE_UPDOWN = EnumProperty.create("type", Half.class);
     private static final VoxelShape BOTTOM_QTR_SOUTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 8.0D, 16.0D);

@@ -1,4 +1,4 @@
-package com.conquestreforged.core.block.props;
+package com.conquestreforged.core.block.builder;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;

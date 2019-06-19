@@ -1,9 +1,9 @@
 package com.conquestreforged.core.block;
 
-import net.minecraft.block.BlockPane;
+import net.minecraft.block.PaneBlock;
 import net.minecraft.util.BlockRenderLayer;
 
-public class PaneTranslucent extends BlockPane {
+public class PaneTranslucent extends PaneBlock {
 
     public PaneTranslucent(Properties properties) {
         super(properties);

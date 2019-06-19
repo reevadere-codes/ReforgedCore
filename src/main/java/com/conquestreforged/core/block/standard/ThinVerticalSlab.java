@@ -3,8 +3,8 @@ package com.conquestreforged.core.block.standard;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
-import com.conquestreforged.core.block.extensions.Waterloggable;
-import com.conquestreforged.core.block.shape.HorizontalShape;
+import com.conquestreforged.core.block.properties.Waterloggable;
+import com.conquestreforged.core.block.base.WaterloggedDirectionalShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
@@ -17,7 +17,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
                 @Model(name = "block/%s_thinverticalslab", template = "block/parent_thinverticalslab"),
         }
 )
-public class ThinVerticalSlab extends HorizontalShape implements Waterloggable {
+public class ThinVerticalSlab extends WaterloggedDirectionalShape implements Waterloggable {
 
     private static final VoxelShape EAST_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
     private static final VoxelShape WEST_SHAPE = Block.makeCuboidShape(13.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);

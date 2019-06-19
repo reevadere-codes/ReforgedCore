@@ -1,18 +1,18 @@
 package com.conquestreforged.core.block;
 
-import net.minecraft.block.BlockRail;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.RailBlock;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.IWorldReader;
 
-public class Rail extends BlockRail {
+public class Rail extends RailBlock {
 
     public Rail(Properties properties) {
         super(properties);
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReaderBase reader, BlockPos pos) {
+    public boolean isValidPosition(BlockState state, IWorldReader reader, BlockPos pos) {
         return true;
     }
 }

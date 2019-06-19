@@ -1,4 +1,4 @@
-package com.conquestreforged.core.block.props;
+package com.conquestreforged.core.block.builder;
 
 public class BlockName {
 

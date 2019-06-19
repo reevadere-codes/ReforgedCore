@@ -3,9 +3,9 @@ package com.conquestreforged.core.block.standard;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
-import com.conquestreforged.core.block.extensions.Waterloggable;
-import com.conquestreforged.core.block.shape.AbstractShape;
-import com.conquestreforged.core.block.types.CapitalDirection;
+import com.conquestreforged.core.block.properties.Waterloggable;
+import com.conquestreforged.core.block.base.WaterloggedShape;
+import com.conquestreforged.core.block.properties.CapitalDirection;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluids;
@@ -28,7 +28,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
                 @Model(name = "block/%s_capital_up_side", template = "block/parent_capital_up_side"),
         }
 )
-public class Capital extends AbstractShape implements Waterloggable {
+public class Capital extends WaterloggedShape implements Waterloggable {
 
     public static final EnumProperty<CapitalDirection> FACING = EnumProperty.create("facing", CapitalDirection.class);
     public static final EnumProperty<Half> TYPE = EnumProperty.create("type", Half.class);

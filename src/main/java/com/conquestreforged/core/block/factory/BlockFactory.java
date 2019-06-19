@@ -2,8 +2,8 @@ package com.conquestreforged.core.block.factory;
 
 import com.conquestreforged.core.block.data.BlockData;
 import com.conquestreforged.core.block.data.BlockDataRegistry;
-import com.conquestreforged.core.block.props.BlockName;
-import com.conquestreforged.core.block.props.Props;
+import com.conquestreforged.core.block.builder.BlockName;
+import com.conquestreforged.core.block.builder.Props;
 import com.conquestreforged.core.item.family.FamilyRegistry;
 import com.conquestreforged.core.item.family.block.BlockFamily;
 import com.conquestreforged.core.util.Context;

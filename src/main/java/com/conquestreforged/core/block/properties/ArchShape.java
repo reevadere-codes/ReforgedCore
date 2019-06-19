@@ -1,8 +1,8 @@
-package com.conquestreforged.core.block.types;
+package com.conquestreforged.core.block.properties;
 
 import net.minecraft.util.IStringSerializable;
 
-public enum ArchShapes implements IStringSerializable {
+public enum ArchShape implements IStringSerializable {
     ONE("one"),
     TWO("two"),
     THREE("three"),
@@ -10,7 +10,7 @@ public enum ArchShapes implements IStringSerializable {
 
     private final String name;
 
-    ArchShapes(String name) {
+    ArchShape(String name) {
         this.name = name;
     }
 

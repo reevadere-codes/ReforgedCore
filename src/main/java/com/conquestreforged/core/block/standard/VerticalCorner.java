@@ -3,8 +3,8 @@ package com.conquestreforged.core.block.standard;
 import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
-import com.conquestreforged.core.block.extensions.Waterloggable;
-import com.conquestreforged.core.block.shape.HorizontalShape;
+import com.conquestreforged.core.block.properties.Waterloggable;
+import com.conquestreforged.core.block.base.WaterloggedDirectionalShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
@@ -18,7 +18,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
                 @Model(name = "block/%s_verticalcorner", template = "block/parent_verticalcorner"),
         }
 )
-public class VerticalCorner extends HorizontalShape implements Waterloggable {
+public class VerticalCorner extends WaterloggedDirectionalShape implements Waterloggable {
 
     private static final VoxelShape EAST = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D);
     private static final VoxelShape QTR_EAST = Block.makeCuboidShape(8.0D, 0.0D, 8.0D, 16.0D, 16.0D, 16.0D);

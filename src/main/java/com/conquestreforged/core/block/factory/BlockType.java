@@ -1,6 +1,6 @@
 package com.conquestreforged.core.block.factory;
 
-import com.conquestreforged.core.block.props.Props;
+import com.conquestreforged.core.block.builder.Props;
 import net.minecraft.block.Block;
 
 import java.lang.reflect.Constructor;

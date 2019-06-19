@@ -1,8 +1,8 @@
 package com.conquestreforged.core.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 
@@ -13,10 +13,7 @@ public class LadderTrapdoor extends Trapdoor {
     }
 
     @Override
-    public boolean isLadder(BlockState state, IWorldReader reader, BlockPos pos, EntityLivingBase entity) {
-        if (state.get(OPEN)) {
-            return true;
-        }
-        return false;
+    public boolean isLadder(BlockState state, IWorldReader reader, BlockPos pos, LivingEntity entity) {
+        return state.get(Trapdoor.OPEN);
     }
 }

@@ -1,8 +1,8 @@
 package com.conquestreforged.core.block.standard;
 
 import com.conquestreforged.core.asset.annotation.*;
-import com.conquestreforged.core.block.extensions.Waterloggable;
-import com.conquestreforged.core.block.shape.HorizontalShape;
+import com.conquestreforged.core.block.properties.Waterloggable;
+import com.conquestreforged.core.block.base.WaterloggedDirectionalShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
@@ -23,7 +23,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
                 }
         )
 )
-public class ArrowSlit extends HorizontalShape implements Waterloggable {
+public class ArrowSlit extends WaterloggedDirectionalShape implements Waterloggable {
 
     private static final VoxelShape EAST_FR = Block.makeCuboidShape(0.0D, 0.0D, 9.0D, 1.0D, 16.0D, 13.0D);
     private static final VoxelShape EAST_FL = Block.makeCuboidShape(0.0D, 0.0D, 3.0D, 1.0D, 16.0D, 7.0D);
