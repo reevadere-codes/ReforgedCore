@@ -1,6 +1,6 @@
 package com.conquestreforged.core.asset.annotation;
 
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Item {
 
-    Class<? extends net.minecraft.item.Item> value() default ItemBlock.class;
+    Class<? extends net.minecraft.item.Item> value() default BlockItem.class;
 }

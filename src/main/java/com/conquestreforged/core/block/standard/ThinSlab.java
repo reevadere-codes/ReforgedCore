@@ -6,11 +6,8 @@ import com.conquestreforged.core.asset.annotation.State;
 import com.conquestreforged.core.block.properties.Waterloggable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
-import net.minecraft.init.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathType;
@@ -68,7 +65,7 @@ public class ThinSlab extends Block implements Waterloggable {
     }
 
     @Override
-    public boolean isTopSolid(BlockState state) {
+    public boolean isSolid(BlockState state) {
         return state.get(TYPE_UPDOWN) == Half.TOP;
     }
 

@@ -49,12 +49,12 @@ public class Wall extends WallBlock {
                 BlockState south = worldIn.getBlockState(pos.south());
                 BlockState west = worldIn.getBlockState(pos.west());
 
-                boolean northFlag = this.attachesTo(north, north.getBlockFaceShape(worldIn, pos.north(), Direction.SOUTH));
-                boolean eastFlag = this.attachesTo(east, east.getBlockFaceShape(worldIn, pos.east(), Direction.WEST));
-                boolean southFlag = this.attachesTo(south, south.getBlockFaceShape(worldIn, pos.south(), Direction.NORTH));
-                boolean westFlag = this.attachesTo(west, west.getBlockFaceShape(worldIn, pos.west(), Direction.EAST));
-
-                worldIn.setBlockState(pos, state.with(NORTH, northFlag).with(EAST, eastFlag).with(SOUTH, southFlag).with(WEST, westFlag));
+//                boolean northFlag = this.attachesTo(north, north.getBlockFaceShape(worldIn, pos.north(), Direction.SOUTH));
+//                boolean eastFlag = this.attachesTo(east, east.getBlockFaceShape(worldIn, pos.east(), Direction.WEST));
+//                boolean southFlag = this.attachesTo(south, south.getBlockFaceShape(worldIn, pos.south(), Direction.NORTH));
+//                boolean westFlag = this.attachesTo(west, west.getBlockFaceShape(worldIn, pos.west(), Direction.EAST));
+//
+//                worldIn.setBlockState(pos, state.with(NORTH, northFlag).with(EAST, eastFlag).with(SOUTH, southFlag).with(WEST, westFlag));
             }
 
             return true;

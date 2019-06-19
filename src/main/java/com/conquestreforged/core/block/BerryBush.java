@@ -42,17 +42,12 @@ public class BerryBush extends CropsBlock {
         return true;
     }
 
-    @Override
-    public void getDrops(BlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int num) {
-        super.getDrops(state, drops, world, pos, 0);
-        drops.clear();
-        drops.add(new ItemStack(this, 1));
-    }
-
-    @Override
-    public IItemProvider getItemDropped(BlockState state, World world, BlockPos pos, int num) {
-        return this;
-    }
+//    @Override
+//    public void getDrops(BlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int num) {
+//        super.getDrops(state, drops, world, pos, 0);
+//        drops.clear();
+//        drops.add(new ItemStack(this, 1));
+//    }
 
     @Override
     public ItemStack getItem(IBlockReader reader, BlockPos pos, BlockState state) {

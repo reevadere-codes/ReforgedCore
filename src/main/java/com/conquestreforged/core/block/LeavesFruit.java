@@ -3,12 +3,12 @@ package com.conquestreforged.core.block;
 import com.conquestreforged.core.block.builder.Props;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -16,8 +16,12 @@ import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
@@ -51,7 +55,7 @@ public class LeavesFruit extends CropsBlock implements IShearable {
     @Override
     public void randomTick(BlockState state, World world, BlockPos pos, Random rand) {
         if (!state.get(PERSISTENT) && state.get(DISTANCE) == 7) {
-            state.dropBlockAsItem(world, pos, 0);
+//            state.dropBlockAsItem(world, pos, 0);
             world.removeBlock(pos, true);
         }
     }
@@ -162,24 +166,12 @@ public class LeavesFruit extends CropsBlock implements IShearable {
     }
 
     @Override
-    public void getDrops(BlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int num) {
-        super.getDrops(state, drops, world, pos, 0);
-        drops.clear();
-        drops.add(new ItemStack(this, 1));
-    }
-
-    @Override
-    public IItemProvider getItemDropped(BlockState state, World world, BlockPos pos, int num) {
-        return this;
-    }
-
-    @Override
     public ItemStack getItem(IBlockReader reader, BlockPos pos, BlockState state) {
         return new ItemStack(this,1);
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (this.isMaxAge(state)) {
             if (worldIn.isRemote) {
                 return true;
@@ -203,7 +195,7 @@ public class LeavesFruit extends CropsBlock implements IShearable {
             ItemStack itemstack1 = new ItemStack(fruit, 1);
             ItemEntity entityitem = new ItemEntity(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
             entityitem.setDefaultPickupDelay();
-            worldIn.spawnEntity(entityitem);
+            worldIn.func_217376_c(entityitem);
         }
     }
 

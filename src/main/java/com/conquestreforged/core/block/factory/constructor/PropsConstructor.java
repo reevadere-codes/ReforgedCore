@@ -19,7 +19,7 @@ public class PropsConstructor implements BlockType {
         try {
             return constructor.newInstance(args);
         } catch (Throwable t) {
-            throw new InitializationException(t);
+            throw new InitializationException(constructor, t);
         }
     }
 

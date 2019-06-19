@@ -26,7 +26,11 @@ public class Context {
 
     private static Context getCurrentContext() {
         ModContainer current = ModLoadingContext.get().getActiveContainer();
-        return contexts.computeIfAbsent(current, k -> new Context());
+        return contexts.computeIfAbsent(current, k -> {
+            Context context = new Context();
+            context.setNamespace(k.getNamespace());
+            return context;
+        });
     }
 
 }

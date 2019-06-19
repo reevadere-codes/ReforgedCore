@@ -46,8 +46,8 @@ public class Props implements BlockFactory {
 
     @Override
     public BlockName getName() {
-        if (base == null) {
-            throw new InitializationException("Block parent is null");
+        if (name == null) {
+            throw new InitializationException("Block name is null");
         }
         return name;
     }
