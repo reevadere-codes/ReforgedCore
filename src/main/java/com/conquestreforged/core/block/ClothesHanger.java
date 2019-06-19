@@ -2,7 +2,7 @@ package com.conquestreforged.core.block;
 
 import com.conquestreforged.core.block.standard.VerticalSlab;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.IntegerProperty;
@@ -10,6 +10,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 
 public class ClothesHanger extends VerticalSlab {
@@ -38,8 +39,8 @@ public class ClothesHanger extends VerticalSlab {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
-        if (!player.abilities.allowEdit) {
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        if (!player.playerAbilities.allowEdit) {
             return false;
         } else {
             worldIn.setBlockState(pos, state.cycle(ACTIVATED), 3);

@@ -2,23 +2,23 @@ package com.conquestreforged.core.block;
 
 import com.conquestreforged.core.block.builder.Props;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.CropsBlock;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class BerryBush extends BlockCrops {
+public class BerryBush extends CropsBlock {
 
     private final IItemProvider fruit;
 
@@ -33,7 +33,7 @@ public class BerryBush extends BlockCrops {
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReaderBase reader, BlockPos pos) {
+    public boolean isValidPosition(BlockState state, IWorldReader reader, BlockPos pos) {
         return true;
     }
 
@@ -60,7 +60,7 @@ public class BerryBush extends BlockCrops {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (this.isMaxAge(state)) {
             if (worldIn.isRemote) {
                 return true;
@@ -82,14 +82,16 @@ public class BerryBush extends BlockCrops {
             double d1 = (double) (worldIn.rand.nextFloat() * 0.7F) + 0.06000000238418579D + 0.6D;
             double d2 = (double) (worldIn.rand.nextFloat() * 0.7F) + 0.15000000596046448D;
             ItemStack itemstack1 = new ItemStack(fruit, 1);
-            EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
+            ItemEntity entityitem = new ItemEntity(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
             entityitem.setDefaultPickupDelay();
-            worldIn.spawnEntity(entityitem);
+
+            // func_217376_c == spawnEntitiy
+            worldIn.func_217376_c(entityitem);
         }
     }
 
     @Override
-    public Block.EnumOffsetType getOffsetType() {
-        return Block.EnumOffsetType.XYZ;
+    public Block.OffsetType getOffsetType() {
+        return Block.OffsetType.XYZ;
     }
 }

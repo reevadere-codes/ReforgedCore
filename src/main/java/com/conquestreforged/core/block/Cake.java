@@ -1,8 +1,8 @@
 package com.conquestreforged.core.block;
 
-import net.minecraft.block.BlockCake;
+import net.minecraft.block.CakeBlock;
 
-public class Cake extends BlockCake {
+public class Cake extends CakeBlock {
 
     public Cake(Properties properties) {
         super(properties);
