@@ -1,10 +1,16 @@
 package com.conquestreforged.core.item.family;
 
+import com.conquestreforged.core.init.Context;
+import com.conquestreforged.core.item.group.ConquestItemGroup;
 import com.conquestreforged.core.item.group.TaggedGroup;
 import com.conquestreforged.core.util.Stack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import org.lwjgl.openal.AL;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -12,6 +18,8 @@ import java.util.function.Supplier;
 public class FamilyGroup extends TaggedGroup<FamilyGroup> {
 
     public static final List<FamilyGroup> FAMILY_GROUPS = new LinkedList<>();
+    private static final Family.Filler ALL_ITEMS = Family::addAllItems;
+    private static final Family.Filler ROOT_ITEMS = Family::addRootItem;
     private static Family.Filler filler = Family::addAllItems;
 
     private final Supplier<ItemStack> icon;
@@ -37,7 +45,7 @@ public class FamilyGroup extends TaggedGroup<FamilyGroup> {
     }
 
     @Override
-    public void fill(NonNullList<ItemStack> items) {
+    public void populate(NonNullList<ItemStack> items) {
         FamilyRegistry.BLOCKS.values().forEach(family -> filler.fill(family, this, items));
         addTaggedBlocks(items);
 
@@ -45,10 +53,16 @@ public class FamilyGroup extends TaggedGroup<FamilyGroup> {
     }
 
     public static void setAddAllItems() {
-        filler = Family::addAllItems;
+        if (filler != ALL_ITEMS) {
+            filler = ALL_ITEMS;
+            FAMILY_GROUPS.forEach(FamilyGroup::invalidate);
+        }
     }
 
     public static void setAddRootItems() {
-        filler = Family::addRootItem;
+        if (filler != ROOT_ITEMS) {
+            filler = ROOT_ITEMS;
+            FAMILY_GROUPS.forEach(FamilyGroup::invalidate);
+        }
     }
 }

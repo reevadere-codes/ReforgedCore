@@ -8,6 +8,7 @@ import com.conquestreforged.core.item.group.manager.ItemGroupManager;
 import com.conquestreforged.core.proxy.Proxies;
 import com.conquestreforged.core.proxy.Side;
 import com.conquestreforged.core.proxy.impl.ClientProxy;
+import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -15,8 +16,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class InitEventsClient {
+
+    private static final List<IFutureReloadListener> reloadListeners = new LinkedList<>();
 
     @SubscribeEvent
     public static void models(ModelRegistryEvent event) {

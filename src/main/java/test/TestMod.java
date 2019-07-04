@@ -5,7 +5,7 @@ import com.conquestreforged.core.init.Stage;
 import com.conquestreforged.core.item.family.FamilyGroup;
 import com.conquestreforged.core.item.group.manager.GroupType;
 import com.conquestreforged.core.item.group.manager.ItemGroupManager;
-import com.conquestreforged.core.util.Context;
+import com.conquestreforged.core.init.Context;
 import com.conquestreforged.core.util.Log;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;

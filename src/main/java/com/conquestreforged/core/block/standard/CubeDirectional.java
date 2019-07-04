@@ -18,15 +18,15 @@ import net.minecraft.util.Rotation;
  * - Top   -> Top/Bottom
  */
 @Assets(
-        state = @State(name = "%s", template = "anvil", plural = true),
-        item = @Model(name = "item/%s", parent = "block/%s", template = "item/acacia_planks"),
-        block = @Model(name = "block/%s", template = "block/orientable")
+        state = @State(name = "%s_directional", template = "anvil", plural = true),
+        item = @Model(name = "item/%s_directional", parent = "block/%s", template = "item/acacia_planks"),
+        block = @Model(name = "block/%s_directional", template = "block/orientable")
 )
-public class CubeOrientable extends Block {
+public class CubeDirectional extends Block {
 
     private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
-    public CubeOrientable(Block.Properties properties) {
+    public CubeDirectional(Block.Properties properties) {
         super(properties);
     }
 

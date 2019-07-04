@@ -24,31 +24,26 @@ public class RackHalberds extends VerticalSlab {
         this.setDefaultState((this.stateContainer.getBaseState())
                 .with(UP, false)
                 .with(DOWN, false)
-                .with(HORIZONTAL_FACING, Direction.NORTH)
+                .with(DIRECTION, Direction.NORTH)
                 .with(WATERLOGGED, false));
     }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(UP, DOWN, HORIZONTAL_FACING, WATERLOGGED);
+        builder.add(UP, DOWN, DIRECTION, WATERLOGGED);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
-        Direction facing = context.getPlacementHorizontalFacing().getOpposite();
+        BlockPos pos = context.getPos();
+        IBlockReader reader = context.getWorld();
 
-        IBlockReader iblockreader = context.getWorld();
-        BlockPos blockpos = context.getPos();
-
-        BlockState BlockStateUp = iblockreader.getBlockState(blockpos.up());
-        BlockState BlockStateDown = iblockreader.getBlockState(blockpos.down());
+        BlockState up = reader.getBlockState(pos.up());
+        BlockState down = reader.getBlockState(pos.down());
 
         return super.getStateForPlacement(context)
-                .with(UP, this.attachesTo(BlockStateUp))
-                .with(DOWN, this.attachesTo(BlockStateDown))
-                .with(HORIZONTAL_FACING, facing)
-                .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
+                .with(UP, attachesTo(up))
+                .with(DOWN, attachesTo(down));
     }
 
     @Override

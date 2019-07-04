@@ -1,9 +1,6 @@
 package com.conquestreforged.core.block.factory;
 
-import com.conquestreforged.core.block.factory.constructor.BaseConstructor;
-import com.conquestreforged.core.block.factory.constructor.DyeConstructor;
-import com.conquestreforged.core.block.factory.constructor.PropsConstructor;
-import com.conquestreforged.core.block.factory.constructor.StateConstructor;
+import com.conquestreforged.core.block.factory.constructor.*;
 import com.conquestreforged.core.block.builder.Props;
 import com.conquestreforged.core.util.Cache;
 import net.minecraft.block.Block;
@@ -24,6 +21,7 @@ public class BlockTypeCache extends Cache<Class<? extends Block>, BlockType> {
         register(PropsConstructor::new, Props.class);
         register(BaseConstructor::new, Block.Properties.class);
         register(DyeConstructor::new, DyeColor.class, Block.Properties.class);
+        register(BlockConstructor::new, Block.class, Block.Properties.class);
         register(StateConstructor::new, BlockState.class, Block.Properties.class);
     }
 

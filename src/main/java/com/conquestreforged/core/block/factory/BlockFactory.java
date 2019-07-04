@@ -6,7 +6,7 @@ import com.conquestreforged.core.block.builder.BlockName;
 import com.conquestreforged.core.block.builder.Props;
 import com.conquestreforged.core.item.family.FamilyRegistry;
 import com.conquestreforged.core.item.family.block.BlockFamily;
-import com.conquestreforged.core.util.Context;
+import com.conquestreforged.core.init.Context;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;

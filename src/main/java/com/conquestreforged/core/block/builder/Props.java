@@ -2,7 +2,7 @@ package com.conquestreforged.core.block.builder;
 
 import com.conquestreforged.core.block.factory.BlockFactory;
 import com.conquestreforged.core.block.factory.InitializationException;
-import com.conquestreforged.core.util.Context;
+import com.conquestreforged.core.init.Context;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;

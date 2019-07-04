@@ -17,13 +17,13 @@ public class InitEventsCommon {
     @SubscribeEvent
     public static void blocks(RegistryEvent.Register<Block> event) {
         Init.runStage(Stage.BLOCK);
-        BlockDataRegistry.BLOCK_DATA.forEach(data -> event.getRegistry().register(data.getBlock()));
+        BlockDataRegistry.BLOCK_DATA.forEach(data -> Registrar.register(data, data.getBlock(), event.getRegistry()));
     }
 
     @SubscribeEvent
     public static void items(RegistryEvent.Register<Item> event) {
         Init.runStage(Stage.ITEM);
-        BlockDataRegistry.BLOCK_DATA.forEach(data -> event.getRegistry().register(data.getItem()));
+        BlockDataRegistry.BLOCK_DATA.forEach(data -> Registrar.register(data, data.getItem(), event.getRegistry()));
     }
 
     @SubscribeEvent

@@ -22,16 +22,16 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 
 @Assets(
-        state = @State(name = "%s_smallwindow", template = "parent_smallwindow"),
-        item = @Model(name = "item/%s_smallwindow", parent = "block/%s_smallwindow", template = "item/parent_smallwindow"),
+        state = @State(name = "%s_window_small", template = "parent_window_small"),
+        item = @Model(name = "item/%s_window_small", parent = "block/%s_window_small", template = "item/parent_window_small"),
         block = {
-                @Model(name = "block/%s_smallwindow", template = "block/parent_smallwindow"),
-                @Model(name = "block/%s_smallwindow_down", template = "block/parent_smallwindow_down"),
-                @Model(name = "block/%s_smallwindow_up", template = "block/parent_smallwindow_up"),
-                @Model(name = "block/%s_smallwindow_updown", template = "block/parent_smallwindow_updown"),
+                @Model(name = "block/%s_window_small", template = "block/parent_window_small"),
+                @Model(name = "block/%s_window_small_down", template = "block/parent_window_small_down"),
+                @Model(name = "block/%s_window_small_up", template = "block/parent_window_small_up"),
+                @Model(name = "block/%s_window_small_updown", template = "block/parent_window_small_updown"),
         }
 )
-public class SmallWindow extends Block implements Waterloggable {
+public class WindowSmall extends Block implements Waterloggable {
 
     public static final BooleanProperty UP = BlockStateProperties.UP;
     public static final BooleanProperty DOWN = BlockStateProperties.DOWN;
@@ -62,7 +62,7 @@ public class SmallWindow extends Block implements Waterloggable {
     private static final VoxelShape DOWN_SHAPE = VoxelShapes.or(SHAPE, DOWN_NESW);
     private static final VoxelShape UPDOWN_SHAPE = VoxelShapes.or(SHAPE, VoxelShapes.or(UP_NESW, DOWN_NESW));
 
-    public SmallWindow(Properties properties) {
+    public WindowSmall(Properties properties) {
         super(properties);
         this.setDefaultState((this.stateContainer.getBaseState()).with(UP,false).with(DOWN,false).with(WATERLOGGED, false));
 
@@ -127,13 +127,13 @@ public class SmallWindow extends Block implements Waterloggable {
 
     private boolean attachesTo(BlockState blockstate) {
         Block block = blockstate.getBlock();
-        return block != Blocks.BARRIER && (!(block != this && !(block instanceof SmallWindow)));
+        return block != Blocks.BARRIER && (!(block != this && !(block instanceof WindowSmall)));
     }
 
     private boolean canConnectTo(IWorld worldIn, BlockPos pos) {
         BlockState BlockState = worldIn.getBlockState(pos);
         Block block = BlockState.getBlock();
-        return block != Blocks.BARRIER && (!(block != this && !(block instanceof SmallWindow)));
+        return block != Blocks.BARRIER && (!(block != this && !(block instanceof WindowSmall)));
     }
 
     @Override

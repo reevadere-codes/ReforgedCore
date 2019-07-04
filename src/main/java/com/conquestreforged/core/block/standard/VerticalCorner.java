@@ -12,10 +12,10 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 
 @Assets(
-        state = @State(name = "%s_verticalcorner", template = "parent_verticalcorner"),
-        item = @Model(name = "item/%s_verticalcorner", parent = "block/%s_verticalcorner", template = "item/parent_verticalcorner"),
+        state = @State(name = "%s_vertical_corner", template = "parent_vertical_corner"),
+        item = @Model(name = "item/%s_vertical_corner", parent = "block/%s_vertical_corner", template = "item/parent_vertical_corner"),
         block = {
-                @Model(name = "block/%s_verticalcorner", template = "block/parent_verticalcorner"),
+                @Model(name = "block/%s_vertical_corner", template = "block/parent_vertical_corner"),
         }
 )
 public class VerticalCorner extends WaterloggedDirectionalShape implements Waterloggable {

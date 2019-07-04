@@ -19,16 +19,16 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 
 @Assets(
-        state = @State(name = "%s_halfsmallwindow", template = "parent_halfsmallwindow"),
-        item = @Model(name = "item/%s_halfsmallwindow", parent = "block/%s_halfsmallwindow_updown", template = "item/parent_halfsmallwindow"),
+        state = @State(name = "%s_window_small_half", template = "parent_window_small_half"),
+        item = @Model(name = "item/%s_window_small_half", parent = "block/%s_window_small_half_updown", template = "item/parent_window_small_half"),
         block = {
-                @Model(name = "block/%s_halfsmallwindow", template = "block/parent_halfsmallwindow"),
-                @Model(name = "block/%s_halfsmallwindow_down", template = "block/parent_halfsmallwindow_down"),
-                @Model(name = "block/%s_halfsmallwindow_up", template = "block/parent_halfsmallwindow_up"),
-                @Model(name = "block/%s_halfsmallwindow_updown", template = "block/parent_halfsmallwindow_updown"),
+                @Model(name = "block/%s_window_small_half", template = "block/parent_window_small_half"),
+                @Model(name = "block/%s_window_small_half_down", template = "block/parent_window_small_half_down"),
+                @Model(name = "block/%s_window_small_half_up", template = "block/parent_window_small_half_up"),
+                @Model(name = "block/%s_window_small_half_updown", template = "block/parent_window_small_half_updown"),
         }
 )
-public class HalfSmallWindow extends WaterloggedDirectionalShape {
+public class WindowSmallHalf extends WaterloggedDirectionalShape {
 
     public static final BooleanProperty UP = BlockStateProperties.UP;
     public static final BooleanProperty DOWN = BlockStateProperties.DOWN;
@@ -68,7 +68,7 @@ public class HalfSmallWindow extends WaterloggedDirectionalShape {
     private static final VoxelShape UPDOWN_NORTH_SHAPE = VoxelShapes.or(NORTH_SHAPE, VoxelShapes.or(TOP_NORTH, BOTTOM_NORTH));
     private static final VoxelShape UPDOWN_EAST_SHAPE = VoxelShapes.or(EAST_SHAPE, VoxelShapes.or(TOP_EAST, BOTTOM_EAST));
 
-    public HalfSmallWindow(Properties properties) {
+    public WindowSmallHalf(Properties properties) {
         super(properties);
         setDefaultState((stateContainer.getBaseState()).with(DIRECTION, Direction.NORTH).with(UP,false).with(DOWN,false).with(WATERLOGGED, false));
     }
@@ -162,12 +162,12 @@ public class HalfSmallWindow extends WaterloggedDirectionalShape {
 
     private boolean attachesTo(BlockState blockstate) {
         Block block = blockstate.getBlock();
-        return block != Blocks.BARRIER && (!(block != this && !(block instanceof HalfSmallWindow)));
+        return block != Blocks.BARRIER && (!(block != this && !(block instanceof WindowSmallHalf)));
     }
 
     private boolean canConnectTo(IWorld worldIn, BlockPos pos) {
         BlockState BlockState = worldIn.getBlockState(pos);
         Block block = BlockState.getBlock();
-        return block != Blocks.BARRIER && (!(block != this && !(block instanceof HalfSmallWindow)));
+        return block != Blocks.BARRIER && (!(block != this && !(block instanceof WindowSmallHalf)));
     }
 }

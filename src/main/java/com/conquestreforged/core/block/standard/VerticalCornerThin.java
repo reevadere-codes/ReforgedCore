@@ -11,13 +11,13 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 
 @Assets(
-        state = @State(name = "%s_thinverticalcorner", template = "parent_thinverticalcorner"),
-        item = @Model(name = "item/%s_thinverticalcorner", parent = "block/%s_thinverticalcorner", template = "item/parent_thinverticalcorner"),
+        state = @State(name = "%s_vertical_corner_thin", template = "parent_vertical_corner_thin"),
+        item = @Model(name = "item/%s_vertical_corner_thin", parent = "block/%s_vertical_corner_thin", template = "item/parent_vertical_corner_thin"),
         block = {
-                @Model(name = "block/%s_thinverticalcorner", template = "block/parent_thinverticalcorner"),
+                @Model(name = "block/%s_vertical_corner_thin", template = "block/parent_vertical_corner_thin"),
         }
 )
-public class ThinVerticalCorner extends WaterloggedDirectionalShape {
+public class VerticalCornerThin extends WaterloggedDirectionalShape {
 
     private static final VoxelShape EAST = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
     private static final VoxelShape QTR_EAST = Block.makeCuboidShape(3.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);
@@ -36,7 +36,7 @@ public class ThinVerticalCorner extends WaterloggedDirectionalShape {
     private static final VoxelShape SOUTH_SHAPE = VoxelShapes.or(SOUTH, QTR_SOUTH);
 
 
-    public ThinVerticalCorner(Properties properties) {
+    public VerticalCornerThin(Properties properties) {
         super(properties);
         this.setDefaultState((this.stateContainer.getBaseState()).with(DIRECTION, Direction.NORTH).with(WATERLOGGED, false));
 

@@ -18,10 +18,10 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
 @Assets(
-        state = @State(name = "%s_verticalquarter", template = "parent_verticalquarter"),
-        item = @Model(name = "item/%s_verticalquarter", parent = "block/%s_verticalquarter", template = "item/parent_verticalquarter"),
+        state = @State(name = "%s_vertical_quarter", template = "parent_vertical_quarter"),
+        item = @Model(name = "item/%s_vertical_quarter", parent = "block/%s_vertical_quarter", template = "item/parent_vertical_quarter"),
         block = {
-                @Model(name = "block/%s_verticalquarter", template = "block/parent_verticalquarter"),
+                @Model(name = "block/%s_verticals_vertical_quarter", template = "block/parent_vertical_quarter"),
         }
 )
 public class VerticalQuarter extends HorizontalBlock implements Waterloggable {

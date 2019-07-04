@@ -6,17 +6,17 @@ import com.conquestreforged.core.asset.annotation.State;
 import net.minecraft.block.WallBlock;
 
 @Assets(
-        state = @State(name = "%s_fence", template = "acacia_fence"),
-        item = @Model(name = "item/%s_fence", parent = "block/%s_fence_inventory", template = "item/acacia_fence"),
+        state = @State(name = "%s__balustrade_small", template = "acacia_fence"),
+        item = @Model(name = "item/%s_balustrade_small", parent = "block/%s_fence_inventory", template = "item/acacia_fence"),
         block = {
-                @Model(name = "block/%s_fence_post", template = "block/acacia_fence_post"),
-                @Model(name = "block/%s_fence_side", template = "block/acacia_fence_side"),
-                @Model(name = "block/%s_fence_inventory", template = "block/acacia_fence_inventory"),
+                @Model(name = "block/%s_balustrade_small_post", template = "block/acacia_fence_post"),
+                @Model(name = "block/%s_balustrade_small_side", template = "block/acacia_fence_side"),
+                @Model(name = "block/%s_balustrade_small_inventory", template = "block/acacia_fence_inventory"),
         }
 )
-public class SmallBalustrade extends WallBlock {
+public class BalustradeSmall extends WallBlock {
 
-    public SmallBalustrade (Properties properties) {
+    public BalustradeSmall(Properties properties) {
         super(properties);
     }
 

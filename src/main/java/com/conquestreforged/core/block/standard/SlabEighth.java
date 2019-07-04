@@ -13,10 +13,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.shapes.VoxelShape;
 
 @Assets(
-        state = @State(name = "%s_eighthslab", template = "parent_eighthslab"),
-        item = @Model(name = "item/%s_eighthslab", parent = "block/%s_eighthslab", template = "item/parent_eighthslab"),
+        state = @State(name = "%s_slab_eighth", template = "parent_eighthslab"),
+        item = @Model(name = "item/%s_slab_eighth", parent = "block/%s_eighthslab", template = "item/parent_eighthslab"),
         block = {
-                @Model(name = "block/%s_eighthslab", template = "block/parent_eighthslab"),
+                @Model(name = "block/%s_slab_eighth", template = "block/parent_eighthslab"),
         },
         recipe = @Recipe(
                 name = "%s_slab",
@@ -26,7 +26,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
                 }
         )
 )
-public class EighthSlab extends WaterloggedDirectionalShape {
+public class SlabEighth extends WaterloggedDirectionalShape {
 
     private static final VoxelShape BOTTOM_QTR_EAST_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 8.0D, 16.0D);
     private static final VoxelShape BOTTOM_QTR_WEST_SHAPE = Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 8.0D, 8.0D);
@@ -41,7 +41,7 @@ public class EighthSlab extends WaterloggedDirectionalShape {
 
     public static final EnumProperty<Half> TYPE_UPDOWN = EnumProperty.create("type", Half.class);
 
-    public EighthSlab(Properties properties) {
+    public SlabEighth(Properties properties) {
         super(properties);
         this.setDefaultState(this.getDefaultState().with(DIRECTION, Direction.NORTH).with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, false));
     }

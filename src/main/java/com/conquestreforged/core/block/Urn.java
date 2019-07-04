@@ -1,10 +1,12 @@
 package com.conquestreforged.core.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -19,7 +21,9 @@ public class Urn extends HorizontalBlock {
 
     public Urn(Properties properties) {
         super(properties);
-        this.setDefaultState((this.stateContainer.getBaseState()).with(HORIZONTAL_FACING, Direction.NORTH).with(CAP,false));
+        this.setDefaultState((this.stateContainer.getBaseState())
+                .with(HORIZONTAL_FACING, Direction.NORTH)
+                .with(CAP,false));
     }
 
     @Override
@@ -46,5 +50,10 @@ public class Urn extends HorizontalBlock {
     @Override
     public boolean isValidPosition(BlockState state, IWorldReader reader, BlockPos pos) {
         return true;
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(HORIZONTAL_FACING, CAP);
     }
 }

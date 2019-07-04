@@ -14,9 +14,9 @@ import com.conquestreforged.core.asset.annotation.State;
                 @Model(name = "block/%s_gothic_arch_half_three_top", template = "block/parent_gothic_arch_half_three_top"),
         }
 )
-public class GothicArchHalf extends RoundArchHalf {
+public class ArchGothicHalf extends ArchRoundHalf {
 
-    public GothicArchHalf(Properties properties) {
+    public ArchGothicHalf(Properties properties) {
         super(properties);
     }
 

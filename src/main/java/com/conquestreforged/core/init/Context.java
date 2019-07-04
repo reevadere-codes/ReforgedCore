@@ -1,4 +1,4 @@
-package com.conquestreforged.core.util;
+package com.conquestreforged.core.init;
 
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModLoadingContext;

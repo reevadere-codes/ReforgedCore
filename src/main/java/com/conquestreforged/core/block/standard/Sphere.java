@@ -20,7 +20,7 @@ import net.minecraft.util.Direction;
         item = @Model(name = "item/%s_sphere", parent = "block/%s_sphere", template = "item/parent_sphere"),
         block = {
                 @Model(name = "block/%s_sphere", template = "block/parent_sphere"),
-                @Model(name = "block/%s_sphere_dragonegg", template = "block/parent_sphere"),
+                @Model(name = "block/%s_sphere_dragon_egg", template = "block/parent_sphere"),
                 @Model(name = "block/%s_sphere_small", template = "block/parent_sphere"),
         }
 )

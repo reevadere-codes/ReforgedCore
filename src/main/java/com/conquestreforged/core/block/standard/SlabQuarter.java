@@ -16,13 +16,13 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.shapes.VoxelShape;
 
 @Assets(
-        state = @State(name = "%s_quarterslab", template = "parent_quarterslab"),
-        item = @Model(name = "item/%s_quarterslab", parent = "block/%s_quarterslab", template = "item/parent_quarterslab"),
+        state = @State(name = "%s_slab_quarter", template = "parent_quarterslab"),
+        item = @Model(name = "item/%s_slab_quarter", parent = "block/%s_quarterslab", template = "item/parent_quarterslab"),
         block = {
-                @Model(name = "block/%s_quarterslab", template = "block/parent_quarterslab"),
+                @Model(name = "block/%s_slab_quarter", template = "block/parent_quarterslab"),
         }
 )
-public class QuarterSlab extends WaterloggedDirectionalShape {
+public class SlabQuarter extends WaterloggedDirectionalShape {
 
     public static final EnumProperty<Half> TYPE_UPDOWN = EnumProperty.create("type", Half.class);
     private static final VoxelShape BOTTOM_SOUTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 8.0D);
@@ -34,7 +34,7 @@ public class QuarterSlab extends WaterloggedDirectionalShape {
     private static final VoxelShape TOP_WEST_SHAPE = Block.makeCuboidShape(8.0D, 8.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     private static final VoxelShape TOP_EAST_SHAPE = Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 16.0D);
 
-    public QuarterSlab(Properties properties) {
+    public SlabQuarter(Properties properties) {
         super(properties);
         this.setDefaultState(this.getDefaultState().with(DIRECTION, Direction.NORTH).with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, false));
     }

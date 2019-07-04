@@ -18,10 +18,10 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
 
 @Assets(
-        state = @State(name = "%s_horizontalbeam", template = "parent_horizontalbeam"),
-        item = @Model(name = "item/%s_horizontalbeam", parent = "block/%s_horizontalbeam", template = "item/parent_horizontalbeam"),
+        state = @State(name = "%s_beam_horizontal", template = "parent_beam_horizontal"),
+        item = @Model(name = "item/%s_beam_horizontal", parent = "block/%s_beam_horizontal", template = "item/parent_beam_horizontal"),
         block = {
-                @Model(name = "block/%s_horizontalbeam", template = "block/parent_horizontalbeam")
+                @Model(name = "block/%s_beam_horizontal", template = "block/parent_beam_horizontal")
         }
 )
 public class BeamHorizontal extends DirectionalShape {

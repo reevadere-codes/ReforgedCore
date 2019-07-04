@@ -11,20 +11,20 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.shapes.VoxelShape;
 
 @Assets(
-        state = @State(name = "%s_thinverticalslab", template = "parent_thinverticalslab"),
-        item = @Model(name = "item/%s_thinverticalslab", parent = "block/%s_thinverticalslab", template = "item/parent_thinverticalslab"),
+        state = @State(name = "%s_vertical_slab_thin", template = "parent_vertical_slab_thin"),
+        item = @Model(name = "item/%s_vertical_slab_thin", parent = "block/%s_vertical_slab_thin", template = "item/parent_vertical_slab_thin"),
         block = {
-                @Model(name = "block/%s_thinverticalslab", template = "block/parent_thinverticalslab"),
+                @Model(name = "block/%s_vertical_slab_thin", template = "block/parent_vertical_slab_thin"),
         }
 )
-public class ThinVerticalSlab extends WaterloggedDirectionalShape implements Waterloggable {
+public class VerticalSlabThin extends WaterloggedDirectionalShape implements Waterloggable {
 
     private static final VoxelShape EAST_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
     private static final VoxelShape WEST_SHAPE = Block.makeCuboidShape(13.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     private static final VoxelShape SOUTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 3.0D);
     private static final VoxelShape NORTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);
 
-    public ThinVerticalSlab(Properties properties) {
+    public VerticalSlabThin(Properties properties) {
         super(properties);
         this.setDefaultState((this.stateContainer.getBaseState()).with(DIRECTION, Direction.NORTH).with(WATERLOGGED, false));
 

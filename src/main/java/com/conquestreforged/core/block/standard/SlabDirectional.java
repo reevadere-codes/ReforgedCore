@@ -17,13 +17,13 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
 @Assets(
-        state = @State(name = "%s_slab", template = "parent_slab"),
-        item = @Model(name = "item/%s_slab", parent = "block/%s_slab", template = "item/acacia_slab"),
+        state = @State(name = "%s_slab_directional", template = "parent_slab"),
+        item = @Model(name = "item/%s_slab_directional", parent = "block/%s_slab", template = "item/acacia_slab"),
         block = {
-                @Model(name = "block/%s_slab", template = "block/parent_slab"),
+                @Model(name = "block/%s_slab_directional", template = "block/orientable"),
         },
         recipe = @Recipe(
-                name = "%s_slab",
+                name = "%s_slab_directional",
                 template = "acacia_slab",
                 ingredients = {
                         @Ingredient(name = "%s", template = "acacia_planks", plural = true)

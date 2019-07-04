@@ -17,25 +17,18 @@ public class ClothesHanger extends VerticalSlab {
 
     public static final IntegerProperty ACTIVATED = IntegerProperty.create("activated", 1, 4);
 
-    //might make more voxelshapes later on...
-
     public ClothesHanger(Block.Properties properties) {
         super(properties);
     }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(HORIZONTAL_FACING, ACTIVATED);
+        builder.add(DIRECTION, WATERLOGGED, ACTIVATED);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        //IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
-        Direction facing = context.getPlacementHorizontalFacing().getOpposite();
-
-        return super.getStateForPlacement(context)
-                .with(HORIZONTAL_FACING, facing)
-                .with(ACTIVATED, 0);
+        return super.getStateForPlacement(context).with(ACTIVATED, 0);
     }
 
     @Override

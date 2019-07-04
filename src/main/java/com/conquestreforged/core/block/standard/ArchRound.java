@@ -4,11 +4,8 @@ import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
 import com.conquestreforged.core.block.properties.Waterloggable;
-import com.conquestreforged.core.block.properties.HalfArchShape;
 import com.conquestreforged.core.block.properties.ArchShape;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.*;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -23,44 +20,29 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 
 @Assets(
-        state = @State(name = "%s_round_arch_half", template = "parent_round_arch_half"),
-        item = @Model(name = "item/%s_round_arch_half", parent = "block/%s_round_arch_one_half", template = "item/parent_round_arch_half"),
+        state = @State(name = "%s_round_arch", template = "parent_round_arch"),
+        item = @Model(name = "item/%s_round_arch", parent = "block/%s_round_arch_one", template = "item/parent_round_arch"),
         block = {
-                @Model(name = "block/%s_round_arch_one_half", template = "block/parent_round_arch_one_half"),
-                @Model(name = "block/%s_round_arch_half_two", template = "block/parent_round_arch_half_two"),
-                @Model(name = "block/%s_round_arch_half_three", template = "block/parent_round_arch_half_three"),
-                @Model(name = "block/%s_round_arch_half_three_top", template = "block/parent_round_arch_half_three_top"),
+                @Model(name = "block/%s_round_arch_one", template = "block/parent_round_arch_one"),
+                @Model(name = "block/%s_round_arch_two", template = "block/parent_round_arch_two"),
+                @Model(name = "block/%s_round_arch_three", template = "block/parent_round_arch_three"),
+                @Model(name = "block/%s_round_arch_three_top", template = "block/parent_round_arch_three_top"),
         }
 )
-public class RoundArchHalf extends HorizontalBlock implements Waterloggable {
+public class ArchRound extends HorizontalBlock implements Waterloggable {
 
-    public static final EnumProperty FORM = EnumProperty.create("shape", HalfArchShape.class);
+    public static final EnumProperty<ArchShape> FORM = EnumProperty.create("shape", ArchShape.class);
 
-    private static final VoxelShape EAST_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D);
-    private static final VoxelShape WEST_SHAPE = Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-    private static final VoxelShape SOUTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 8.0D);
-    private static final VoxelShape NORTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 16.0D, 16.0D, 16.0D, 8.0D);
+    private static final VoxelShape ARCH_NORTH_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 16.0D, 16.0D, 8.0D));
+    private static final VoxelShape ARCH_WEST_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D), Block.makeCuboidShape(8.0D, 8.0D, 0.0D, 16.0D, 16.0D, 16.0D));
+    private static final VoxelShape ARCH_EAST_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 8.0D), Block.makeCuboidShape(0.0D, 8.0D, 8.0D, 16.0D, 16.0D, 16.0D));
+    private static final VoxelShape ARCH_SOUTH_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 16.0D));
 
-    private static final VoxelShape ARCH_NORTH_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 8.0D, 8.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 8.0D, 16.0D));
-    private static final VoxelShape ARCH_NORTH_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 0.0D, 8.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 8.0D, 8.0D, 16.0D, 16.0D));
+    private static final VoxelShape ARCH_MIDDLE_SHAPE = Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 16.0D, 16.0D, 16.0D);
 
-    private static final VoxelShape ARCH_WEST_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 8.0D, 0.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D));
-    private static final VoxelShape ARCH_WEST_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 16.0D, 8.0D), Block.makeCuboidShape(8.0D, 8.0D, 8.0D, 16.0D, 16.0D, 16.0D));
-
-    private static final VoxelShape ARCH_EAST_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 8.0D, 8.0D, 8.0D));
-    private static final VoxelShape ARCH_EAST_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 8.0D));
-
-    private static final VoxelShape ARCH_SOUTH_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 16.0D, 16.0D, 8.0D), Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 8.0D, 8.0D));
-    private static final VoxelShape ARCH_SOUTH_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 16.0D));
-
-    private static final VoxelShape ARCH_MIDDLE_SOUTH_SHAPE = Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 16.0D, 16.0D, 8.0D);
-    private static final VoxelShape ARCH_MIDDLE_NORTH_SHAPE = Block.makeCuboidShape(0.0D, 8.0D, 8.0D, 16.0D, 16.0D, 16.0D);
-    private static final VoxelShape ARCH_MIDDLE_WEST_SHAPE = Block.makeCuboidShape(8.0D, 8.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-    private static final VoxelShape ARCH_MIDDLE_EAST_SHAPE = Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 16.0D);
-
-    public RoundArchHalf(Properties properties) {
+    public ArchRound(Properties properties) {
         super(properties);
-        this.setDefaultState((this.stateContainer.getBaseState()).with(FORM, HalfArchShape.ONE).with(HORIZONTAL_FACING, Direction.NORTH).with(WATERLOGGED, false));
+        this.setDefaultState((this.stateContainer.getBaseState()).with(FORM, ArchShape.ONE).with(HORIZONTAL_FACING, Direction.NORTH).with(WATERLOGGED, false));
     }
 
     @Override
@@ -132,55 +114,22 @@ public class RoundArchHalf extends HorizontalBlock implements Waterloggable {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-
-        if (state.get(FORM) == HalfArchShape.ONE) {
+        if (state.get(FORM) == ArchShape.ONE) {
+            return VoxelShapes.fullCube();
+        } else if ((state.get(FORM) == ArchShape.TWO) || (state.get(FORM) == ArchShape.THREE)) {
             switch (state.get(HORIZONTAL_FACING)) {
                 case NORTH:
                 default:
-                    return NORTH_SHAPE;
+                    return ARCH_NORTH_SHAPE;
                 case SOUTH:
-                    return SOUTH_SHAPE;
+                    return ARCH_EAST_SHAPE;
                 case WEST:
-                    return WEST_SHAPE;
+                    return ARCH_SOUTH_SHAPE;
                 case EAST:
-                    return EAST_SHAPE;
-            }
-        } else if (state.get(FORM) == HalfArchShape.TWO_L || state.get(FORM) == HalfArchShape.THREE_L) {
-            switch (state.get(HORIZONTAL_FACING)) {
-                case NORTH:
-                default:
-                    return ARCH_NORTH_L_SHAPE;
-                case SOUTH:
-                    return ARCH_SOUTH_L_SHAPE;
-                case WEST:
-                    return ARCH_WEST_L_SHAPE;
-                case EAST:
-                    return ARCH_EAST_L_SHAPE;
-            }
-        } else if (state.get(FORM) == HalfArchShape.TWO_R || state.get(FORM) == HalfArchShape.THREE_R) {
-            switch (state.get(HORIZONTAL_FACING)) {
-                case NORTH:
-                default:
-                    return ARCH_NORTH_R_SHAPE;
-                case SOUTH:
-                    return ARCH_SOUTH_R_SHAPE;
-                case WEST:
-                    return ARCH_WEST_R_SHAPE;
-                case EAST:
-                    return ARCH_EAST_R_SHAPE;
+                    return ARCH_WEST_SHAPE;
             }
         } else {
-            switch (state.get(HORIZONTAL_FACING)) {
-                case NORTH:
-                default:
-                    return ARCH_MIDDLE_NORTH_SHAPE;
-                case SOUTH:
-                    return ARCH_MIDDLE_SOUTH_SHAPE;
-                case WEST:
-                    return ARCH_MIDDLE_WEST_SHAPE;
-                case EAST:
-                    return ARCH_MIDDLE_EAST_SHAPE;
-            }
+            return ARCH_MIDDLE_SHAPE;
         }
     }
 
@@ -208,56 +157,50 @@ public class RoundArchHalf extends HorizontalBlock implements Waterloggable {
         int counter = 0;
         boolean isThirdShape = false;
         Direction facing = context.getPlacementHorizontalFacing().getOpposite();
-        HalfArchShape shape = HalfArchShape.ONE;
 
         if (attachesTo(north)) {
             counter += 1;
-            shape = HalfArchShape.TWO_L;
+            facing = Direction.NORTH;
             if (attachesTo(iblockreader.getBlockState(pos.north(2)))) {
                 isThirdShape = true;
-                shape = HalfArchShape.THREE_L;
             }
         }
         if (attachesTo(east)) {
             counter += 1;
             facing = Direction.EAST;
-            shape = HalfArchShape.TWO_L;
             if (attachesTo(iblockreader.getBlockState(pos.east(2)))) {
                 isThirdShape = true;
-                shape = HalfArchShape.THREE_L;
             }
         }
         if (attachesTo(south)) {
             counter += 1;
-            shape = HalfArchShape.TWO_R;
+            facing = Direction.SOUTH;
             if (attachesTo(iblockreader.getBlockState(pos.south(2)))) {
                 isThirdShape = true;
-                shape = HalfArchShape.THREE_R;
             }
         }
         if (attachesTo(west)) {
             counter += 1;
-            shape = HalfArchShape.TWO_R;
+            facing = Direction.WEST;
             if (attachesTo(iblockreader.getBlockState(pos.west(2)))) {
                 isThirdShape = true;
-                shape = HalfArchShape.THREE_R;
             }
         }
 
         if (counter == 0) {
             return this.getDefaultState()
                     .with(HORIZONTAL_FACING, facing)
-                    .with(FORM, shape)
+                    .with(FORM, ArchShape.ONE)
                     .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
         } else if (counter == 1 && isThirdShape) {
             return this.getDefaultState()
                     .with(HORIZONTAL_FACING, facing)
-                    .with(FORM, shape)
+                    .with(FORM, ArchShape.THREE)
                     .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
         } else if (counter == 1) {
             return this.getDefaultState()
                     .with(HORIZONTAL_FACING, facing)
-                    .with(FORM, shape)
+                    .with(FORM, ArchShape.TWO)
                     .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
         } else {
             return this.getDefaultState()
@@ -277,9 +220,8 @@ public class RoundArchHalf extends HorizontalBlock implements Waterloggable {
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(HORIZONTAL_FACING, FORM, WATERLOGGED);
     }
-
     private boolean attachesTo(BlockState state) {
         Block block = state.getBlock();
-        return block instanceof RoundArchHalf;
+        return block instanceof ArchRound;
     }
 }
