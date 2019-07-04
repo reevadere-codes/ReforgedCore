@@ -41,17 +41,17 @@ public class ArchRoundHalf extends HorizontalBlock implements Waterloggable {
     private static final VoxelShape SOUTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 8.0D);
     private static final VoxelShape NORTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 16.0D, 16.0D, 16.0D, 8.0D);
 
-    private static final VoxelShape ARCH_NORTH_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 8.0D, 8.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 8.0D, 16.0D));
-    private static final VoxelShape ARCH_NORTH_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 0.0D, 8.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 8.0D, 8.0D, 16.0D, 16.0D));
+    private static final VoxelShape ARCH_NORTH_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 8.0D, 8.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 8.0D, 16.0D));
+    private static final VoxelShape ARCH_NORTH_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 0.0D, 8.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 8.0D, 8.0D, 16.0D, 16.0D));
 
-    private static final VoxelShape ARCH_WEST_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 8.0D, 0.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D));
+    private static final VoxelShape ARCH_WEST_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 8.0D, 0.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(8.0D, 0.0D, 8.0D, 16.0D, 8.0D, 16.0D));
     private static final VoxelShape ARCH_WEST_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 16.0D, 8.0D), Block.makeCuboidShape(8.0D, 8.0D, 8.0D, 16.0D, 16.0D, 16.0D));
 
-    private static final VoxelShape ARCH_EAST_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 8.0D, 8.0D, 8.0D));
-    private static final VoxelShape ARCH_EAST_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 8.0D));
+    private static final VoxelShape ARCH_EAST_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 8.0D, 8.0D, 8.0D));
+    private static final VoxelShape ARCH_EAST_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 8.0D));
 
     private static final VoxelShape ARCH_SOUTH_L_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 16.0D, 16.0D, 8.0D), Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 8.0D, 8.0D));
-    private static final VoxelShape ARCH_SOUTH_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(8.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D), Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 16.0D));
+    private static final VoxelShape ARCH_SOUTH_R_SHAPE = VoxelShapes.or(Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 8.0D, 16.0D, 8.0D), Block.makeCuboidShape(8.0D, 8.0D, 0.0D, 16.0D, 16.0D, 8.0D));
 
     private static final VoxelShape ARCH_MIDDLE_SOUTH_SHAPE = Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 16.0D, 16.0D, 8.0D);
     private static final VoxelShape ARCH_MIDDLE_NORTH_SHAPE = Block.makeCuboidShape(0.0D, 8.0D, 8.0D, 16.0D, 16.0D, 16.0D);
@@ -80,49 +80,41 @@ public class ArchRoundHalf extends HorizontalBlock implements Waterloggable {
 
             if (attachesTo(north)) {
                 counter += 1;
-                facing = Direction.NORTH;
                 if (attachesTo(iblockreader.getBlockState(currentPos.north(2)))) {
                     isThirdShape = true;
                 }
             }
             if (attachesTo(east)) {
                 counter += 1;
-                facing = Direction.EAST;
                 if (attachesTo(iblockreader.getBlockState(currentPos.east(2)))) {
                     isThirdShape = true;
                 }
             }
             if (attachesTo(south)) {
                 counter += 1;
-                facing = Direction.SOUTH;
                 if (attachesTo(iblockreader.getBlockState(currentPos.south(2)))) {
                     isThirdShape = true;
                 }
             }
             if (attachesTo(west)) {
                 counter += 1;
-                facing = Direction.WEST;
                 if (attachesTo(iblockreader.getBlockState(currentPos.west(2)))) {
                     isThirdShape = true;
                 }
             }
 
             if (counter == 0) {
-                return this.getDefaultState()
-                        .with(HORIZONTAL_FACING, facing)
-                        .with(FORM, ArchShape.ONE);
+                return stateIn
+                        .with(FORM, HalfArchShape.ONE);
             } else if (counter == 1 && isThirdShape) {
-                return this.getDefaultState()
-                        .with(HORIZONTAL_FACING, facing)
-                        .with(FORM, ArchShape.THREE);
+                return stateIn
+                        .with(FORM, (attachesTo(north) || attachesTo(west)) ? HalfArchShape.THREE_L : HalfArchShape.THREE_R);
             } else if (counter == 1) {
-                return this.getDefaultState()
-                        .with(HORIZONTAL_FACING, facing)
-                        .with(FORM, ArchShape.TWO);
+                return stateIn
+                        .with(FORM, (attachesTo(north) || attachesTo(west)) ? HalfArchShape.TWO_L : HalfArchShape.TWO_R);
             } else if (counter >= 2) {
-                return this.getDefaultState()
-                        .with(HORIZONTAL_FACING, facing)
-                        .with(FORM, ArchShape.THREE_MIDDLE);
+                return stateIn
+                        .with(FORM, HalfArchShape.THREE_MIDDLE);
             } else {
                 return stateIn;
             }
@@ -220,7 +212,6 @@ public class ArchRoundHalf extends HorizontalBlock implements Waterloggable {
         }
         if (attachesTo(east)) {
             counter += 1;
-            facing = Direction.EAST;
             shape = HalfArchShape.TWO_L;
             if (attachesTo(iblockreader.getBlockState(pos.east(2)))) {
                 isThirdShape = true;

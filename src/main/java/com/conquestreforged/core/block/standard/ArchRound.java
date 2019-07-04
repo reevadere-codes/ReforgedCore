@@ -60,6 +60,11 @@ public class ArchRound extends HorizontalBlock implements Waterloggable {
             int counter = 0;
             boolean isThirdShape = false;
 
+            //prevents crash when trying to update facing property
+            if (facing == Direction.UP || facing == Direction.DOWN) {
+                facing = stateIn.get(HORIZONTAL_FACING);
+            }
+
             if (attachesTo(north)) {
                 counter += 1;
                 facing = Direction.NORTH;
