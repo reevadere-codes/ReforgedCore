@@ -37,4 +37,16 @@ public class VanillaProps {
     public static Props plants() {
         return Props.create(Blocks.GRASS).group(ItemGroup.DECORATIONS);
     }
+
+    public static Props earth() {
+        return Props.create(Blocks.DIRT).group(ItemGroup.BUILDING_BLOCKS);
+    }
+
+    public static Props ice() {
+        return Props.create(Blocks.PACKED_ICE).group(ItemGroup.BUILDING_BLOCKS);
+    }
+
+    public static Props metal() {
+        return Props.create(Blocks.IRON_BLOCK).group(ItemGroup.BUILDING_BLOCKS);
+    }
 }
