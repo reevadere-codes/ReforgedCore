@@ -6,9 +6,9 @@ import com.conquestreforged.core.asset.annotation.State;
 import net.minecraft.block.Block;
 
 @Assets(
-        state = @State(name = "%s", template = "quartz_block"),
-        item = @Model(name = "item/%s", parent = "block/%s", template = "item/quartz_block"),
-        block = @Model(name = "block/%s", template = "block/quartz_block")
+        state = @State(name = "%s", template = "parent_cube"),
+        item = @Model(name = "item/%s", parent = "block/%s", template = "item/parent_cube"),
+        block = @Model(name = "block/%s", template = "block/parent_cube")
 )
 public class Cube extends Block {
     public Cube(Properties properties) {
