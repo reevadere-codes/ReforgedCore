@@ -16,10 +16,10 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 
 @Assets(
-        state = @State(name = "%s_corner_slab", template = "parent_corner_slab"),
-        item = @Model(name = "item/%s_corner_slab", parent = "block/%s_corner_slab", template = "item/parent_corner_slab"),
+        state = @State(name = "%s_corner_slab", template = "parent_slab_corner"),
+        item = @Model(name = "item/%s_slab_corner", parent = "block/%s_slab_corner", template = "item/parent_slab_corner"),
         block = {
-                @Model(name = "block/%s_corner_slab", template = "block/parent_corner_slab"),
+                @Model(name = "block/%s_slab_corner", template = "block/parent_slab_corner"),
         },
         recipe = @Recipe(
                 name = "%s_slab",
@@ -29,7 +29,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
                 }
         )
 )
-public class CornerSlab extends WaterloggedDirectionalShape implements Waterloggable {
+public class SlabCorner extends WaterloggedDirectionalShape implements Waterloggable {
 
     public static final EnumProperty<Half> TYPE_UPDOWN = EnumProperty.create("type", Half.class);
     private static final VoxelShape BOTTOM_QTR_SOUTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 8.0D, 8.0D, 8.0D, 16.0D);
@@ -57,7 +57,7 @@ public class CornerSlab extends WaterloggedDirectionalShape implements Waterlogg
     private static final VoxelShape TOP_MAIN_EAST_SHAPE = Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 8.0D, 16.0D, 16.0D);
     private static final VoxelShape TOP_EAST_SHAPE = VoxelShapes.or(TOP_QTR_EAST_SHAPE, TOP_MAIN_EAST_SHAPE);
 
-    public CornerSlab(Properties properties) {
+    public SlabCorner(Properties properties) {
         super(properties);
         this.setDefaultState(this.getDefaultState().with(DIRECTION, Direction.NORTH).with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, false));
     }

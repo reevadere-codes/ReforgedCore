@@ -21,7 +21,7 @@ import net.minecraft.world.IBlockReader;
         state = @State(name = "%s_vertical_quarter", template = "parent_vertical_quarter"),
         item = @Model(name = "item/%s_vertical_quarter", parent = "block/%s_vertical_quarter", template = "item/parent_vertical_quarter"),
         block = {
-                @Model(name = "block/%s_verticals_vertical_quarter", template = "block/parent_vertical_quarter"),
+                @Model(name = "block/%s_vertical_quarter", template = "block/parent_vertical_quarter"),
         }
 )
 public class VerticalQuarter extends HorizontalBlock implements Waterloggable {
