@@ -9,10 +9,10 @@ import net.minecraft.block.Block;
 import net.minecraft.util.Direction;
 
 @Assets(
-        state = @State(name = "%s_thin_vertical_slab", template = "parent_thin_vertical_slab_tudor"),
-        item = @Model(name = "item/%s_thin_vertical_slab", parent = "block/%s_thin_vertical_slab", template = "item/parent_thin_vertical_slab_tudor"),
+        state = @State(name = "%s_thin_vertical_slab", template = "parent_vertical_slab_thin_tudor"),
+        item = @Model(name = "item/%s_vertical_slab_thin", parent = "block/%s_vertical_slab_thin", template = "item/parent_vertical_slab_thin_tudor"),
         block = {
-                @Model(name = "block/%s_thin_vertical_slab", template = "block/parent_thin_vertical_slab_tudor"),
+                @Model(name = "block/%s_vertical_slab_thin", template = "block/parent_vertical_slab_thin_tudor"),
         }
 )
 public class TudorVerticalSlabThin extends VerticalSlabThin implements Waterloggable {

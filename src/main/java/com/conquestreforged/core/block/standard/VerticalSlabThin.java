@@ -11,7 +11,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.shapes.VoxelShape;
 
 @Assets(
-        state = @State(name = "%s_vertical_slab_thin", template = "parent_vertical_slab_thin"),
+        state = @State(name = "%s_thin_vertical_slab", template = "parent_vertical_slab_thin"),
         item = @Model(name = "item/%s_vertical_slab_thin", parent = "block/%s_vertical_slab_thin", template = "item/parent_vertical_slab_thin"),
         block = {
                 @Model(name = "block/%s_vertical_slab_thin", template = "block/parent_vertical_slab_thin"),

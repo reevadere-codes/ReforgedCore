@@ -22,20 +22,20 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
 @Assets(
-        state = @State(name = "%s_thinslab", template = "parent_thinslab"),
-        item = @Model(name = "item/%s_thinslab", parent = "block/%s_thinslab", template = "item/parent_thinslab"),
+        state = @State(name = "%s_thin_slab", template = "parent_slab_thin"),
+        item = @Model(name = "item/%s_slab_thin", parent = "block/%s_slab_thin", template = "item/parent_slab_thin"),
         block = {
-                @Model(name = "block/%s_thinslab", template = "block/parent_thinslab"),
+                @Model(name = "block/%s_slab_thin", template = "block/parent_slab_thin"),
         }
 )
-public class ThinSlab extends Block implements Waterloggable {
+public class SlabThin extends Block implements Waterloggable {
 
     private static final VoxelShape BOTTOM_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D);
     private static final VoxelShape TOP_SHAPE = Block.makeCuboidShape(0.0D, 13.0D, 0.0D, 16.0D, 16.0D, 16.0D);
 
     public static final EnumProperty<Half> TYPE_UPDOWN = EnumProperty.create("type", Half.class);
 
-    public ThinSlab(Properties properties) {
+    public SlabThin(Properties properties) {
         super(properties);
         this.setDefaultState(this.getDefaultState().with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, false));
     }

@@ -11,7 +11,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 
 @Assets(
-        state = @State(name = "%s_vertical_corner_thin", template = "parent_vertical_corner_thin"),
+        state = @State(name = "%s_thin_vertical_corner", template = "parent_vertical_corner_thin"),
         item = @Model(name = "item/%s_vertical_corner_thin", parent = "block/%s_vertical_corner_thin", template = "item/parent_vertical_corner_thin"),
         block = {
                 @Model(name = "block/%s_vertical_corner_thin", template = "block/parent_vertical_corner_thin"),

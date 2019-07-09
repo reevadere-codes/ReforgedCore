@@ -16,10 +16,10 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 
 @Assets(
-        state = @State(name = "%s_cornerslab", template = "parent_cornerslab"),
-        item = @Model(name = "item/%s_cornerslab", parent = "block/%s_cornerslab", template = "item/parent_cornerslab"),
+        state = @State(name = "%s_corner_slab", template = "parent_corner_slab"),
+        item = @Model(name = "item/%s_corner_slab", parent = "block/%s_corner_slab", template = "item/parent_corner_slab"),
         block = {
-                @Model(name = "block/%s_cornerslab", template = "block/parent_cornerslab"),
+                @Model(name = "block/%s_corner_slab", template = "block/parent_corner_slab"),
         },
         recipe = @Recipe(
                 name = "%s_slab",

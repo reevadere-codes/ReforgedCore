@@ -9,10 +9,10 @@ import net.minecraft.block.Block;
 import net.minecraft.util.Direction;
 
 @Assets(
-        state = @State(name = "%s_thin_vertical_corner", template = "parent_thin_vertical_corner_tudor"),
-        item = @Model(name = "item/%s_thin_vertical_corner", parent = "block/%s_thin_vertical_corner", template = "item/parent_thin_vertical_corner_tudor"),
+        state = @State(name = "%s_thin_vertical_corner", template = "parent_vertical_corner_thin_tudor"),
+        item = @Model(name = "item/%s_vertical_corner_thin", parent = "block/%s_vertical_corner_thin", template = "item/parent_vertical_corner_thin_tudor"),
         block = {
-                @Model(name = "block/%s_thin_vertical_corner", template = "block/parent_thin_vertical_corner_tudor"),
+                @Model(name = "block/%s_vertical_corner_thin", template = "block/parent_vertical_corner_thin_tudor"),
         }
 )
 public class TudorVerticalCornerThin extends VerticalCornerThin implements Waterloggable {

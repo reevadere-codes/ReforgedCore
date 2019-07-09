@@ -13,10 +13,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.shapes.VoxelShape;
 
 @Assets(
-        state = @State(name = "%s_slab_eighth", template = "parent_eighthslab"),
-        item = @Model(name = "item/%s_slab_eighth", parent = "block/%s_eighthslab", template = "item/parent_eighthslab"),
+        state = @State(name = "%s_eighth_slab", template = "parent_eighth_slab"),
+        item = @Model(name = "item/%s_slab_eighth", parent = "block/%s_eighth_slab", template = "item/parent_eighth_slab"),
         block = {
-                @Model(name = "block/%s_slab_eighth", template = "block/parent_eighthslab"),
+                @Model(name = "block/%s_slab_eighth", template = "block/parent_eighth_slab"),
         },
         recipe = @Recipe(
                 name = "%s_slab",

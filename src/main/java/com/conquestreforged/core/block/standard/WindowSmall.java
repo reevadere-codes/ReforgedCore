@@ -22,7 +22,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 
 @Assets(
-        state = @State(name = "%s_window_small", template = "parent_window_small"),
+        state = @State(name = "%s_small_window", template = "parent_window_small"),
         item = @Model(name = "item/%s_window_small", parent = "block/%s_window_small", template = "item/parent_window_small"),
         block = {
                 @Model(name = "block/%s_window_small", template = "block/parent_window_small"),

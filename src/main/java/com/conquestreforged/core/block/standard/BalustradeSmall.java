@@ -6,7 +6,7 @@ import com.conquestreforged.core.asset.annotation.State;
 import net.minecraft.block.WallBlock;
 
 @Assets(
-        state = @State(name = "%s__balustrade_small", template = "acacia_fence"),
+        state = @State(name = "%s_small_balustrade", template = "acacia_fence"),
         item = @Model(name = "item/%s_balustrade_small", parent = "block/%s_fence_inventory", template = "item/acacia_fence"),
         block = {
                 @Model(name = "block/%s_balustrade_small_post", template = "block/acacia_fence_post"),
