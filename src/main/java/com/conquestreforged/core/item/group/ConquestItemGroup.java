@@ -79,12 +79,4 @@ public abstract class ConquestItemGroup extends ItemGroup {
             return new ItemStackSorter(order);
         }
     }
-
-    public static Comparator<ItemStack> sorter(List<String> lines) {
-        Map<String, Integer> order = new HashMap<>(lines.size());
-        for (int i = 0; i < lines.size(); i++) {
-            order.put(lines.get(i), i);
-        }
-        return new ItemStackSorter(order);
-    }
 }

@@ -1,16 +1,10 @@
 package com.conquestreforged.core.item.family;
 
-import com.conquestreforged.core.init.Context;
-import com.conquestreforged.core.item.group.ConquestItemGroup;
 import com.conquestreforged.core.item.group.TaggedGroup;
 import com.conquestreforged.core.util.Stack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import org.lwjgl.openal.AL;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;

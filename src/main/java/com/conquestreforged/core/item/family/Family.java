@@ -10,11 +10,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class Family<T> implements OptionalValue {
+public abstract class Family<T> implements OptionalValue, Comparator<T> {
 
     private final List<T> members;
     private final ItemGroup group;
     private final Comparator<T> order;
+
+    private T root = null;
 
     public Family(ItemGroup group, List<T> members) {
         this(group, (t1, t2) -> 0, members);
@@ -64,18 +66,21 @@ public abstract class Family<T> implements OptionalValue {
         return members.indexOf(member);
     }
 
-    public void add(T member) {
-        if (members.contains(member)) {
-            return;
+    public Family<T> setRoot(T root) {
+        this.root = root;
+        if (!members.contains(root)) {
+            members.add(root);
         }
+        members.sort(this);
+        return this;
+    }
 
-        members.add(member);
-
-        if (order == null) {
-            return;
+    public Family<T> add(T member) {
+        if (!members.contains(member)) {
+            members.add(member);
+            members.sort(this);
         }
-
-        members.sort(order);
+        return this;
     }
 
     public void addAllItems(ItemGroup group, NonNullList<ItemStack> list) {
@@ -96,6 +101,22 @@ public abstract class Family<T> implements OptionalValue {
         if (group == ItemGroup.SEARCH || group == this.group) {
             addItem(group, list, getRoot());
         }
+    }
+
+    @Override
+    public final int compare(T t1, T t2) {
+        if (root != null) {
+            if (t1 == root && t2 != root) {
+                return -1;
+            }
+            if (t2 == root && t1 != root) {
+                return 1;
+            }
+        }
+        if (order != null) {
+            return order.compare(t1, t2);
+        }
+        return 0;
     }
 
     public interface Filler {
