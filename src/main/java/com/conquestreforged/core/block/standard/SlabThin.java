@@ -23,7 +23,7 @@ import net.minecraft.world.IBlockReader;
 
 @Assets(
         state = @State(name = "%s_thin_slab", template = "parent_slab_thin"),
-        item = @Model(name = "item/%s_slab_thin", parent = "block/%s_slab_thin", template = "item/parent_slab_thin"),
+        item = @Model(name = "item/%s_thin_slab", parent = "block/%s_slab_thin", template = "item/parent_slab_thin"),
         block = {
                 @Model(name = "block/%s_slab_thin", template = "block/parent_slab_thin"),
         }

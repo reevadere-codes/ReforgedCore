@@ -14,17 +14,10 @@ import net.minecraft.util.math.shapes.VoxelShape;
 
 @Assets(
         state = @State(name = "%s_eighth_slab", template = "parent_slab_eighth"),
-        item = @Model(name = "item/%s_slab_eighth", parent = "block/%s_slab_eighth", template = "item/parent_slab_eighth"),
+        item = @Model(name = "item/%s_eighth_slab", parent = "block/%s_slab_eighth", template = "item/parent_slab_eighth"),
         block = {
                 @Model(name = "block/%s_slab_eighth", template = "block/parent_slab_eighth"),
-        },
-        recipe = @Recipe(
-                name = "%s_slab",
-                template = "acacia_slab",
-                ingredients = {
-                        @Ingredient(name = "%s", template = "acacia_planks", plural = true)
-                }
-        )
+        }
 )
 public class SlabEighth extends WaterloggedDirectionalShape {
 

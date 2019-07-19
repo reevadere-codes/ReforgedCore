@@ -17,7 +17,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 
 @Assets(
         state = @State(name = "%s_quarter_slab", template = "parent_slab_quarter"),
-        item = @Model(name = "item/%s_slab_quarter", parent = "block/%s_slab_quarter", template = "item/parent_slab_quarter"),
+        item = @Model(name = "item/%s_quarter_slab", parent = "block/%s_slab_quarter", template = "item/parent_slab_quarter"),
         block = {
                 @Model(name = "block/%s_slab_quarter", template = "block/parent_slab_quarter"),
         }

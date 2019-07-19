@@ -19,9 +19,10 @@ import net.minecraft.world.World;
 
 @Assets(
         state = @State(name = "%s_beam", template = "parent_beam"),
-        item = @Model(name = "item/%s_beam", parent = "block/%s_beam", template = "item/parent_beam"),
+        item = @Model(name = "item/%s_beam", parent = "block/%s_beam_support", template = "item/parent_beam_vertical"),
         block = {
-                @Model(name = "block/%s_beam", template = "block/parent_beam")
+                @Model(name = "block/%s_beam_vertical", template = "block/parent_beam_vertical"),
+                @Model(name = "block/%s_beam_support", template = "block/parent_beam_support")
         }
 )
 public class BeamVertical extends DirectionalShape {

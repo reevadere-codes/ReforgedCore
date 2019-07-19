@@ -20,7 +20,7 @@ import net.minecraft.world.IWorld;
 
 @Assets(
         state = @State(name = "%s_small_window_half", template = "parent_window_small_half"),
-        item = @Model(name = "item/%s_window_small_half", parent = "block/%s_window_small_half_updown", template = "item/parent_window_small_half"),
+        item = @Model(name = "item/%s_small_window_half", parent = "block/%s_window_small_half_updown", template = "item/parent_window_small_half"),
         block = {
                 @Model(name = "block/%s_window_small_half", template = "block/parent_window_small_half"),
                 @Model(name = "block/%s_window_small_half_down", template = "block/parent_window_small_half_down"),

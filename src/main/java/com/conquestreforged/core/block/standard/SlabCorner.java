@@ -17,17 +17,10 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 
 @Assets(
         state = @State(name = "%s_corner_slab", template = "parent_slab_corner"),
-        item = @Model(name = "item/%s_slab_corner", parent = "block/%s_slab_corner", template = "item/parent_slab_corner"),
+        item = @Model(name = "item/%s_corner_slab", parent = "block/%s_slab_corner", template = "item/parent_slab_corner"),
         block = {
                 @Model(name = "block/%s_slab_corner", template = "block/parent_slab_corner"),
-        },
-        recipe = @Recipe(
-                name = "%s_slab",
-                template = "acacia_slab",
-                ingredients = {
-                        @Ingredient(name = "%s", template = "acacia_planks", plural = true)
-                }
-        )
+        }
 )
 public class SlabCorner extends WaterloggedDirectionalShape implements Waterloggable {
 

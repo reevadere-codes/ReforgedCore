@@ -19,9 +19,12 @@ import net.minecraft.world.World;
 
 @Assets(
         state = @State(name = "%s_beam_horizontal", template = "parent_beam_horizontal"),
-        item = @Model(name = "item/%s_beam_horizontal", parent = "block/%s_beam_horizontal", template = "item/parent_beam_horizontal"),
+        item = @Model(name = "item/%s_beam_horizontal", parent = "block/%s_beam_horizontal_ns", template = "item/parent_beam_horizontal"),
         block = {
-                @Model(name = "block/%s_beam_horizontal", template = "block/parent_beam_horizontal")
+                @Model(name = "block/%s_beam_horizontal_ne", template = "block/parent_beam_horizontal_ne"),
+                @Model(name = "block/%s_beam_horizontal_ns", template = "block/parent_beam_horizontal_ns"),
+                @Model(name = "block/%s_beam_horizontal_nse", template = "block/parent_beam_horizontal_nse"),
+                @Model(name = "block/%s_beam_horizontal_nsew", template = "block/parent_beam_horizontal_nsew")
         }
 )
 public class BeamHorizontal extends DirectionalShape {
