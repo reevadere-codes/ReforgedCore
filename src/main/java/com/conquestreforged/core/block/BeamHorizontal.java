@@ -60,7 +60,7 @@ public class BeamHorizontal extends DirectionalShape {
 
     @Override
     public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (!player.playerAbilities.allowEdit) {
+        if (!player.abilities.allowEdit) {
             return false;
         } else {
             world.setBlockState(pos, state.cycle(ACTIVATED), 3);

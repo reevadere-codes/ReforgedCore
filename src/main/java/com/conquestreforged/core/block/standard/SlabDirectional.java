@@ -52,7 +52,7 @@ public class SlabDirectional extends WaterloggedDirectionalShape implements Wate
         Direction facingHorizontal = context.getPlacementHorizontalFacing().getOpposite();
         BlockState state2 = this.getDefaultState().with(DIRECTION, facingHorizontal).with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, fluid.getFluid() == Fluids.WATER);
         Direction facing = context.getFace();
-        return facing != Direction.DOWN && (facing == Direction.UP || context.func_221532_j().y <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
+        return facing != Direction.DOWN && (facing == Direction.UP || context.getHitVec().y <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
     }
 
     @Override

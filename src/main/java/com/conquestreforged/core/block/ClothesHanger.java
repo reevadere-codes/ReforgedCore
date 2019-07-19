@@ -33,7 +33,7 @@ public class ClothesHanger extends VerticalSlab {
 
     @Override
     public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (!player.playerAbilities.allowEdit) {
+        if (!player.abilities.allowEdit) {
             return false;
         } else {
             worldIn.setBlockState(pos, state.cycle(ACTIVATED), 3);

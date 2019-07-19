@@ -7,6 +7,8 @@ import java.util.*;
 
 public class TypeList implements Iterable<Class<? extends Block>>, Comparator<Block> {
 
+    public static final TypeList EMPTY = new TypeList(Collections.emptyList());
+
     private final List<Class<? extends Block>> types;
 
     private TypeList(List<Class<? extends Block>> types) {
