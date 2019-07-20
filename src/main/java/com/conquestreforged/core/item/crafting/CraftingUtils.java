@@ -23,7 +23,7 @@ public class CraftingUtils {
         if (name == null) {
             return Optional.empty();
         }
-        return client.getRecipeManager().func_215367_a(name);
+        return client.getRecipeManager().getRecipe(name);
     }
 
     public static ItemStack getRecipeOutput(IInventory inventory, IRecipe recipe) {

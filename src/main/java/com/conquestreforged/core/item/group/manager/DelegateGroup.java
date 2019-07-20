@@ -66,8 +66,8 @@ public class DelegateGroup extends ItemGroup {
     }
 
     @Override
-    public ItemGroup func_199783_b(String pathIn) {
-        return group.func_199783_b(pathIn);
+    public ItemGroup setTabPath(String pathIn) {
+        return group.setTabPath(pathIn);
     }
 
     @Override

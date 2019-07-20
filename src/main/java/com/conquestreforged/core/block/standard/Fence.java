@@ -113,7 +113,7 @@ public class Fence extends FenceBlock {
     public boolean func_220111_a(BlockState state, boolean checkExclusionList, Direction direction) {
         Block block = state.getBlock();
         // fence tag
-        Tag<Block> fence = BlockTags.field_219748_G;
+        Tag<Block> fence = BlockTags.FENCES;
         boolean fenceAndMaterial = block.isIn(fence) && state.getMaterial() == this.material;
         boolean gateAndDirection = block instanceof FenceGateBlock && FenceGateBlock.isParallel(state, direction);
         return !cannotAttach(block) && checkExclusionList || fenceAndMaterial || gateAndDirection;

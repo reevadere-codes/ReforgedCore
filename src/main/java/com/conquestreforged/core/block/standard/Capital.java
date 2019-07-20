@@ -123,7 +123,7 @@ public class Capital extends WaterloggedShape implements Waterloggable {
         }
 
         Half verticalFacing;
-        if (facing != Direction.DOWN && (facing == Direction.UP || context.func_221532_j().y <= 0.5D)) {
+        if (facing != Direction.DOWN && (facing == Direction.UP || context.getHitVec().y <= 0.5D)) {
             verticalFacing = Half.BOTTOM;
         } else {
             verticalFacing = Half.TOP;

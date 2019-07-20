@@ -1,12 +1,12 @@
 package com.conquestreforged.core.init;
 
 import com.conquestreforged.core.util.Log;
-import net.minecraft.resources.IResourceManager;
-import sun.net.ResourceManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
 
 public class Init {
 

@@ -195,7 +195,7 @@ public class LeavesFruit extends CropsBlock implements IShearable {
             ItemStack itemstack1 = new ItemStack(fruit, 1);
             ItemEntity entityitem = new ItemEntity(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
             entityitem.setDefaultPickupDelay();
-            worldIn.func_217376_c(entityitem);
+            worldIn.addEntity(entityitem);
         }
     }
 

@@ -166,6 +166,6 @@ public class FenceGate extends HorizontalBlock implements Waterloggable {
     }
 
     private boolean isWall(BlockState blockstate) {
-        return BlockTags.field_219757_z.contains(blockstate.getBlock());
+        return BlockTags.WALLS.contains(blockstate.getBlock());
     }
 }

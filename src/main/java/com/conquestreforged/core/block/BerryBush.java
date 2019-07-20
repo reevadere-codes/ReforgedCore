@@ -80,8 +80,8 @@ public class BerryBush extends CropsBlock {
             ItemEntity entityitem = new ItemEntity(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
             entityitem.setDefaultPickupDelay();
 
-            // func_217376_c == spawnEntitiy
-            worldIn.func_217376_c(entityitem);
+            // addEntity == spawnEntitiy
+            worldIn.addEntity(entityitem);
         }
     }
 

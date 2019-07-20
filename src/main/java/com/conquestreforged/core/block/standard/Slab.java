@@ -64,7 +64,7 @@ public class Slab extends WaterloggedShape {
         ItemStack item = context.getItem();
         if (item.getItem() == this.asItem()) {
             if (context.replacingClickedOnBlock()) {
-                boolean posBool = context.func_221532_j().y > 0.5D;
+                boolean posBool = context.getHitVec().y > 0.5D;
                 Direction facing = context.getFace();
                 if (state.get(TYPE_UPDOWN) == Half.BOTTOM) {
                     return facing == Direction.UP || posBool && facing.getAxis().isHorizontal();
@@ -107,7 +107,7 @@ public class Slab extends WaterloggedShape {
             IFluidState fluid = context.getWorld().getFluidState(context.getPos());
             BlockState state2 = this.getDefaultState().with(TYPE_UPDOWN, Half.BOTTOM).with(WATERLOGGED, fluid.getFluid() == Fluids.WATER);
             Direction facing = context.getFace();
-            return facing != Direction.DOWN && (facing == Direction.UP || context.func_221532_j().y <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
+            return facing != Direction.DOWN && (facing == Direction.UP || context.getHitVec().y <= 0.5D) ? state2 : state2.with(TYPE_UPDOWN, Half.TOP);
         }
     }
 

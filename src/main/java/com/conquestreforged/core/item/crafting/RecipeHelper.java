@@ -29,7 +29,7 @@ public class RecipeHelper implements IResourceManagerReloadListener {
     }
 
     public Optional<? extends IRecipe> getRecipe(ResourceLocation name) {
-        return side.getProxy().getRecipeManager().func_215367_a(name);
+        return side.getProxy().getRecipeManager().getRecipe(name);
     }
 
     public Optional<IRecipe> getRecipe(ItemStack stack) {
