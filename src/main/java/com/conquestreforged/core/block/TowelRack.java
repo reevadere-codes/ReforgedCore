@@ -1,9 +1,8 @@
 package com.conquestreforged.core.block;
 
-import com.conquestreforged.core.block.base.WaterloggedDirectionalShape;
+import com.conquestreforged.core.block.standard.VerticalSlab;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
@@ -19,11 +18,11 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class Urn extends WaterloggedDirectionalShape {
+public class TowelRack extends VerticalSlab {
 
     public static final BooleanProperty CAP = BlockStateProperties.EYE;
 
-    public Urn(Properties properties) {
+    public TowelRack(Properties properties) {
         super(properties);
         this.setDefaultState((this.stateContainer.getBaseState())
                 .with(DIRECTION, Direction.NORTH)

@@ -49,4 +49,8 @@ public class VanillaProps {
     public static Props metal() {
         return Props.create(Blocks.IRON_BLOCK).group(ItemGroup.BUILDING_BLOCKS);
     }
+
+    public static Props leaves() {
+        return Props.create(Blocks.OAK_LEAVES).group(ItemGroup.BUILDING_BLOCKS);
+    }
 }

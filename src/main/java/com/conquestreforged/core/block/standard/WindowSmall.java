@@ -100,6 +100,7 @@ public class WindowSmall extends Block implements Waterloggable {
         builder.add(UP, DOWN, WATERLOGGED);
     }
 
+    @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         IBlockReader iblockreader = context.getWorld();
         BlockPos blockpos = context.getPos();

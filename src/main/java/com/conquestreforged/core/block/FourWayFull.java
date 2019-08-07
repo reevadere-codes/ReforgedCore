@@ -5,13 +5,11 @@ import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PaneBlock;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
 
 @Assets(
         state = @State(name = "%s", template = "parent_pane"),
@@ -25,19 +23,19 @@ import net.minecraft.world.IWorldReader;
                 @Model(name = "block/%s_pane_post", template = "block/parent_flatpane_post")
         }
 )
-public class LadderPane extends PaneBlock {
+public class FourWayFull extends PaneBlock {
 
-    public LadderPane(Properties properties) {
+    public FourWayFull(Properties properties) {
         super(properties);
     }
 
     @Override
-    public boolean isLadder(BlockState state, IWorldReader reader, BlockPos pos, LivingEntity entity) {
-        return true;
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return VoxelShapes.fullCube();
     }
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return VoxelShapes.empty();
+        return VoxelShapes.fullCube();
     }
 }

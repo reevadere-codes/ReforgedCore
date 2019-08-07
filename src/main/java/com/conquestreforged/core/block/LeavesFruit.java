@@ -201,6 +201,6 @@ public class LeavesFruit extends CropsBlock implements IShearable {
 
     @Override
     public OffsetType getOffsetType() {
-        return OffsetType.XYZ;
+        return OffsetType.NONE;
     }
 }
