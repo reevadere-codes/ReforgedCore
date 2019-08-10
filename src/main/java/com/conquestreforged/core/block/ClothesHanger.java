@@ -28,7 +28,7 @@ public class ClothesHanger extends VerticalSlab {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return super.getStateForPlacement(context).with(ACTIVATED, 0);
+        return super.getStateForPlacement(context).with(ACTIVATED, 1);
     }
 
     @Override

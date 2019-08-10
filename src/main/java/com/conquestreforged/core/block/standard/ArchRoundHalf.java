@@ -14,6 +14,7 @@ import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -27,9 +28,11 @@ import net.minecraft.world.IWorld;
         item = @Model(name = "item/%s_round_arch_half", parent = "block/%s_round_arch_one_half", template = "item/parent_round_arch_half"),
         block = {
                 @Model(name = "block/%s_round_arch_one_half", template = "block/parent_round_arch_one_half"),
-                @Model(name = "block/%s_round_arch_half_two", template = "block/parent_round_arch_half_two"),
-                @Model(name = "block/%s_round_arch_half_three", template = "block/parent_round_arch_half_three"),
-                @Model(name = "block/%s_round_arch_half_three_top", template = "block/parent_round_arch_half_three_top"),
+                @Model(name = "block/%s_round_arch_two_half_l", template = "block/parent_round_arch_two_half_l"),
+                @Model(name = "block/%s_round_arch_two_half_r", template = "block/parent_round_arch_two_half_r"),
+                @Model(name = "block/%s_round_arch_three_half_l", template = "block/parent_round_arch_three_half_l"),
+                @Model(name = "block/%s_round_arch_three_half_r", template = "block/parent_round_arch_three_half_r"),
+                @Model(name = "block/%s_round_arch_three_top_half", template = "block/parent_round_arch_three_top_half"),
         }
 )
 public class ArchRoundHalf extends HorizontalBlock implements Waterloggable {
@@ -121,6 +124,12 @@ public class ArchRoundHalf extends HorizontalBlock implements Waterloggable {
         }
         return stateIn;
     }
+
+    @Override
+    public BlockRenderLayer getRenderLayer() {
+        return BlockRenderLayer.CUTOUT;
+    }
+
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -253,7 +262,7 @@ public class ArchRoundHalf extends HorizontalBlock implements Waterloggable {
         } else {
             return this.getDefaultState()
                     .with(HORIZONTAL_FACING, facing)
-                    .with(FORM, ArchShape.THREE_MIDDLE)
+                    .with(FORM, HalfArchShape.THREE_MIDDLE)
                     .with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
         }
 
