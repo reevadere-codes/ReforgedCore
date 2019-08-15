@@ -82,7 +82,7 @@ public class Rocks extends WaterloggedShape {
 
     @Override
     public VoxelShape getRenderShape(BlockState state, IBlockReader reader, BlockPos pos) {
-        return VoxelShapes.fullCube();
+        return VoxelShapes.empty();
     }
 
     @Override
@@ -125,17 +125,17 @@ public class Rocks extends WaterloggedShape {
             if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 6) {
                 return new Vec3d(0D, -0.1D, 0D);
             } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 5) {
-                return new Vec3d(0D, -0.2D, 0D);
+                return new Vec3d(0D, -0.25D, 0D);
             } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 4) {
-                return new Vec3d(0D, -0.3D, 0D);
-            } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 3) {
                 return new Vec3d(0D, -0.4D, 0D);
+            } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 3) {
+                return new Vec3d(0D, -0.52D, 0D);
             } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 2) {
-                return new Vec3d(0D, -0.5D, 0D);
+                return new Vec3d(0D, -0.65D, 0D);
             } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 1) {
-                return new Vec3d(0D, -0.6D, 0D);
+                return new Vec3d(0D, -0.75D, 0D);
             } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 0) {
-                return new Vec3d(0D, -0.7D, 0D);
+                return new Vec3d(0D, -0.9D, 0D);
             }
         }
         return Vec3d.ZERO;

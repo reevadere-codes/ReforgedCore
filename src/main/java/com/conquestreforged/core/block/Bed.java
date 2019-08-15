@@ -1,18 +1,17 @@
 package com.conquestreforged.core.block;
 
-import net.minecraft.block.BedBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BedPart;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
@@ -27,6 +26,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -49,6 +49,7 @@ public class Bed extends HorizontalBlock {
 
     public Bed(Properties properties) {
         super(properties);
+        this.setDefaultState(this.stateContainer.getBaseState().with(PART, BedPart.FOOT).with(OCCUPIED, Boolean.valueOf(false)));
     }
 
     @Nullable
@@ -98,6 +99,25 @@ public class Bed extends HorizontalBlock {
         }
     }
 
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+        if (!worldIn.isRemote) {
+            BlockPos blockpos = pos.offset(state.get(HORIZONTAL_FACING));
+            worldIn.setBlockState(blockpos, state.with(PART, BedPart.HEAD), 3);
+            worldIn.notifyNeighbors(pos, Blocks.AIR);
+            state.updateNeighbors(worldIn, pos, 3);
+        }
+
+    }
+
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (facing == getDirectionToOther(stateIn.get(PART), stateIn.get(HORIZONTAL_FACING))) {
+            return facingState.getBlock() == this && facingState.get(PART) != stateIn.get(PART) ? stateIn.with(OCCUPIED, facingState.get(OCCUPIED)) : Blocks.AIR.getDefaultState();
+        } else {
+            return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+        }
+    }
+
     /**
      * Block's chance to react to a living entity falling on it.
      */
@@ -130,7 +150,7 @@ public class Bed extends HorizontalBlock {
         Direction direction = context.getPlacementHorizontalFacing();
         BlockPos blockpos = context.getPos();
         BlockPos blockpos1 = blockpos.offset(direction);
-        return context.getWorld().getBlockState(blockpos1).isReplaceable(context) ? this.getDefaultState().with(HORIZONTAL_FACING, direction) : null;
+        return context.getWorld().getBlockState(blockpos1).isReplaceable(context) ? this.getDefaultState().with(OCCUPIED, false).with(PART, BedPart.FOOT).with(HORIZONTAL_FACING, direction) : null;
     }
 
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {

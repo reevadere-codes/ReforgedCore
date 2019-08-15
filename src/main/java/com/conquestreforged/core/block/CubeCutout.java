@@ -4,7 +4,12 @@ import com.conquestreforged.core.asset.annotation.Assets;
 import com.conquestreforged.core.asset.annotation.Model;
 import com.conquestreforged.core.asset.annotation.State;
 import com.conquestreforged.core.block.standard.Cube;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 
 @Assets(
         state = @State(name = "%s", template = "parent_cube", plural = true),
@@ -22,4 +27,8 @@ public class CubeCutout extends Cube {
         return BlockRenderLayer.CUTOUT;
     }
 
+    @Override
+    public VoxelShape getRenderShape(BlockState state, IBlockReader reader, BlockPos pos) {
+        return VoxelShapes.empty();
+    }
 }

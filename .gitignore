@@ -24,3 +24,57 @@ hs_err_pid*
 .idea/
 build/
 run/
+ReforgedCore.iml
+out/production/resources/META-INF/mods.toml
+client/config/forge-client.toml
+client/config/fml.toml
+.gradle/vcsWorkingDirs/gc.properties
+.gradle/buildOutputCleanup/outputFiles.bin
+.gradle/buildOutputCleanup/cache.properties
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/4.9/taskHistory/taskHistory.lock
+.gradle/4.9/taskHistory/taskHistory.bin
+.gradle/4.9/fileHashes/resourceHashesCache.bin
+.gradle/4.9/fileHashes/fileHashes.lock
+.gradle/4.9/fileHashes/fileHashes.bin
+.gradle/4.9/fileContent/fileContent.lock
+.gradle/4.9/fileContent/annotation-processors.bin
+.gradle/4.9/fileChanges/last-build.bin
+client/logs/2019-06-29-1.log.gz
+client/logs/debug-1.log.gz
+client/crash-reports/crash-2019-07-08_22.16.00-client.txt
+client/logs/2019-07-08-1.log.gz
+client/logs/2019-07-08-2.log.gz
+client/logs/debug-2.log.gz
+client/logs/debug-3.log.gz
+client/saves/New World (1)/advancements/380df991-f603-344c-a090-369bad2a924a.json
+client/saves/New World (1)/data/capabilities.dat
+client/saves/New World (1)/data/raids.dat
+client/saves/New World (1)/icon.png
+client/saves/New World (1)/level.dat
+client/saves/New World (1)/level.dat_old
+client/saves/New World (1)/playerdata/380df991-f603-344c-a090-369bad2a924a.dat
+client/saves/New World (1)/region/r.-1.-1.mca
+client/saves/New World (1)/region/r.-1.0.mca
+client/saves/New World (1)/region/r.0.-1.mca
+client/saves/New World (1)/region/r.0.0.mca
+client/saves/New World (1)/serverconfig/forge-server.toml
+client/saves/New World (1)/session.lock
+client/saves/New World (1)/stats/380df991-f603-344c-a090-369bad2a924a.json
+client/saves/New World/advancements/380df991-f603-344c-a090-369bad2a924a.json
+client/saves/New World/data/capabilities.dat
+client/saves/New World/data/raids.dat
+client/saves/New World/level.dat
+client/saves/New World/level.dat_old
+client/saves/New World/playerdata/380df991-f603-344c-a090-369bad2a924a.dat
+client/saves/New World/region/r.-1.-1.mca
+client/saves/New World/region/r.-1.0.mca
+client/saves/New World/region/r.-2.-1.mca
+client/saves/New World/region/r.-2.0.mca
+client/saves/New World/region/r.0.-1.mca
+client/saves/New World/region/r.0.0.mca
+client/saves/New World/serverconfig/forge-server.toml
+client/saves/New World/session.lock
+client/saves/New World/stats/380df991-f603-344c-a090-369bad2a924a.json
+client/usercache.json
+client/usernamecache.json

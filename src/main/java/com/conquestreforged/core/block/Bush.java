@@ -31,20 +31,20 @@ public class Bush extends BushBlock implements Waterloggable {
         double z = ((double)((float)(i >> 8 & 15L) / 15.0F) - 0.5D) * 0.5D;
 
         if (worldIn.getBlockState(pos.down()).getBlock() instanceof SnowBlock) {
-            if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 6) {
+            if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 7) {
                 return new Vec3d(x, -0.1D, z);
+            } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 6) {
+                return new Vec3d(x, -0.25D, z);
             } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 5) {
-                return new Vec3d(x, -0.2D, z);
-            } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 4) {
-                return new Vec3d(x, -0.3D, z);
-            } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 3) {
                 return new Vec3d(x, -0.4D, z);
+            } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 4) {
+                return new Vec3d(x, -0.52D, z);
+            } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 3) {
+                return new Vec3d(x, -0.65D, z);
             } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 2) {
-                return new Vec3d(x, -0.5D, z);
+                return new Vec3d(x, -0.75D, z);
             } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 1) {
-                return new Vec3d(x, -0.6D, z);
-            } else if (worldIn.getBlockState(pos.down()).get(SnowBlock.LAYERS) == 0) {
-                return new Vec3d(x, -0.7D, z);
+                return new Vec3d(x, -0.9D, z);
             }
         }
         return new Vec3d(x, ((double)((float)(i >> 4 & 15L) / 15.0F) - 1.0D) * 0.2D, z);
