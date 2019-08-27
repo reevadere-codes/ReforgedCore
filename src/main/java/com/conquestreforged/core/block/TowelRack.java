@@ -61,7 +61,7 @@ public class TowelRack extends VerticalSlab {
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(DIRECTION, CAP);
+        builder.add(DIRECTION, CAP, WATERLOGGED);
     }
 
     @Override
