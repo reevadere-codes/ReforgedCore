@@ -128,6 +128,11 @@ public class Props implements BlockFactory {
         this.name = name;
         return this;
     }
+    
+    public Props base(BlockState base) {
+        this.base = base;
+        return this;
+    }
 
     public Props block(BlockState parent) {
         this.parent = parent;
@@ -263,7 +268,7 @@ public class Props implements BlockFactory {
     }
 
     public static Props create(BlockState state) {
-        return create().block(state);
+        return create().base(state);
     }
 
     public static Props create(Block block) {
