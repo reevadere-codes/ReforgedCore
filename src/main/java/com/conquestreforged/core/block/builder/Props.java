@@ -21,6 +21,7 @@ public class Props implements BlockFactory {
 
     private BlockName name = null;
     private BlockState base = null;
+    private BlockState parent = null;
     private Material material = null;
     private MaterialColor color = null;
     private DyeColor dyeColor = null;
@@ -54,14 +55,14 @@ public class Props implements BlockFactory {
 
     @Override
     public BlockState getParent() throws InitializationException {
-        if (base == null) {
+        if (parent == null) {
             throw new InitializationException("Parent state is null");
         }
-        return base;
+        return parent;
     }
 
     public BlockState block() {
-        return base;
+        return parent;
     }
 
     public DyeColor dye() {
@@ -128,8 +129,8 @@ public class Props implements BlockFactory {
         return this;
     }
 
-    public Props block(BlockState base) {
-        this.base = base;
+    public Props block(BlockState parent) {
+        this.parent = parent;
         return this;
     }
 
